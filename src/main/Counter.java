@@ -34,7 +34,7 @@ public class Counter extends GUI {
 		if(fileName.contains("--")) {
 			counterFileName = fileName.substring(0, fileName.indexOf("--")).toUpperCase();
 			
-			linkedFile = new File(Handler.adjusterFilePath+"\\"+fileName.substring(fileName.indexOf("--")+2, fileName.lastIndexOf(".")));
+			linkedFile = new File(Handler.adjusterFilePath+File.separator+fileName.substring(fileName.indexOf("--")+2, fileName.lastIndexOf(".")));
 			linkedFileName = linkedFile.getName().toUpperCase();
 		} else {
 			counterFileName = fileName.substring(0, fileName.lastIndexOf(".")).toUpperCase();
@@ -59,7 +59,7 @@ public class Counter extends GUI {
 		JButton b = new JButton(counterFileName);
 		b.setBackground(Color.DARK_GRAY);
 		b.setForeground(new Color(224, 217, 172));
-		addHighlighting(b);
+		GUI.addHighlightingToButton(b);
 		b.setBorder(new EmptyBorder(0, 10, 0, 10));
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -91,7 +91,7 @@ public class Counter extends GUI {
 		for(JButton b : buttons) {
 			b.setFont(GUI.font);
 			b.setBackground(Color.DARK_GRAY);
-			addHighlighting(b);
+			GUI.addHighlightingToButton(b);
 			b.setBorder(new EmptyBorder(0, 5, 0, 5));
 		}
 		
@@ -196,26 +196,6 @@ public class Counter extends GUI {
 	
 	public boolean getUpdate() {
 		return update;
-	}
-	
-	private void addHighlighting(JButton b) {
-		b.setBorder(null);
-		b.setBackground(Color.DARK_GRAY);
-		b.setFocusable(false);
-		
-		b.addMouseListener(new MouseAdapter() {
-			Color def = b.getForeground();
-			
-			public void mouseEntered(MouseEvent evt) {
-				b.setBackground(Color.WHITE);
-				b.setForeground(Color.DARK_GRAY);
-			}
-
-			public void mouseExited(MouseEvent evt) {
-				b.setBackground(null);
-				b.setForeground(def);
-			}
-		});
 	}
 
 }

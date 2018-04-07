@@ -25,27 +25,28 @@ public class Handler {
 		Handler.gui = gui;
 		
 		String path = new File(StreamSAK.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
-		jarPath = path.substring(0, path.lastIndexOf("\\"));
-		counterFilesPath = jarPath+"\\counters";
-		adjusterFilePath = jarPath+"\\adjusters";
+		
+		jarPath = path.substring(0, path.lastIndexOf(File.separator));
+		counterFilesPath = jarPath+File.separator+"counters";
+		adjusterFilePath = jarPath+File.separator+"adjusters";
 		
 		File dir = new File(counterFilesPath);
 		if(!dir.exists()) {
 			dir.mkdirs();
 			
-			new File(counterFilesPath+"\\wins--sr.txt").createNewFile();
-			new File(counterFilesPath+"\\losses--sr.txt").createNewFile();
-			new File(counterFilesPath+"\\draws.txt").createNewFile();
+			new File(counterFilesPath+File.separator+"wins--sr.txt").createNewFile();
+			new File(counterFilesPath+File.separator+"losses--sr.txt").createNewFile();
+			new File(counterFilesPath+File.separator+"draws.txt").createNewFile();
 		}
 		
 		dir = new File(adjusterFilePath);
 		if(!dir.exists()) {
 			dir.mkdirs();
 			
-			new File(adjusterFilePath+"\\sr.txt").createNewFile();
+			new File(adjusterFilePath+File.separator+"sr.txt").createNewFile();
 		}
 		
-		File logFile = new File(jarPath+"\\log.txt");
+		File logFile = new File(jarPath+File.separator+"log.txt");
 		if(!logFile.exists())
 			logFile.createNewFile();
 		

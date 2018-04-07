@@ -1,13 +1,17 @@
 package main.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -32,7 +36,7 @@ public class GUI {
 		
 		HEIGHT = 50+((Handler.files.size()+2)*25);
 		
-		JFrame window = new JFrame("StreamSAK © 2018 | "+StreamSAK.VERSION);
+		JFrame window = new JFrame("StreamSAK "+StreamSAK.VERSION);
 		
 		Dimension d = new Dimension(WIDTH, HEIGHT);
 		window.setMinimumSize(new Dimension(376, 250));
@@ -72,6 +76,28 @@ public class GUI {
 	
 	public GUI_log getGUI_l() {
 		return l;
+	}
+	
+	public static void addHighlightingToButton(JButton b) {
+		b.setBorder(null);
+		b.setOpaque(true);
+		b.setBackground(Color.DARK_GRAY);
+		b.setFocusable(false);
+		b.setFont(GUI.font);
+		
+		b.addMouseListener(new MouseAdapter() {
+			Color def = b.getForeground();
+			
+			public void mouseEntered(MouseEvent evt) {
+				b.setBackground(Color.WHITE);
+				b.setForeground(Color.DARK_GRAY);
+			}
+
+			public void mouseExited(MouseEvent evt) {
+				b.setBackground(null);
+				b.setForeground(def);
+			}
+		});
 	}
 
 	@SuppressWarnings("unused")

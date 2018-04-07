@@ -92,22 +92,7 @@ public class GUI_options_left extends GUI {
 			b.setBackground(Color.DARK_GRAY);
 			b.setFont(GUI.font);
 			
-			b.addMouseListener(new MouseAdapter() {
-				Color def = b.getForeground();
-
-				public void mouseEntered(MouseEvent evt) {
-					if(b.getText().equals(""))
-						return;
-					
-					b.setBackground(Color.WHITE);
-					b.setForeground(Color.DARK_GRAY);
-				}
-
-				public void mouseExited(MouseEvent evt) {
-					b.setBackground(null);
-					b.setForeground(def);
-				}
-			});
+			GUI.addHighlightingToButton(b);
 			
 			b.setBorder(new EmptyBorder(0, 15, 0, 15));
 			
@@ -128,7 +113,7 @@ public class GUI_options_left extends GUI {
 				if(newCounter.equals(""))
 					return;
 				
-				File f = new File(Handler.counterFilesPath+"\\"+newCounter+(newCounter.contains(".txt") ? "" : ".txt"));
+				File f = new File(Handler.counterFilesPath+File.separator+newCounter+(newCounter.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
 				FileWriter fw = new FileWriter(f);
@@ -156,7 +141,7 @@ public class GUI_options_left extends GUI {
 				for(File f : Handler.files)
 					if(f.getPath().toLowerCase().contains(counter) && f.getPath().toLowerCase().contains("counters")) {
 						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf("\\")+1, fileName.lastIndexOf(".")).toUpperCase();
+						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
 						f.delete();
 						String entry = "DELETED COUNTER {"+fileName+"}";
@@ -182,7 +167,7 @@ public class GUI_options_left extends GUI {
 				if(newAdjuster.equals(""))
 					return;
 				
-				File f = new File(Handler.adjusterFilePath+"\\"+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
+				File f = new File(Handler.adjusterFilePath+File.separator+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
 				String entry = "CREATED NEW ADJUSTER {"+newAdjuster+"}";
@@ -204,7 +189,7 @@ public class GUI_options_left extends GUI {
 				for(File f : Handler.files)
 					if(f.getPath().toLowerCase().contains(adjuster) && f.getPath().toLowerCase().contains("adjuster")) {
 						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf("\\")+1, fileName.lastIndexOf(".")).toUpperCase();
+						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
 						f.delete();
 						String entry = "DELETED ADJUSTER {"+fileName+"}";
