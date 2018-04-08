@@ -21,7 +21,7 @@ public class GUI {
 	private static int WIDTH = 650, HEIGHT = 300;
 	
 	public static void generate() {
-		JFrame window = new JFrame("StreamSAK © 2018 | "+StreamSAK.VERSION);
+		JFrame window = new JFrame("StreamSAK "+StreamSAK.VERSION);
 		
 		Dimension d = new Dimension(WIDTH, HEIGHT);
 		window.setMinimumSize(new Dimension(376, 200));
@@ -40,5 +40,5 @@ public class GUI {
 		window.setVisible(true);
 		window.requestFocus();
 	}
-	
+
 }
