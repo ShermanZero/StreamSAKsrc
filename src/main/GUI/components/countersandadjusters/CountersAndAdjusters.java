@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -54,11 +55,17 @@ public class CountersAndAdjusters extends JPanel {
 			public void actionPerformed(ActionEvent arg0) { Log.clear(); }
 		});
 		
-		Component [] components = {generateCounterPanel(), generateAdjusterPanel(), clear};
+		Component [] components = {generateCounterPanel(), generateAdjusterPanel()};
 		for(Component c : components) {
 			gbc.gridy++;
 			this.add(c, gbc);
 		}
+		
+		gbc.gridy++;
+		this.add(new JLabel(" "), gbc);
+		
+		gbc.gridy++;
+		this.add(clear, gbc);
 	}
 	
 	public static void createCounterButton(File counterFile) {

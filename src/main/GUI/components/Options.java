@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -24,8 +25,8 @@ import main.GUI.logandinput.Input;
 import main.GUI.logandinput.Log;
 import main.actions.Action;
 import main.misc.FileHandler;
-import main.misc.Handler;
 import main.misc.FileHandler.Directory;
+import main.misc.Handler;
 
 public class Options extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -73,8 +74,12 @@ public class Options extends JPanel {
 		for(JButton b : buttons) {
 			gbc.gridy++;
 			this.add(b, gbc);
+			
+			if(b.equals(deleteCounter)) {
+				gbc.gridy++;
+				this.add(new JLabel(" "), gbc);
+			}
 		}
-		
 	}
 	
 	private static void createNewCounter() {
