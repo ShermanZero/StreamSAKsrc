@@ -1,6 +1,6 @@
-package main;
+package main.actions;
 
-import main.GUI.GUI_log;
+import main.GUI.logandinput.Input;
 
 public class ActionThread extends Thread {
 
@@ -13,13 +13,13 @@ public class ActionThread extends Thread {
 	
 	@Override
 	public void run() {
-		while(GUI_log.NO_INPUT && !stopThread)
+		while(Input.hasNoInput() && !stopThread)
 			try { Thread.sleep(100); } catch (Exception e) {}
 		
 		if(!stopThread)
 			try { a.run(); } catch (Exception e) { e.printStackTrace(); }
 		
-		GUI_log.NO_INPUT = true;
+		Input.setNoInput();
 	}
 	
 	public void end() {

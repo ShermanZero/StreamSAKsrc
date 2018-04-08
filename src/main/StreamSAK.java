@@ -10,25 +10,18 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import main.GUI.GUI;
-import main.GUI.GUI_log;
-import main.GUI.GUI_options;
-import main.GUI.GUI_options_left;
+import main.misc.Handler;
 
 public class StreamSAK {
 	
-	public static final String VERSION = "v2.2";
+	public static final String VERSION = "v3.0";
 	
 	public static void main(String [] args) {
 		checkForNewVersion();
 		
-		GUI gui = new GUI();
+		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }
 		
-		try { Handler.init(gui); } catch (Exception e) { e.printStackTrace(); }
-		
-		GUI_log logger = new GUI_log();
-		GUI_options options = new GUI_options();
-		GUI_options_left options_left = new GUI_options_left();
-		gui.generate(options_left, options, logger);
+		GUI.generate();
 	}
 	
 	public static void restart() {
@@ -55,7 +48,7 @@ public class StreamSAK {
 		
 		if(!v.equals(VERSION)) {
 			Object[] options = {"Take me there", "Cool, thanks"};
-			int n = JOptionPane.showOptionDialog(null, "A newer version of StreamSAK is available.", "StreamSAK Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+			int n = JOptionPane.showOptionDialog(null, "A newer, cooler, better, faster, lighter, more amazing version of StreamSAK ("+v+") is available.", "StreamSAK Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 		
 			if(n == JOptionPane.YES_OPTION)
 				try {
