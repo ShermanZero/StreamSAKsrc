@@ -3,6 +3,8 @@
 /counters/
 /.settings/
 
+links.properties
+log.txt
 .classpath
 .project
 
