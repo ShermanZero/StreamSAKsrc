@@ -1,9 +1,11 @@
-package main.GUI.logandinput;
+package main.GUI.components.logandinput;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -47,6 +49,19 @@ public class Input extends JPanel {
 				
 				disableInput();
 			}
+		});
+		
+		textInput.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
+					disableInput();
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+			
 		});
 		this.add(textInput);
 		

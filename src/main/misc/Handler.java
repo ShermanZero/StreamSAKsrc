@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import main.GUI.logandinput.Input;
-import main.GUI.logandinput.Log;
+import main.GUI.components.logandinput.Input;
+import main.GUI.components.logandinput.Log;
 import main.actions.Action;
 import main.actions.ActionThread;
 

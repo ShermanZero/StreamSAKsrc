@@ -17,8 +17,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import main.GUI.GUI;
+import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
-import main.GUI.logandinput.Log;
 import main.misc.FileHandler;
 import main.misc.FileHandler.Directory;
 import main.misc.Handler;
@@ -108,7 +108,7 @@ public class CountersAndAdjusters extends JPanel {
 			JButton b = (JButton)c;
 			
 			if(b.getText().equalsIgnoreCase(counterName)) {
-				for(int j = 0; j < 4; j++)
+				for(int j = 0; j < Counter.componentCount; j++)
 					counterPanel.remove(i);
 				break;
 			}
@@ -131,7 +131,8 @@ public class CountersAndAdjusters extends JPanel {
 			JButton b = (JButton)c;
 			
 			if(b.getText().equalsIgnoreCase(adjusterName)) {
-				adjusterPanel.remove(i);
+				for(int j = 0; j < Adjuster.componentCount; j++)
+					adjusterPanel.remove(i);
 				break;
 			}
 		}
@@ -160,6 +161,7 @@ public class CountersAndAdjusters extends JPanel {
 	private static JPanel generateCounterPanel() {
 		counterPanel = new JPanel(new GridBagLayout());
 		counterPanel.setBackground(null);
+		counterPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
 		
 		for(File f : FileHandler.getFiles())
 			if(f.getPath().contains("counters"))

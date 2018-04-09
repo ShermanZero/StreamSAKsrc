@@ -1,4 +1,4 @@
-package main.GUI.logandinput;
+package main.GUI.components.logandinput;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

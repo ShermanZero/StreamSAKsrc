@@ -10,9 +10,9 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import main.GUI.components.logandinput.Input;
+import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
-import main.GUI.logandinput.Input;
-import main.GUI.logandinput.Log;
 import main.actions.Action;
 import main.misc.FileHandler;
 import main.misc.Handler;
@@ -20,6 +20,8 @@ import main.misc.FileHandler.Directory;
 
 public class Counter {
 	public static Color counterForegroundColor = new Color(224, 217, 172);
+	
+	public static int componentCount;
 	
 	private final File counterFile;
 	private int value;
@@ -39,11 +41,12 @@ public class Counter {
 
 	public JButton[] generate() {
 		JButton[] components = {generateCounter(), generateUp(), generateDown(), generateLink()};
+		componentCount = components.length;
 		return components;
 	}
 	
 	public void resetCounter() {
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value+" -> 0";
+		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+" RESET";
 		Log.write(entry);
 		
 		value = 0;
@@ -67,7 +70,7 @@ public class Counter {
 	}
 	
 	private JButton generateUp() {
-		JButton up = new CustomButton("+");
+		JButton up = new CustomButton("<html>&#9650</html>");
 		up.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { incrementCounter(); }
 		});
@@ -76,7 +79,7 @@ public class Counter {
 	}
 	
 	private JButton generateDown() {
-		JButton down = new CustomButton("-");
+		JButton down = new CustomButton("<html>&#9660</html>");
 		down.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { decrementCounter(); }
 		});
@@ -118,16 +121,16 @@ public class Counter {
 	}
 	
 	private void incrementCounter() {
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value+" -> "+(value+1);
 		value++;
+		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
 		callAdjuster();
 	}
 	
 	private void decrementCounter() {
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value+" -> "+(value-1);
 		value--;
+		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
 		callAdjuster();

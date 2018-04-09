@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import main.StreamSAK;
 import main.GUI.components.Options;
 import main.GUI.components.countersandadjusters.CountersAndAdjusters;
-import main.GUI.logandinput.LogAndInput;
+import main.GUI.components.logandinput.LogAndInput;
 
 public class GUI {
 	

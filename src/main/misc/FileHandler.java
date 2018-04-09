@@ -120,6 +120,9 @@ public class FileHandler {
 	}
 	
 	public static String getFileData(File f) {
+		if(f == null)
+			return null;
+		
 		String data = null;
 		
 		try {

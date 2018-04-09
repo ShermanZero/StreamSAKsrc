@@ -1,6 +1,6 @@
 package main.actions;
 
-import main.GUI.logandinput.Input;
+import main.GUI.components.logandinput.Input;
 
 public class ActionThread extends Thread {
 

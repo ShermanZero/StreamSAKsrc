@@ -10,15 +10,17 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import main.GUI.components.logandinput.Input;
+import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
-import main.GUI.logandinput.Input;
-import main.GUI.logandinput.Log;
 import main.actions.Action;
 import main.misc.FileHandler;
 import main.misc.Handler;
 
 public class Adjuster {
 	public static Color adjusterForegroundColor = new Color(172, 209, 224);
+	
+	public static int componentCount;
 	
 	private String value;
 	private final File adjusterFile;
@@ -29,8 +31,9 @@ public class Adjuster {
 	}
 	
 	public JButton[] generate() {
-		JButton[] buttons = {generateButton()};
-		return buttons;
+		JButton[] components = {generateButton(), generateChange()};
+		componentCount = components.length;
+		return components;
 	}
 	
 	public String getValue() {
@@ -58,19 +61,33 @@ public class Adjuster {
 				if(newValue.equals(""))
 					return;
 				
-				String entry = getName()+": "+value+" -> "+newValue;
+				value = newValue;
+				String entry = getName()+": "+value;
 				Log.write(entry);
 				
-				value = newValue;
 				write();
 			}
 		}, "ADJUST "+getName());
 	}
 	
+	public void displayAdjuster() {
+		String entry = getName()+": "+value;
+		Log.write(entry);
+	}
+	
+	private JButton generateChange() {
+		JButton b = new CustomButton("<html>&#9999</html>", Color.LIGHT_GRAY);
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { changeAdjuster(); }
+		});
+		
+		return b;
+	}
+	
 	private JButton generateButton() {
 		JButton b = new CustomButton(getName(), adjusterForegroundColor);
 		b.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { changeAdjuster(); }
+			public void actionPerformed(ActionEvent arg0) { displayAdjuster(); }
 		});
 		
 		b.addMouseListener(new MouseAdapter() {
