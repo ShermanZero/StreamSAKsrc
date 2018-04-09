@@ -241,17 +241,17 @@ public class FileHandler {
             		Class<?> classs = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
             		Class<?>[] interfaces = classs.getInterfaces();
             		
-            		for (Class<?> anInterface : interfaces) {
+            		for (Class<?> anInterface : interfaces)
             			if(StreamSAKPlugin.class.isAssignableFrom(anInterface)) {
             				StreamSAKPlugin plugin = (StreamSAKPlugin)classs.newInstance();
         					CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
             				break;
                         }
-                    }
-            		
-                    pluginLoader.close();
                 } catch (Exception e) { e.printStackTrace(); }
             });
+            try {
+				pluginLoader.close();
+			} catch (IOException e) { e.printStackTrace(); }
         }
 	}
 	
