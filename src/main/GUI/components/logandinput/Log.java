@@ -26,13 +26,13 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.GUI.GUI;
+import main.GUI.components.misc.CustomButton;
 import main.misc.FileHandler;
 
 public class Log extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private static JButton enableAdjusterCall = new JButton("AAC ENABLED");
+	private static JButton enableAdjusterCall = new CustomButton("AC ENABLED");
 	private static JList<String> log = new JList<String>();
 	private static DefaultListModel<String> model = new DefaultListModel<String>();
 	
@@ -96,26 +96,19 @@ public class Log extends JPanel {
 		main.setBackground(null);
 		main.setBorder(new MatteBorder(2, 2, 0, 2, Color.DARK_GRAY));
 		
+		enableAdjusterCall.setBorder(null);
 		enableAdjusterCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(enableAdjusterCall.getText().contains("ENABLED"))
-					enableAdjusterCall.setText("AAC DISABLED");
+					enableAdjusterCall.setText("AC DISABLED");
 				else
-					enableAdjusterCall.setText("AAC ENABLED");
+					enableAdjusterCall.setText("AC ENABLED");
 			}
 		});
-		enableAdjusterCall.setBackground(Color.LIGHT_GRAY);
-		enableAdjusterCall.setBorder(new EmptyBorder(3, 3, 3, 3));
-		enableAdjusterCall.setFont(GUI.defaultFont);
-		enableAdjusterCall.setFocusable(false);
 		main.add(enableAdjusterCall);
 		
-		JButton link = new JButton("SUPPORT THE DEV");
-		link.setBackground(Color.LIGHT_GRAY);
-		link.setForeground(new Color(97, 140, 203));
-		link.setFocusable(false);
+		JButton link = new CustomButton("SUPPORT THE DEV", new Color(138, 185, 219));
 		link.setBorder(null);
-		link.setFont(GUI.defaultFont.deriveFont(10f));
 		link.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

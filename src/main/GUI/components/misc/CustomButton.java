@@ -15,6 +15,8 @@ public class CustomButton extends JButton {
 	private static int topBottomMargin = 7;
 	private static int leftRightMargin = 10;
 	
+	private static int componentHeight;
+	
 	public CustomButton(String text) {
 		super(text);
 		setForeground(Color.LIGHT_GRAY);
@@ -30,6 +32,10 @@ public class CustomButton extends JButton {
 	public CustomButton(String text, boolean highlightEnabled) {
 		super(text);
 		init(highlightEnabled);
+	}
+	
+	public static int getComponentHeight() {
+		return componentHeight;
 	}
 	
 	private void init(boolean highlightEnabled) {
@@ -55,6 +61,8 @@ public class CustomButton extends JButton {
 				}
 			});
 		}
+
+		componentHeight = 29;
 	}
 	
 }

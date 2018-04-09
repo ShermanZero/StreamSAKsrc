@@ -14,7 +14,7 @@ import main.misc.Handler;
 
 public class StreamSAK {
 	
-	public static final String VERSION = "v3.1";
+	public static final String VERSION = "v4.0";
 	
 	public static void main(String [] args) {
 		checkForNewVersion();

@@ -12,14 +12,12 @@ import java.io.FileWriter;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 
 import main.GUI.GUI;
-import main.GUI.components.countersandadjusters.Adjuster;
-import main.GUI.components.countersandadjusters.Counter;
-import main.GUI.components.countersandadjusters.CountersAndAdjusters;
+import main.GUI.components.countersadjustersplugins.Adjuster;
+import main.GUI.components.countersadjustersplugins.Counter;
+import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
@@ -34,7 +32,7 @@ public class Options extends JPanel {
 	public Options() {
 		this.setBackground(Color.DARK_GRAY);
 		this.setLayout(new GridBagLayout());
-		this.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.GRAY), new EmptyBorder(10, 8, 10, 8)));
+		this.setBorder(new EmptyBorder(10, 8, 10, 8));
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -47,7 +45,7 @@ public class Options extends JPanel {
 		
 		JButton resetCounters = new CustomButton("RESET ALL COUNTERS", Counter.counterForegroundColor);
 		resetCounters.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { CountersAndAdjusters.resetAllCounters(); }
+			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllCounters(); }
 		});
 
 		JButton deleteCounter = new CustomButton("DELETE COUNTER", GUI.defaultRedColor);
@@ -62,7 +60,7 @@ public class Options extends JPanel {
 		
 		JButton resetAdjusters = new CustomButton("RESET ALL ADJUSTERS", Adjuster.adjusterForegroundColor);
 		resetAdjusters.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { CountersAndAdjusters.resetAllAdjusters(); }
+			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllAdjusters(); }
 		});
 		
 		JButton deleteAdjuster = new CustomButton("DELETE ADJUSTER", GUI.defaultRedColor);
@@ -89,6 +87,12 @@ public class Options extends JPanel {
 				if(newCounter.equals(""))
 					return;
 				
+				if(FileHandler.findFile(newCounter, Directory.MAIN) != null) {
+					String entry = "CANNOT CREATE COUNTER WITH THAT NAME";
+					Log.write(entry);
+					return;
+				}
+				
 				File f = new File(FileHandler.countersDirectoryPath+File.separator+newCounter+(newCounter.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
@@ -102,10 +106,9 @@ public class Options extends JPanel {
 				Log.write(entry);
 				
 				FileHandler.addFile(f);
+				CountersAdjustersPlugins.createCounterButton(f);
 				
-				CountersAndAdjusters.createCounterButton(f);
-				
-				System.out.println("Succesfully created new counter: "+f.getAbsolutePath());
+				System.out.println("Succesfully created new counter: "+f.getPath());
 			}
 		}, "CREATE A NEW COUNTER");
 	}
@@ -118,17 +121,17 @@ public class Options extends JPanel {
 					return;
 				
 				for(File f : FileHandler.getFiles())
-					if(f.getPath().toLowerCase().contains(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
+					if(FileHandler.getFileFormattedName(f).equalsIgnoreCase(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
 						String fileName = f.getPath();
 						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
+						CountersAdjustersPlugins.deleteCounter(fileName);
+						FileHandler.removeFile(f);
 						f.delete();
+
 						String entry = "DELETED COUNTER: "+fileName;
 						Log.write(entry);
-						
-						CountersAndAdjusters.deleteCounter(fileName);
-						
-						System.out.println("Succesfully deleted counter: "+fileName);
+						System.out.println("Succesfully deleted counter: "+f.getPath());
 						return;
 					}
 				
@@ -147,6 +150,12 @@ public class Options extends JPanel {
 				if(newAdjuster.equals(""))
 					return;
 				
+				if(FileHandler.findFile(newAdjuster, Directory.MAIN) != null) {
+					String entry = "CANNOT CREATE ADJUSTER WITH THAT NAME";
+					Log.write(entry);
+					return;
+				}
+				
 				File f = new File(FileHandler.adjustersDirectoryPath+File.separator+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
@@ -154,10 +163,9 @@ public class Options extends JPanel {
 				Log.write(entry);
 				
 				FileHandler.addFile(f);
+				CountersAdjustersPlugins.createAdjusterButton(f);
 				
-				CountersAndAdjusters.createAdjusterButton(f);
-				
-				System.out.println("Succesfully created new adjuster: "+f.getAbsolutePath());
+				System.out.println("Succesfully created new adjuster: "+f.getPath());
 			}
 		}, "CREATE A NEW ADJUSTER");
 	}
@@ -170,16 +178,16 @@ public class Options extends JPanel {
 					return;
 				
 				for(File f : FileHandler.getFiles())
-					if(f.getPath().toLowerCase().contains(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
+					if(FileHandler.getFileFormattedName(f).equalsIgnoreCase(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
 						String fileName = f.getPath();
 						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
+						CountersAdjustersPlugins.deleteAdjuster(fileName);
+						FileHandler.removeFile(f);
 						f.delete();
+						
 						String entry = "DELETED ADJUSTER: "+fileName;
 						Log.write(entry);
-						
-						CountersAndAdjusters.deleteAdjuster(fileName);
-						
 						System.out.println("Succesfully deleted counter: "+fileName);
 						return;
 					}

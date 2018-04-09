@@ -5,19 +5,28 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.jar.JarFile;
+
+import javax.swing.JOptionPane;
 
 import main.StreamSAK;
+import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.plugins.StreamSAKPlugin;
 
 public class FileHandler {
 	
-	public static String jarPath, countersDirectoryPath, adjustersDirectoryPath, propertiesFilePath;
+	public static String jarPath, countersDirectoryPath, adjustersDirectoryPath, pluginsDirectoryPath, sourceDirectoryPath, propertiesFilePath;
 	
 	private static ArrayList<File> files = new ArrayList<File>();
 	
 	public enum Directory {
-		COUNTERS("counters"), ADJUSTERS("adjusters"), MAIN("");
+		COUNTERS("counters"), ADJUSTERS("adjusters"), PLUGINS("plugins"), SOURCE("src"), MAIN("");
 		
 		private String value;
 		private Directory(String str) {
@@ -39,6 +48,8 @@ public class FileHandler {
 		propertiesFilePath = jarPath+File.separator+"links.properties";
 		countersDirectoryPath = jarPath+File.separator+Directory.COUNTERS.getValue();
 		adjustersDirectoryPath = jarPath+File.separator+Directory.ADJUSTERS.getValue();
+		pluginsDirectoryPath = jarPath+File.separator+Directory.PLUGINS.getValue();
+		sourceDirectoryPath = jarPath+File.separator+Directory.SOURCE.getValue();
 	}
 	
 	public static void init() throws Exception {
@@ -79,6 +90,12 @@ public class FileHandler {
 			writeToFile(draws, "0");
 		}
 		
+		//check to see if the plug-ins directory exists
+		dir = new File(pluginsDirectoryPath);
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
 		//get all the files within the counter folder
 		File counterFolder = new File(countersDirectoryPath);
 		File[] counterList = counterFolder.listFiles();
@@ -92,6 +109,8 @@ public class FileHandler {
 		for(File f : adjusterList)
 			if(f.isFile())
 				addFile(f);
+		
+		loadPlugins();
 	}
 	
 	public static File findFile(String fileName) {	
@@ -178,4 +197,53 @@ public class FileHandler {
 		return files;
 	}
 
+	private static void loadPlugins() {
+		//get all the files within the plug-ins folder
+		File pluginsFolder = new File(pluginsDirectoryPath);
+		File[] pluginsList = pluginsFolder.listFiles();
+		for(File f : pluginsList)
+			if(f.isFile() && f.getName().endsWith(".jar"))
+				addFile(f);
+			else
+				JOptionPane.showMessageDialog(null, f.getName()+" in the plugins folder is not a .jar file");
+		
+		ArrayList<URL> urls = new ArrayList<>();
+        ArrayList<String> classes = new ArrayList<>();
+        
+        if(pluginsList != null) {
+        	Arrays.stream(pluginsList).forEach(file -> {
+        		try {
+        			JarFile jarFile = new JarFile(file);
+                    urls.add(new URL("jar:file:"+pluginsDirectoryPath+File.separator+file.getName()+"!/"));
+                    
+                    jarFile.stream().forEach(jarEntry -> {
+                        if(jarEntry.getName().endsWith(".class")) {
+                            classes.add(jarEntry.getName());
+                        }
+                    });
+                    
+                    jarFile.close();
+                } catch (IOException e) { e.printStackTrace(); }
+            });
+        	
+            URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+            classes.forEach(s -> {
+            	try {
+            		Class<?> classs = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
+            		Class<?>[] interfaces = classs.getInterfaces();
+            		
+            		for (Class<?> anInterface : interfaces) {
+            			if(StreamSAKPlugin.class.isAssignableFrom(anInterface)) {
+            				StreamSAKPlugin plugin = (StreamSAKPlugin)classs.newInstance();
+        					CountersAdjustersPlugins.addPlugin(plugin);
+            				break;
+                        }
+                    }
+            		
+                    pluginLoader.close();
+                } catch (Exception e) { e.printStackTrace(); }
+            });
+        }
+	}
+	
 }

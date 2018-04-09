@@ -1,4 +1,4 @@
-package main.GUI.components.countersandadjusters;
+package main.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -76,7 +76,7 @@ public class Adjuster {
 	}
 	
 	private JButton generateChange() {
-		JButton b = new CustomButton("<html>&#9999</html>", Color.LIGHT_GRAY);
+		JButton b = new CustomButton("=", Color.LIGHT_GRAY);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { changeAdjuster(); }
 		});
@@ -100,6 +100,5 @@ public class Adjuster {
 	private void write() {
 		FileHandler.writeToFile(adjusterFile, value);
 	}
-	
 
 }

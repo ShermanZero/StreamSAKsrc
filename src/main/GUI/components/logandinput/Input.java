@@ -28,8 +28,8 @@ public class Input extends JPanel {
 		this.setLayout(new GridLayout(0, 1));
 		this.setBackground(Color.GRAY);
 		
-		textInfo.setBackground(Color.GRAY);
-		textInfo.setForeground(Color.DARK_GRAY);
+		textInfo.setBackground(Color.DARK_GRAY);
+		textInfo.setForeground(Color.LIGHT_GRAY);
 		textInfo.setEditable(false);
 		textInfo.setFocusable(false);
 		textInfo.setFont(GUI.defaultFont);
@@ -105,6 +105,7 @@ public class Input extends JPanel {
 		textInput.selectAll();
 		
 		textInfo.setText(info);
+		textInfo.setForeground(Color.LIGHT_GRAY);
 	}
 	
 	//prevents input
@@ -114,7 +115,8 @@ public class Input extends JPanel {
 		textInput.setEditable(false);
 		textInput.setBackground(Color.GRAY);
 		
-		textInfo.setText("");
+		textInfo.setText("INPUT DISABLED");
+		textInfo.setForeground(Color.GRAY);
 	}
 	
 

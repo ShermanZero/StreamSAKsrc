@@ -1,4 +1,4 @@
-package main.GUI.components.countersandadjusters;
+package main.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -142,7 +142,7 @@ public class Counter {
 		
 		String adjusterLink = Handler.getAdjusterLink(counterFile);
 		if(adjusterLink != null)
-			for(Adjuster a : CountersAndAdjusters.getAdjusters())
+			for(Adjuster a : CountersAdjustersPlugins.getAdjusters())
 				if(a.getName().equalsIgnoreCase(adjusterLink)) {
 					a.changeAdjuster();
 					break;
