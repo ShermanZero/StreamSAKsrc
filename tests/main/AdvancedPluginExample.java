@@ -2,19 +2,30 @@ package main;
 
 import javax.swing.JOptionPane;
 
-public class AdvancedPluginTest implements AdvancedPlugin {
+public class AdvancedPluginExample implements AdvancedPlugin {
 
-	private String input = "";
-	private String version = "v1.0";
+	private String name;
+	private String version;
+	private String input;
+	
+	public AdvancedPluginExample() {
+		name = "AdvancedPlugin";
+		version = "v1.0";
+	}
 	
 	@Override
 	public String getName() {
-		return "AdvancedPlugin";
+		return name;
+	}
+	
+	@Override
+	public String getVersion() {
+		return version;
 	}
 	
 	@Override
 	public void doOnPress() {
-		JOptionPane.showMessageDialog(null, "Hello from the AdvancedPlugin, you entered:\n"+input, "AdvancedPlugin", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Hello from AdvancedPlugin, you entered:\n"+input, "AdvancedPlugin", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	@Override
@@ -40,11 +51,6 @@ public class AdvancedPluginTest implements AdvancedPlugin {
 	@Override
 	public String getLogEntry() {
 		return "DISPLAYED: "+input;
-	}
-
-	@Override
-	public String getVersion() {
-		return version;
 	}
 
 }

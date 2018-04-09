@@ -4,11 +4,19 @@ import javax.swing.JOptionPane;
 
 import main.SimplePlugin;
 
-public class SimplePluginTest implements SimplePlugin {
+public class SimplePluginExample implements SimplePlugin {
 
+	private String name;
+	private String version;
+	
+	public SimplePluginExample() {
+		name = "SimplePlugin";
+		version = "v1.0";
+	}
+	
 	@Override
 	public String getName() {
-		return "SimplePlugin";
+		return name;
 	}
 
 	@Override
@@ -18,7 +26,7 @@ public class SimplePluginTest implements SimplePlugin {
 
 	@Override
 	public String getVersion() {
-		return "v1.0";
+		return version;
 	}
 
 }
