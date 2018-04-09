@@ -1,8 +1,6 @@
-package tests;
+package main;
 
 import javax.swing.JOptionPane;
-
-import main.AdvancedPlugin;
 
 public class AdvancedPluginTest implements AdvancedPlugin {
 
@@ -22,6 +20,11 @@ public class AdvancedPluginTest implements AdvancedPlugin {
 	@Override
 	public void setInput(String input) {
 		this.input = input;
+	}
+	
+	@Override
+	public boolean requiresLogEntry() {
+		return true;
 	}
 	
 	@Override

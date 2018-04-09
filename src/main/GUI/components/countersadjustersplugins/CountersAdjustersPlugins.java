@@ -36,7 +36,7 @@ public class CountersAdjustersPlugins extends JPanel {
 	
 	private static ArrayList<Counter> counters = new ArrayList<>();
 	private static ArrayList<Adjuster> adjusters = new ArrayList<>();
-	private static ArrayList<StreamSAKPlugin> plugins = new ArrayList<>();
+	private static ArrayList<Plugin> plugins = new ArrayList<>();
 	
 	private static int componentCount;
 	
@@ -110,7 +110,7 @@ public class CountersAdjustersPlugins extends JPanel {
 	}
 	
 	public static void createPluginButton(StreamSAKPlugin plugin) {
-		PluginButton p = new PluginButton(plugin);
+		Plugin p = new Plugin(plugin);
 		
 		JButton[] buttons = p.generate();
 		for(int i = 0; i < buttons.length; i++) {
@@ -148,7 +148,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.revalidate();
 		componentCount--;
 		
-		Handler.removeAdjusterLink(FileHandler.findFile(counterName, Directory.COUNTERS));
+		Handler.removeLink(FileHandler.findFile(counterName, Directory.COUNTERS));
 		adjustWindowHeight();
 	}
 	
@@ -196,11 +196,11 @@ public class CountersAdjustersPlugins extends JPanel {
 		return adjusters;
 	}
 	
-	public static ArrayList<StreamSAKPlugin> getPlugins() {
+	public static ArrayList<Plugin> getPlugins() {
 		return plugins;
 	}
 	
-	public static void addPlugin(StreamSAKPlugin p) {
+	public static void addPlugin(Plugin p) {
 		plugins.add(p);
 	}
 	
@@ -234,10 +234,11 @@ public class CountersAdjustersPlugins extends JPanel {
 		if(plugins.size() > 0)
 			pluginPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
 		
-		for(StreamSAKPlugin p : plugins) {
-			createPluginButton(p);
+		for(Plugin p : plugins) {
+			StreamSAKPlugin ssakp = p.getPlugin();
+			createPluginButton(ssakp);
 			
-			String entry = "LOADED: "+p.getName()+" "+p.getVersion();
+			String entry = "LOADED: "+ssakp.getName()+" "+ssakp.getVersion();
 			Log.write(entry);	
 		}
 

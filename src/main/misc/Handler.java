@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 import main.GUI.components.logandinput.Input;
-import main.GUI.components.logandinput.Log;
 import main.actions.Action;
 import main.actions.ActionThread;
 
@@ -37,27 +36,33 @@ public class Handler {
 		FileHandler.init();
 	}
 	
-	public static boolean setAdjusterLink(File counterFile, File adjusterFile) {
-		if(counterFile == null || adjusterFile == null)
+	public static boolean setLink(File counterFile, File linkFile) {
+		if(counterFile == null || linkFile == null)
 			return false;
 		
-		prop.setProperty(FileHandler.getFileFormattedName(counterFile), FileHandler.getFileFormattedName(adjusterFile));
+		prop.setProperty(FileHandler.getFileFormattedName(counterFile), FileHandler.getFileFormattedName(linkFile));
 		writeProperties();
 		
 		return true;
 	}
 	
-	public static String getAdjusterLink(File counterFile) {
+	public static boolean setLink(File counterFile, String pluginName) {
+		if(counterFile == null || pluginName == null)
+			return false;
+		
+		prop.setProperty(FileHandler.getFileFormattedName(counterFile), pluginName);
+		writeProperties();
+		
+		return true;
+	}
+	
+	public static String getLink(File counterFile) {
 		return prop.getProperty(FileHandler.getFileFormattedName(counterFile));
 	}
 	
-	public static void removeAdjusterLink(File counterFile) {
+	public static void removeLink(File counterFile) {
 		prop.remove(FileHandler.getFileFormattedName(counterFile));
 		writeProperties();
-	}
-	
-	public static void clearLog() { 
-		Log.clear();
 	}
 	
 	public static void doOnInput(Action a, String info) {

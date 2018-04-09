@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import main.StreamSAK;
 import main.StreamSAKPlugin;
 import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.GUI.components.countersadjustersplugins.Plugin;
 
 public class FileHandler {
 	
@@ -77,12 +78,12 @@ public class FileHandler {
 			
 			wins = new File(countersDirectoryPath+File.separator+"wins.txt");
 			wins.createNewFile();
-			Handler.setAdjusterLink(wins, sr);
+			Handler.setLink(wins, sr);
 			writeToFile(wins, "0");
 			
 			losses = new File(countersDirectoryPath+File.separator+"losses.txt");
 			losses.createNewFile();
-			Handler.setAdjusterLink(losses, sr);
+			Handler.setLink(losses, sr);
 			writeToFile(losses, "0");
 			
 			draws = new File(countersDirectoryPath+File.separator+"draws.txt");
@@ -133,6 +134,14 @@ public class FileHandler {
 		return null;
 	}
 	
+	public static Plugin findPlugin(String pluginName) {
+		for(Plugin p : CountersAdjustersPlugins.getPlugins())
+			if(p.getName().equalsIgnoreCase(pluginName))
+				return p;
+		
+		return null;
+	}
+
 	public static String getFileFormattedName(File f) {
 		String fileName = f.getName();
 		return fileName.substring((fileName.contains(File.separator) ? fileName.indexOf(File.separator)+1 : 0), fileName.lastIndexOf(".")).toLowerCase();
@@ -235,7 +244,7 @@ public class FileHandler {
             		for (Class<?> anInterface : interfaces) {
             			if(StreamSAKPlugin.class.isAssignableFrom(anInterface)) {
             				StreamSAKPlugin plugin = (StreamSAKPlugin)classs.newInstance();
-        					CountersAdjustersPlugins.addPlugin(plugin);
+        					CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
             				break;
                         }
                     }

@@ -26,6 +26,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import main.GUI.GUI;
 import main.GUI.components.misc.CustomButton;
 import main.misc.FileHandler;
 
@@ -66,7 +67,7 @@ public class Log extends JPanel {
 		FileHandler.writeToFile(FileHandler.findFile("log"), "");
 	}
 		
-	public static boolean automaticAdjusterCallEnabled() {
+	public static boolean automaticCallEnabled() {
 		return enableAdjusterCall.getText().toLowerCase().contains("enabled");
 	}
 	
@@ -96,7 +97,6 @@ public class Log extends JPanel {
 		main.setBackground(null);
 		main.setBorder(new MatteBorder(2, 2, 0, 2, Color.DARK_GRAY));
 		
-		enableAdjusterCall.setBorder(null);
 		enableAdjusterCall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(enableAdjusterCall.getText().contains("ENABLED"))
@@ -108,7 +108,7 @@ public class Log extends JPanel {
 		main.add(enableAdjusterCall);
 		
 		JButton link = new CustomButton("SUPPORT THE DEV", new Color(138, 185, 219));
-		link.setBorder(null);
+		link.setFont(GUI.defaultFont.deriveFont(10f));
 		link.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

@@ -16,16 +16,21 @@ public class CustomButton extends JButton {
 	private static int leftRightMargin = 10;
 	
 	private static int componentHeight;
+
+	private Color originalForeground;
+	private Color originalBackground;
 	
 	public CustomButton(String text) {
 		super(text);
-		setForeground(Color.LIGHT_GRAY);
+		setDefaultForeground(GUI.defaultColor);
+		setDefaultBackground(Color.DARK_GRAY);
 		init(true);
 	}
 	
 	public CustomButton(String text, Color foreground) {
 		super(text);
-		setForeground(foreground);
+		setDefaultForeground(foreground);
+		setDefaultBackground(Color.DARK_GRAY);
 		init(true);
 	}
 	
@@ -38,6 +43,16 @@ public class CustomButton extends JButton {
 		return componentHeight;
 	}
 	
+	public void setDefaultForeground(Color color) {
+		originalForeground = color;
+		setForeground(originalForeground);
+	}
+	
+	public void setDefaultBackground(Color color) {
+		originalBackground = color;
+		setBackground(originalBackground);
+	}
+	
 	private void init(boolean highlightEnabled) {
 		setFont(GUI.defaultFont);
 		setOpaque(true);
@@ -47,17 +62,14 @@ public class CustomButton extends JButton {
 		
 		if(highlightEnabled) {
 			addMouseListener(new MouseAdapter() {
-				Color originalForeground = getForeground();
-				Color originalBackground = getBackground();
-				
 				public void mouseEntered(MouseEvent evt) {
-					setBackground(Color.WHITE);
 					setForeground(Color.DARK_GRAY);
+					setBackground(Color.WHITE);
 				}
 	
 				public void mouseExited(MouseEvent evt) {
-					setBackground(originalBackground);
 					setForeground(originalForeground);
+					setBackground(originalBackground);
 				}
 			});
 		}

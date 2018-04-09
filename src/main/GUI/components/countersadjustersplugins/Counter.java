@@ -10,15 +10,17 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import main.GUI.GUI;
 import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
 import main.misc.FileHandler;
-import main.misc.Handler;
 import main.misc.FileHandler.Directory;
+import main.misc.Handler;
 
 public class Counter {
+	
 	public static Color counterForegroundColor = new Color(224, 217, 172);
 	
 	public static int componentCount;
@@ -40,7 +42,7 @@ public class Counter {
 	}
 
 	public JButton[] generate() {
-		JButton[] components = {generateCounter(), generateUp(), generateDown(), generateLink()};
+		JButton[] components = { generateCounter(), generateUp(), generateDown(), generateLink() };
 		componentCount = components.length;
 		return components;
 	}
@@ -88,15 +90,28 @@ public class Counter {
 	}
 	
 	private JButton generateLink() {
-		String link = Handler.getAdjusterLink(counterFile);
+		String link = Handler.getLink(counterFile);
+		Color startingColor = GUI.defaultColor;
+		Plugin p = null;
+		if(link != null) {
+			link = link.toUpperCase();
+			
+			if(FileHandler.findFile(link, Directory.ADJUSTERS) != null)
+				startingColor = Adjuster.adjusterForegroundColor;
+			else if ((p =FileHandler.findPlugin(link)) != null) {
+				startingColor = Plugin.pluginForegroundColor;
+				link = p.getName();
+			}
+		}
 		
-		JButton linkButton = new CustomButton(link == null ? "--" : link.toUpperCase(), Adjuster.adjusterForegroundColor);
+		JButton linkButton = new CustomButton(link == null ? "--" : link, startingColor);
 		linkButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { 
 				linkButton.setText("--");
 				
-				if(Handler.getAdjusterLink(counterFile) != null) {
-					Handler.removeAdjusterLink(counterFile);
+				if(Handler.getLink(counterFile) != null) {
+					Handler.removeLink(counterFile);
+					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
 					Handler.doOnInput(new Action() {
 						@Override
@@ -105,10 +120,17 @@ public class Counter {
 							if(str.equals(""))
 								return;
 							
-							if(Handler.setAdjusterLink(counterFile, FileHandler.findFile(str, Directory.ADJUSTERS)))
+							Plugin p;
+							if(Handler.setLink(counterFile, FileHandler.findFile(str, Directory.ADJUSTERS))) {
 								linkButton.setText(str.toUpperCase());
+								((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
+							} else
+							if((p = FileHandler.findPlugin(str)) != null && Handler.setLink(counterFile, str)) {
+								linkButton.setText(p.getName());
+								((CustomButton)linkButton).setDefaultForeground(Plugin.pluginForegroundColor);
+							}
 						}
-					}, "SET LINKED ADJUSTER");
+					}, "SET LINKED CALL");
 				}
 			}
 		});
@@ -125,7 +147,7 @@ public class Counter {
 		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
-		callAdjuster();
+		callLink();
 	}
 	
 	private void decrementCounter() {
@@ -133,20 +155,27 @@ public class Counter {
 		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
-		callAdjuster();
+		callLink();
 	}
 	
-	private void callAdjuster() {
-		if(!Log.automaticAdjusterCallEnabled())
+	private void callLink() {
+		if(!Log.automaticCallEnabled())
 			return;
 		
-		String adjusterLink = Handler.getAdjusterLink(counterFile);
-		if(adjusterLink != null)
+		String link = Handler.getLink(counterFile);
+		if(link != null) {
 			for(Adjuster a : CountersAdjustersPlugins.getAdjusters())
-				if(a.getName().equalsIgnoreCase(adjusterLink)) {
+				if(a.getName().equalsIgnoreCase(link)) {
 					a.changeAdjuster();
-					break;
+					return;
 				}
+			
+			for(Plugin p : CountersAdjustersPlugins.getPlugins())
+				if(p.getName().equalsIgnoreCase(link)) {
+					p.callPlugin();
+					return;
+				}
+		}
 	}
 	
 	private void write() {
