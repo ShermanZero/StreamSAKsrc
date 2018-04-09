@@ -14,7 +14,7 @@ import main.misc.Handler;
 
 public class StreamSAK {
 	
-	public static final String VERSION = "v4.0";
+	public static final String VERSION = "v4.1";
 	
 	public static void main(String [] args) {
 		checkForNewVersion();
@@ -48,7 +48,7 @@ public class StreamSAK {
 		
 		if(!v.equals(VERSION)) {
 			Object[] options = {"Take me there", "Cool, thanks"};
-			int n = JOptionPane.showOptionDialog(null, "A newer, cooler, better, faster, lighter, more amazing version of StreamSAK ("+v+") is available.", "StreamSAK Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+			int n = JOptionPane.showOptionDialog(null, "A newer, cooler, better, faster, lighter, juicier,\namazing version of StreamSAK ("+v+") is available.", "StreamSAK Update", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
 		
 			if(n == JOptionPane.YES_OPTION)
 				try {
