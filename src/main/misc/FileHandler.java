@@ -16,8 +16,8 @@ import java.util.jar.JarFile;
 import javax.swing.JOptionPane;
 
 import main.StreamSAK;
+import main.StreamSAKPlugin;
 import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.plugins.StreamSAKPlugin;
 
 public class FileHandler {
 	

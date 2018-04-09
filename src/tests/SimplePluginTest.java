@@ -2,7 +2,7 @@ package tests;
 
 import javax.swing.JOptionPane;
 
-import main.plugins.SimplePlugin;
+import main.SimplePlugin;
 
 public class SimplePluginTest implements SimplePlugin {
 

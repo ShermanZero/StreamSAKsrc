@@ -15,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import main.StreamSAKPlugin;
 import main.GUI.GUI;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.misc.FileHandler;
 import main.misc.FileHandler.Directory;
-import main.plugins.StreamSAKPlugin;
 import main.misc.Handler;
 
 public class CountersAdjustersPlugins extends JPanel {

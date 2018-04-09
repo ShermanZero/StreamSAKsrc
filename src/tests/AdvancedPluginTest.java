@@ -2,7 +2,7 @@ package tests;
 
 import javax.swing.JOptionPane;
 
-import main.plugins.AdvancedPlugin;
+import main.AdvancedPlugin;
 
 public class AdvancedPluginTest implements AdvancedPlugin {
 

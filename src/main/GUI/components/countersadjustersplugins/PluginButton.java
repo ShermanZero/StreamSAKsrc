@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import main.AdvancedPlugin;
+import main.SimplePlugin;
+import main.StreamSAKPlugin;
 import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
 import main.misc.Handler;
-import main.plugins.AdvancedPlugin;
-import main.plugins.SimplePlugin;
-import main.plugins.StreamSAKPlugin;
 
 public class PluginButton {
 
