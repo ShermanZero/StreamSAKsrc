@@ -37,7 +37,7 @@ public class GUI {
 	public static void generate(String currentVersion, String libraryBuild) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+currentVersion+" | "+libraryBuild);
+				window = new JFrame("StreamSAK "+currentVersion+"   |   "+libraryBuild);
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));

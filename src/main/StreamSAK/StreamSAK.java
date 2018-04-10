@@ -18,7 +18,7 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
 	
-	private final String StreamSAK_CURRENT_VERSION = "v4.1.1";
+	private final String StreamSAK_CURRENT_VERSION = "v4.2.1";
 	private final String StreamSAK_PLUGIN_LIBRARY_BUILD = "0.1.1";
 	
 	public void start() {
@@ -68,11 +68,10 @@ public class StreamSAK {
 		
 		GUI.generateNotification(window, header, updates, new JButton[] {show, exit});
 	}
-	
+
 	public static void main(String [] args) {
 		StreamSAK client = new StreamSAK();
 		client.start();
 	}
 	
 }
-
