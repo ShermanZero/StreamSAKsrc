@@ -1,4 +1,4 @@
-package main.actions;
+package main.src.misc.actions;
 
 public abstract class Action {
 	

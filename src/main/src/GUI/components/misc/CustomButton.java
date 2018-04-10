@@ -1,4 +1,4 @@
-package main.GUI.components.misc;
+package main.src.GUI.components.misc;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import main.GUI.GUI;
+import main.src.GUI.GUI;
 
 public class CustomButton extends JButton {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package main.GUI.components.countersadjustersplugins;
+package main.src.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import main.GUI.components.logandinput.Input;
-import main.GUI.components.logandinput.Log;
-import main.GUI.components.misc.CustomButton;
-import main.actions.Action;
-import main.misc.Handler;
 import main.plugin.StreamSAKPlugin;
 import main.plugin.types.StreamSAKAdvancedPlugin;
 import main.plugin.types.StreamSAKSimplePlugin;
+import main.src.GUI.components.logandinput.Input;
+import main.src.GUI.components.logandinput.Log;
+import main.src.GUI.components.misc.CustomButton;
+import main.src.misc.Handler;
+import main.src.misc.actions.Action;
 
 public class Plugin {
 

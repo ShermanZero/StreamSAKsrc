@@ -1,4 +1,4 @@
-package main.GUI;
+package main.src.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,12 +18,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAK;
 import main.StreamSAKPluginLibrary;
-import main.GUI.components.Options;
-import main.GUI.components.countersadjustersplugins.Adjuster;
-import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.GUI.components.logandinput.LogAndInput;
+import main.src.StreamSAK;
+import main.src.GUI.components.Options;
+import main.src.GUI.components.countersadjustersplugins.Adjuster;
+import main.src.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.src.GUI.components.logandinput.LogAndInput;
 
 public class GUI {
 	

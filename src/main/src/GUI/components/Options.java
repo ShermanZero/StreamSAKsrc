@@ -1,4 +1,4 @@
-package main.GUI.components;
+package main.src.GUI.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -14,17 +14,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import main.GUI.GUI;
-import main.GUI.components.countersadjustersplugins.Adjuster;
-import main.GUI.components.countersadjustersplugins.Counter;
-import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.GUI.components.logandinput.Input;
-import main.GUI.components.logandinput.Log;
-import main.GUI.components.misc.CustomButton;
-import main.actions.Action;
-import main.misc.StreamSAKFileHandler;
-import main.misc.StreamSAKFileHandler.Directory;
-import main.misc.Handler;
+import main.src.GUI.GUI;
+import main.src.GUI.components.countersadjustersplugins.Adjuster;
+import main.src.GUI.components.countersadjustersplugins.Counter;
+import main.src.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.src.GUI.components.logandinput.Input;
+import main.src.GUI.components.logandinput.Log;
+import main.src.GUI.components.misc.CustomButton;
+import main.src.misc.Handler;
+import main.src.misc.StreamSAKFileHandler;
+import main.src.misc.StreamSAKFileHandler.Directory;
+import main.src.misc.actions.Action;
 
 public class Options extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package main.misc;
+package main.src.misc;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import main.GUI.components.logandinput.Input;
-import main.actions.Action;
-import main.actions.ActionThread;
+import main.src.GUI.components.logandinput.Input;
+import main.src.misc.actions.Action;
+import main.src.misc.actions.ActionThread;
 
 public class Handler {
 	

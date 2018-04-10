@@ -1,4 +1,4 @@
-package main;
+package main.src;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -9,11 +9,11 @@ import java.net.URI;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import main.GUI.GUI;
-import main.GUI.components.countersadjustersplugins.Adjuster;
-import main.GUI.components.misc.CustomButton;
-import main.misc.Handler;
-import main.misc.StreamSAKFileHandler;
+import main.src.GUI.GUI;
+import main.src.GUI.components.countersadjustersplugins.Adjuster;
+import main.src.GUI.components.misc.CustomButton;
+import main.src.misc.Handler;
+import main.src.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
 	

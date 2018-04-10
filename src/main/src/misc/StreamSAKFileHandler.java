@@ -1,4 +1,4 @@
-package main.misc;
+package main.src.misc;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -22,14 +22,14 @@ import java.util.jar.JarFile;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import main.StreamSAK;
 import main.StreamSAKPluginLibrary;
-import main.GUI.GUI;
-import main.GUI.components.countersadjustersplugins.Adjuster;
-import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.GUI.components.countersadjustersplugins.Plugin;
-import main.GUI.components.misc.CustomButton;
 import main.plugin.StreamSAKPlugin;
+import main.src.StreamSAK;
+import main.src.GUI.GUI;
+import main.src.GUI.components.countersadjustersplugins.Adjuster;
+import main.src.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.src.GUI.components.countersadjustersplugins.Plugin;
+import main.src.GUI.components.misc.CustomButton;
 
 public class StreamSAKFileHandler {
 	
@@ -295,7 +295,7 @@ public class StreamSAKFileHandler {
             				String currentBuild = StreamSAKPluginLibrary.BUILD;
             				
             				System.out.println("         current build ["+currentBuild+"]\n"
-            								 + "           using build ["+pluginBuild+"]");
+            								 + "           local build ["+pluginBuild+"]");
             				
             				if(!plugin.getLocalBuild().equals(currentBuild)) {
             					failPlugin(plugin);
