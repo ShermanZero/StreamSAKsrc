@@ -1,4 +1,4 @@
-package main.plugin.src;
+package main.StreamSAKPluginLibrary;
 
 public interface StreamSAKPlugin {
 

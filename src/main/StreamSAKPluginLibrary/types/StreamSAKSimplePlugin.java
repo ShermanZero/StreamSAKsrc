@@ -1,6 +1,6 @@
-package main.plugin.src.types;
+package main.StreamSAKPluginLibrary.types;
 
-import main.plugin.src.StreamSAKPlugin;
+import main.StreamSAKPluginLibrary.StreamSAKPlugin;
 
 /**
  * 

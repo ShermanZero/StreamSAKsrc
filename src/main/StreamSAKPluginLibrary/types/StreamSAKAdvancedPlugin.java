@@ -1,8 +1,8 @@
-package main.plugin.src.types;
+package main.StreamSAKPluginLibrary.types;
 
-import main.plugin.src.StreamSAKPlugin;
-import main.plugin.src.components.StreamSAKInput;
-import main.plugin.src.components.StreamSAKLogEntry;
+import main.StreamSAKPluginLibrary.StreamSAKPlugin;
+import main.StreamSAKPluginLibrary.components.StreamSAKInput;
+import main.StreamSAKPluginLibrary.components.StreamSAKLogEntry;
 
 /**
  * 

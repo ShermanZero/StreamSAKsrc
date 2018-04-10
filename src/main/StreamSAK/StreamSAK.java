@@ -19,7 +19,7 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 public class StreamSAK {
 	
 	public static final String STREAMSAK_VERSION = "v4.1.1";
-	public static final String PLUGIN_LIBRARY_BUILD = "0.1.2";
+	public static final String StreamSAKPlugin_LIBRARY_BUILD = "0.1.2";
 	
 	public static void main(String [] args) {
 		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }

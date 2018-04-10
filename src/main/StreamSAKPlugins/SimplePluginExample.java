@@ -1,8 +1,8 @@
-package main.plugin.test;
+package main.StreamSAKPlugins;
 
 import javax.swing.JOptionPane;
 
-import main.plugin.src.types.StreamSAKSimplePlugin;
+import main.StreamSAKPluginLibrary.types.StreamSAKSimplePlugin;
 
 public class SimplePluginExample extends StreamSAKSimplePlugin {
 

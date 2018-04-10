@@ -21,7 +21,7 @@ import main.StreamSAK.GUI.components.misc.CustomButton;
 import main.StreamSAK.misc.Handler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
-import main.plugin.src.StreamSAKPlugin;
+import main.StreamSAKPluginLibrary.StreamSAKPlugin;
 
 public class CountersAdjustersPlugins extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -38,7 +38,7 @@ public class GUI {
 	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAK.PLUGIN_LIBRARY_BUILD);
+				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAK.StreamSAKPlugin_LIBRARY_BUILD);
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));

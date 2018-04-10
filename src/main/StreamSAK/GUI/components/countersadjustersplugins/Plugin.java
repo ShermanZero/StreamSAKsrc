@@ -11,9 +11,9 @@ import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
 import main.StreamSAK.misc.Handler;
 import main.StreamSAK.misc.actions.Action;
-import main.plugin.src.StreamSAKPlugin;
-import main.plugin.src.types.StreamSAKAdvancedPlugin;
-import main.plugin.src.types.StreamSAKSimplePlugin;
+import main.StreamSAKPluginLibrary.StreamSAKPlugin;
+import main.StreamSAKPluginLibrary.types.StreamSAKAdvancedPlugin;
+import main.StreamSAKPluginLibrary.types.StreamSAKSimplePlugin;
 
 public class Plugin {
 

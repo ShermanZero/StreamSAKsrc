@@ -1,4 +1,4 @@
-package main.plugin.src.components;
+package main.StreamSAKPluginLibrary.components;
 
 public class StreamSAKLogEntry {
 	
