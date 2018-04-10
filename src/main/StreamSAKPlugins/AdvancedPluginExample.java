@@ -23,6 +23,4 @@ public class AdvancedPluginExample extends StreamSAKAdvancedPlugin {
 		super.getLogEntry().setEntry("YOU WROTE: "+userInput);
 	}
 	
-	public static void main(String [] args) {}
-	
 }

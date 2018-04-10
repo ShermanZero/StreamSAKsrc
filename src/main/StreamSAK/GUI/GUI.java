@@ -24,6 +24,7 @@ import main.StreamSAK.GUI.components.Options;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.StreamSAK.GUI.components.logandinput.LogAndInput;
+import main.StreamSAKPluginLibrary.StreamSAKPlugin;
 
 public class GUI {
 	
@@ -38,7 +39,7 @@ public class GUI {
 	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAK.StreamSAKLibrary_BUILD);
+				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAKPlugin.StreamSAKPluginLibrary_BUILD);
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));

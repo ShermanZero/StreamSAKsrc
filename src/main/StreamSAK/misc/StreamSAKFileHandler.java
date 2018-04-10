@@ -255,72 +255,73 @@ public class StreamSAKFileHandler {
 				JOptionPane.showMessageDialog(null, f.getName()+" in the plugins folder is not a .jar file");
 		
 		ArrayList<URL> urls = new ArrayList<>();
-        ArrayList<String> classes = new ArrayList<>();
+		ArrayList<String> classes = new ArrayList<>();
         
-        if(pluginsList != null) {
-        	Arrays.stream(pluginsList).forEach(file -> {
-        		try {
+		if(pluginsList != null) {
+			Arrays.stream(pluginsList).forEach(file -> {
+				try {
         			JarFile jarFile = new JarFile(file);
-                    urls.add(new URL("jar:file:"+pluginsDirectoryPath+File.separator+file.getName()+"!/"));
+    				urls.add(new URL("jar:file:"+pluginsDirectoryPath+File.separator+file.getName()+"!/"));
                     
-                    jarFile.stream().forEach(jarEntry -> {
-                        if(jarEntry.getName().endsWith(".class")) {
-                            classes.add(jarEntry.getName());
-                            System.out.println("adding ["+jarEntry.getName()+"]");
-                        }
-                    });
+    				jarFile.stream().forEach(jarEntry -> {
+    					if(jarEntry.getName().endsWith(".class")) {
+    						classes.add(jarEntry.getName());
+    						System.out.println("adding ["+jarEntry.getName()+"]");
+    					}
+    				});
                     
-                    jarFile.close();
-                } catch (Exception e) { e.printStackTrace(); }
-            });
-        	
-        	System.out.println("\nLoading...\n");
-        	
-            URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
-            classes.forEach(s -> {
-            	try {
-            		Class<?> subClass = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
-            		Class<?> superClass = subClass.getSuperclass();
-            		Class<?>[] interfaces = superClass.getInterfaces();
+    				jarFile.close();
+				} catch (Exception e) { e.printStackTrace(); }
+			});
+			
+			System.out.println("\nLoading...\n");
+			
+			URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+			classes.forEach(s -> {
+				try {
+					System.out.println(s);
             		
-            		System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
+					Class<?> subClass = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
+					Class<?> superClass = subClass.getSuperclass();
+					Class<?>[] interfaces = superClass.getInterfaces();
             		
-            		for (Class<?> anInterface : interfaces) {
-            			System.out.println("      --["+anInterface+"]");
+					System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
+            		
+					for (Class<?> anInterface : interfaces) {
+						System.out.println("      --["+anInterface+"]");
             			
-            			if(anInterface == StreamSAKPlugin.class) {
-            				StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
+						if(anInterface == StreamSAKPlugin.class) {
+							StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
             				
-            				String pluginBuild = plugin.getLocalBuild();
-            				String currentBuild = StreamSAK.StreamSAKLibrary_BUILD;
+							String pluginBuild = (String)(anInterface.getField("StreamSAKPluginLibrary_BUILD").get(null));
+							String currentBuild = StreamSAKPlugin.StreamSAKPluginLibrary_BUILD;
             				
-            				System.out.println("         current build ["+currentBuild+"]\n"
-            								 + "         plug-in build ["+pluginBuild+"]");
+							System.out.println("         current build ["+currentBuild+"]\n"
+											  + "         plug-in build ["+pluginBuild+"]");
             				
-            				if(!plugin.getLocalBuild().equals(currentBuild)) {
-            					failPlugin(plugin, currentBuild);
-            				} else {
-            					System.out.println("   *loaded successfully*");
-                				CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
-            				}
-            				break;
-            			} else { System.out.println("   *could not load*"); }
-            		}
+							if(!pluginBuild.equals(currentBuild)) {
+								failPlugin(plugin, pluginBuild, currentBuild);
+							} else {
+								System.out.println("   *loaded successfully*");
+								CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+							}
+            				
+							break;
+						} else { System.out.println("   *could not load*"); }
+					}
             		
-        			System.out.println();
-            	} catch (Exception e) { e.printStackTrace(); }
-            });
+					System.out.println();
+				} catch (Exception e) { e.printStackTrace(); }
+			});
             
-            try { pluginLoader.close(); } catch (Exception e) { e.printStackTrace(); }
+			try { pluginLoader.close(); } catch (Exception e) { e.printStackTrace(); }
         }
-        
-    	System.out.println("...Done");
+		
+		System.out.println("...Done");
 	}
 	
-	private static void failPlugin(StreamSAKPlugin p, String currentBuild) {
+	private static void failPlugin(StreamSAKPlugin p, String pluginBuild, String currentBuild) {
 		JFrame window = GUI.createNotificationWindow();
-		
-		String pluginBuild = p.getLocalBuild();
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
 		String message = p.getName()+" is currently using the StreamSAKPlugin library build of "+pluginBuild+"."+

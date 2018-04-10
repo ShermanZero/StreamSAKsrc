@@ -46,12 +46,6 @@ public abstract class StreamSAKSimplePlugin implements StreamSAKPlugin {
 	@Override
 	public String getVersion() { return version; }
 	
-	/**
-	 * Returns the local build for this plug-in.
-	 * @return String - local build
-	 */
-	@Override
-	public String getLocalBuild() { return StreamSAKPlugin.StreamSAKPluginLibrary_BUILD; }
 
 	/**
 	 * Responsible for the action(s) the plug-in takes when selected.
