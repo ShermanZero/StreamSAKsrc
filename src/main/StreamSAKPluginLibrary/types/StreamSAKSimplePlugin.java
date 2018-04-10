@@ -14,12 +14,12 @@ public abstract class StreamSAKSimplePlugin implements StreamSAKPlugin {
 	/**
 	 * The plug-in name.
 	 */
-	private String name;
+	private final String name;
 	
 	/**
 	 * The plug-in version.
 	 */
-	private String version;
+	private final String version;
 	
 	/**
 	 * The default constructor sets the name and version of the plug-in.
@@ -51,7 +51,7 @@ public abstract class StreamSAKSimplePlugin implements StreamSAKPlugin {
 	 * @return String - local build
 	 */
 	@Override
-	public String getLocalBuild() { return StreamSAKPlugin.LIBRARY_BUILD; }
+	public String getLocalBuild() { return StreamSAKPlugin.StreamSAKPluginLibrary_BUILD; }
 
 	/**
 	 * Responsible for the action(s) the plug-in takes when selected.

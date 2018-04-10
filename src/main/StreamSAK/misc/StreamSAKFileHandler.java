@@ -292,13 +292,13 @@ public class StreamSAKFileHandler {
             				StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
             				
             				String pluginBuild = plugin.getLocalBuild();
-            				String currentBuild = StreamSAK.StreamSAKPlugin_LIBRARY_BUILD;
+            				String currentBuild = StreamSAK.StreamSAKLibrary_BUILD;
             				
             				System.out.println("         current build ["+currentBuild+"]\n"
-            								 + "           local build ["+pluginBuild+"]");
+            								 + "         plug-in build ["+pluginBuild+"]");
             				
             				if(!plugin.getLocalBuild().equals(currentBuild)) {
-            					failPlugin(plugin);
+            					failPlugin(plugin, currentBuild);
             				} else {
             					System.out.println("   *loaded successfully*");
                 				CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
@@ -317,11 +317,10 @@ public class StreamSAKFileHandler {
     	System.out.println("...Done");
 	}
 	
-	private static void failPlugin(StreamSAKPlugin p) {
+	private static void failPlugin(StreamSAKPlugin p, String currentBuild) {
 		JFrame window = GUI.createNotificationWindow();
 		
 		String pluginBuild = p.getLocalBuild();
-		String currentBuild = StreamSAK.StreamSAKPlugin_LIBRARY_BUILD;
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
 		String message = p.getName()+" is currently using the StreamSAKPlugin library build of "+pluginBuild+"."+
@@ -334,7 +333,7 @@ public class StreamSAKFileHandler {
 		show.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { 
 				try {
-					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKplugin.jar"));
+					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"));
 				} catch (IOException e) { JOptionPane.showMessageDialog(null, e.getMessage()); }
 				
 				window.dispose();

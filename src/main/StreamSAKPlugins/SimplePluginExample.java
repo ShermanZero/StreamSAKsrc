@@ -15,12 +15,4 @@ public class SimplePluginExample extends StreamSAKSimplePlugin {
 		JOptionPane.showMessageDialog(null, "Hello from the SimplePlugin", "SimplePlugin", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	public static void main(String [] args) {
-		new SimplePluginExample().display();
-	}
-	
-	public void display() {
-		System.out.println(getLocalBuild());
-	}
-	
 }

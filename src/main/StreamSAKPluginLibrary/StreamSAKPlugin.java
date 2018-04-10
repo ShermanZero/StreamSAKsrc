@@ -2,7 +2,7 @@ package main.StreamSAKPluginLibrary;
 
 public interface StreamSAKPlugin {
 
-	public static final String LIBRARY_BUILD = "0.1.1";
+	public static final String StreamSAKPluginLibrary_BUILD = "0.1.1";
 	
 	/**
 	 * Returns the name of the plug-in as a String.
