@@ -2,31 +2,17 @@ package main;
 
 import javax.swing.JOptionPane;
 
-import main.SimplePlugin;
+import main.plugin.types.StreamSAKSimplePlugin;
 
-public class SimplePluginExample implements SimplePlugin {
+public class SimplePluginExample extends StreamSAKSimplePlugin {
 
-	private String name;
-	private String version;
-	
 	public SimplePluginExample() {
-		name = "SimplePlugin";
-		version = "v1.0";
-	}
-	
-	@Override
-	public String getName() {
-		return name;
+		super("SimplePlugin", "v1.0");
 	}
 
 	@Override
 	public void doOnPress() {
 		JOptionPane.showMessageDialog(null, "Hello from the SimplePlugin", "SimplePlugin", JOptionPane.INFORMATION_MESSAGE);
-	}
-
-	@Override
-	public String getVersion() {
-		return version;
 	}
 
 }

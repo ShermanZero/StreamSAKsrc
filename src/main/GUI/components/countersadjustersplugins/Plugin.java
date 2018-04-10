@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import main.AdvancedPlugin;
-import main.SimplePlugin;
-import main.StreamSAKPlugin;
 import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
 import main.misc.Handler;
+import main.plugin.StreamSAKPlugin;
+import main.plugin.types.StreamSAKAdvancedPlugin;
+import main.plugin.types.StreamSAKSimplePlugin;
 
 public class Plugin {
 
@@ -39,29 +39,28 @@ public class Plugin {
 	}
 	
 	public void callPlugin() {
-		if(plugin instanceof AdvancedPlugin) {
-			AdvancedPlugin ap = (AdvancedPlugin)plugin;
+		if(plugin instanceof StreamSAKAdvancedPlugin) {
+			StreamSAKAdvancedPlugin ap = (StreamSAKAdvancedPlugin)plugin;
 			
-			if(ap.requiresInput()) {
+			if(ap.getInput().getRequired()) {
 				Handler.doOnInput(new Action() {
 					@Override
 					public void run() throws Exception {
-						ap.setInput(Input.getLastInput());
-						ap.doOnPress();
+						ap.getInput().setData(Input.getLastInput());
+						plugin.doOnPress();
 						
-						if(ap.requiresLogEntry())
-							Log.write(ap.getLogEntry());
+						if(ap.getLogEntry().getRequired())
+							Log.write(ap.getLogEntry().getEntry());
 					}
-				}, ap.getInfo());
+				}, ap.getInput().getMessage());
 			} else {
-				ap.doOnPress();
+				plugin.doOnPress();
 				
-				if(ap.requiresLogEntry())
-					Log.write(ap.getLogEntry());
+				if(ap.getLogEntry().getRequired())
+					Log.write(ap.getLogEntry().getEntry());
 			}
-		} else if (plugin instanceof SimplePlugin) {
-			SimplePlugin sp = (SimplePlugin)plugin;
-			sp.doOnPress();
+		} else if (plugin instanceof StreamSAKSimplePlugin) {
+			plugin.doOnPress();
 		}
 	}
 	

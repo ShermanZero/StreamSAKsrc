@@ -41,7 +41,7 @@ public class Input extends JPanel {
 		textInput.setForeground(Color.DARK_GRAY);
 		textInput.setCaretColor(Color.DARK_GRAY);
 		textInput.setFont(GUI.defaultFont);
-		textInput.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY), new EmptyBorder(5, 10, 5, 10)));
+		textInput.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.LIGHT_GRAY), new EmptyBorder(5, 10, 5, 10)));
 		textInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lastInput = textInput.getText().trim();
@@ -73,7 +73,7 @@ public class Input extends JPanel {
 		return textInput.getText();
 	}
 	
-	//returns the last inputted text from textInput
+	//returns the last inputed text from textInput
 	public static String getLastInput() {
 		return lastInput;
 	}

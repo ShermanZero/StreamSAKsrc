@@ -2,55 +2,25 @@ package main;
 
 import javax.swing.JOptionPane;
 
-public class AdvancedPluginExample implements AdvancedPlugin {
+import main.plugin.types.StreamSAKAdvancedPlugin;
 
-	private String name;
-	private String version;
-	private String input;
-	
+public class AdvancedPluginExample extends StreamSAKAdvancedPlugin {
+
 	public AdvancedPluginExample() {
-		name = "AdvancedPlugin";
-		version = "v1.0";
-	}
-	
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
-	public String getVersion() {
-		return version;
+		super("AdvancedPlugin", "v1.0");
+		
+		super.getInput().setRequired(true);
+		super.getLogEntry().setRequired(true);
+		
+		super.getInput().setMessage("ENTER MESSAGE");
 	}
 	
 	@Override
 	public void doOnPress() {
-		JOptionPane.showMessageDialog(null, "Hello from AdvancedPlugin, you entered:\n"+input, "AdvancedPlugin", JOptionPane.INFORMATION_MESSAGE);
+		String userInput = super.getInput().getData();
+		
+		JOptionPane.showMessageDialog(null, "Hello from AdvancedPlugin, you entered:\n"+userInput, "AdvancedPlugin", JOptionPane.INFORMATION_MESSAGE);
+		super.getLogEntry().setEntry("YOU WROTE: "+userInput);
 	}
 	
-	@Override
-	public void setInput(String input) {
-		this.input = input;
-	}
-	
-	@Override
-	public boolean requiresLogEntry() {
-		return true;
-	}
-	
-	@Override
-	public boolean requiresInput() {
-		return true;
-	}
-	
-	@Override
-	public String getInfo() {
-		return "Enter message";
-	}
-	
-	@Override
-	public String getLogEntry() {
-		return "DISPLAYED: "+input;
-	}
-
 }

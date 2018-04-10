@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -16,9 +15,9 @@ import java.util.jar.JarFile;
 import javax.swing.JOptionPane;
 
 import main.StreamSAK;
-import main.StreamSAKPlugin;
 import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.GUI.components.countersadjustersplugins.Plugin;
+import main.plugin.StreamSAKPlugin;
 
 public class FileHandler {
 	
@@ -228,31 +227,49 @@ public class FileHandler {
                     jarFile.stream().forEach(jarEntry -> {
                         if(jarEntry.getName().endsWith(".class")) {
                             classes.add(jarEntry.getName());
+                            System.out.println("adding ["+jarEntry.getName()+"]");
                         }
                     });
                     
                     jarFile.close();
-                } catch (IOException e) { e.printStackTrace(); }
+                } catch (Exception e) { e.printStackTrace(); }
             });
+        	
+        	System.out.println("\nLoading...\n");
         	
             URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
             classes.forEach(s -> {
             	try {
-            		Class<?> classs = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
-            		Class<?>[] interfaces = classs.getInterfaces();
+            		Class<?> subClass = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
+            		Class<?> superClass = subClass.getSuperclass();
+            		Class<?>[] interfaces = superClass.getInterfaces();
             		
-            		for (Class<?> anInterface : interfaces)
+            		System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
+            		
+            		for (Class<?> anInterface : interfaces) {
+            			System.out.println("      --["+anInterface+"]");
+            			
             			if(StreamSAKPlugin.class.isAssignableFrom(anInterface)) {
-            				StreamSAKPlugin plugin = (StreamSAKPlugin)classs.newInstance();
-        					CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+                			System.out.println("   *loaded successfully*");
+            				StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
+            				
+            				CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
             				break;
-                        }
-                } catch (Exception e) { e.printStackTrace(); }
+            			} else {
+                			System.out.println("   *could not load*");
+            			}
+            		}
+            		
+        			System.out.println();
+            	} catch (Exception e) { e.printStackTrace(); }
             });
             try {
 				pluginLoader.close();
-			} catch (IOException e) { e.printStackTrace(); }
+			} catch (Exception e) { e.printStackTrace(); }
         }
+        
+    	System.out.println("...Done");
+
 	}
 	
 }

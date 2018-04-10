@@ -15,13 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAKPlugin;
 import main.GUI.GUI;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.misc.FileHandler;
 import main.misc.FileHandler.Directory;
 import main.misc.Handler;
+import main.plugin.StreamSAKPlugin;
 
 public class CountersAdjustersPlugins extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -235,11 +235,8 @@ public class CountersAdjustersPlugins extends JPanel {
 			pluginPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
 		
 		for(Plugin p : plugins) {
-			StreamSAKPlugin ssakp = p.getPlugin();
-			createPluginButton(ssakp);
-			
-			String entry = "LOADED: "+ssakp.getName()+" "+ssakp.getVersion();
-			Log.write(entry);	
+			StreamSAKPlugin sp = p.getPlugin();
+			createPluginButton(sp);
 		}
 
 		return pluginPanel;
