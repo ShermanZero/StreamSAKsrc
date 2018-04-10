@@ -4,7 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +32,6 @@ public class GUI {
 	public static Color defaultColor = Color.LIGHT_GRAY;
 	
 	private static JFrame window;
-	private static JFrame notificationWindow;
 
 	private static int WIDTH = 650, HEIGHT = 300;
 	
@@ -83,16 +83,15 @@ public class GUI {
 		resetWindowSize();
 	}
 	
-	public static JFrame getNotificationWindow() {
-		return notificationWindow;
+	public static JFrame createNotificationWindow() {
+		return new JFrame();
 	}
 	
-	public static void generateNotificationWindow(String header, String message, JButton[] buttons) {
-		notificationWindow = new JFrame("StreamSAK Updater");
-		notificationWindow.setPreferredSize(new Dimension(400, 200));
-		notificationWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		notificationWindow.setAlwaysOnTop(true);
-		notificationWindow.setUndecorated(true);
+	public static void generateNotificationWindow(JFrame window, String header, String message, JButton[] buttons) {
+		window.setPreferredSize(new Dimension(400, 200));
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setAlwaysOnTop(true);
+		window.setUndecorated(true);
 		
 		JPanel main = new JPanel(new BorderLayout());
 		main.setBackground(Color.DARK_GRAY);
@@ -122,7 +121,12 @@ public class GUI {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		main.add(scrollPane, BorderLayout.CENTER);
 		
-		JPanel buttonPanel = new JPanel(new GridLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		
+		JPanel buttonPanel = new JPanel(new GridBagLayout());
 		buttonPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
 		
 		for(int i = 0; i < buttons.length-1; i++) {
@@ -131,14 +135,14 @@ public class GUI {
 		}
 		
 		for(JButton b : buttons)
-			buttonPanel.add(b);
+			buttonPanel.add(b, gbc);
 		
 		main.add(buttonPanel, BorderLayout.SOUTH);
 		
-		notificationWindow.add(main);
-		notificationWindow.pack();
-		notificationWindow.setLocationRelativeTo(null);
-		notificationWindow.setVisible(true);
+		window.add(main);
+		window.pack();
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 	
 	private static void resetWindowSize() {

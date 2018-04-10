@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import main.StreamSAK.GUI.GUI;
@@ -18,7 +19,7 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 public class StreamSAK {
 	
 	public static final String STREAMSAK_VERSION = "v4.1.1";
-	public static final String PLUGIN_LIBRARY_BUILD = "0.1.1";
+	public static final String PLUGIN_LIBRARY_BUILD = "0.1.2";
 	
 	public static void main(String [] args) {
 		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }
@@ -43,8 +44,11 @@ public class StreamSAK {
 	}
 	
 	private static void showUpdatePanel(String version) {
+		JFrame window = GUI.createNotificationWindow();
+		
 		String header = "A newer version of StreamSAK is available!";
 		String updates = StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/data/misc/recent_release.dat");
+		
 		
 		JButton show = new CustomButton("Download Update ("+version+")", Adjuster.adjusterForegroundColor);
 		show.addActionListener(new ActionListener() {
@@ -52,16 +56,17 @@ public class StreamSAK {
 				try {
 					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/StreamSAK.jar"));
 				} catch (IOException e) { JOptionPane.showMessageDialog(null, e.getMessage()); }
-				GUI.getNotificationWindow().dispose();
+				window.dispose();
 			}
 		});
 		
 		JButton exit = new CustomButton("Skip Update", GUI.defaultRedColor);
 		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { GUI.getNotificationWindow().dispose(); GUI.generate(); }
+			public void actionPerformed(ActionEvent arg0) { window.dispose(); GUI.generate(); }
 		});
 		
-		GUI.generateNotificationWindow(header, updates, new JButton[] {show, exit});
+		
+		GUI.generateNotificationWindow(window, header, updates, new JButton[] {show, exit});
 	}
 	
 }

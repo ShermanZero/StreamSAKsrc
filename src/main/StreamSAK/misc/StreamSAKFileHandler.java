@@ -20,6 +20,7 @@ import java.util.Scanner;
 import java.util.jar.JarFile;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import main.StreamSAK.StreamSAK;
@@ -317,33 +318,35 @@ public class StreamSAKFileHandler {
 	}
 	
 	private static void failPlugin(StreamSAKPlugin p) {
+		JFrame window = GUI.createNotificationWindow();
+		
 		String pluginBuild = p.getLocalBuild();
 		String currentBuild = StreamSAK.PLUGIN_LIBRARY_BUILD;
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
-		String message = p.getName()+" is currently using the StreamSAKplugin library build of "+pluginBuild+"."+
-				"  The library plug-in build of this StreamSAK client is "+currentBuild+".  It is up to the"+
-				" developer to download the latest version of the StreamSAKplugin library, and update their plug-in so that it"+
+		String message = p.getName()+" is currently using the StreamSAKPlugin library build of "+pluginBuild+"."+
+				"  The library plug-in build of this StreamSAK client is "+currentBuild+".\n\nIt is up to the"+
+				" developer to download the latest version of the StreamSAKPlugin library, and update their plug-in so that it"+
 				" runs smoothly with the current StreamSAK client ("+StreamSAK.STREAMSAK_VERSION+").  If you are the developer, please"+
 				" download the newest plug-in library below and update your plug-in.";
 		
-		JButton show = new CustomButton("Download StreamSAKLibrary ("+currentBuild+")", Adjuster.adjusterForegroundColor);
+		JButton show = new CustomButton("Download StreamSAKPlugin Library ("+currentBuild+")", Adjuster.adjusterForegroundColor);
 		show.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { 
 				try {
 					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKplugin.jar"));
 				} catch (IOException e) { JOptionPane.showMessageDialog(null, e.getMessage()); }
 				
-				GUI.getNotificationWindow().dispose();
+				window.dispose();
 			}
 		});
 		
 		JButton exit = new CustomButton("Skip Plugin", GUI.defaultRedColor);
 		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { GUI.getNotificationWindow().dispose(); }
+			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
 		});
 		
-		GUI.generateNotificationWindow(header, message, new JButton[] {});
+		GUI.generateNotificationWindow(window, header, message, new JButton[] {show, exit});
 	}
 	
 }

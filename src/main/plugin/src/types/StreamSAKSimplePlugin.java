@@ -1,7 +1,6 @@
 package main.plugin.src.types;
 
 import main.plugin.src.StreamSAKPlugin;
-import main.plugin.src.types.StreamSAKAdvancedPlugin;
 
 /**
  * 
@@ -11,11 +10,6 @@ import main.plugin.src.types.StreamSAKAdvancedPlugin;
  * @author <a href="https://www.twitch.tv/shermanzero">ShermanZero</a>
  */
 public abstract class StreamSAKSimplePlugin implements StreamSAKPlugin {
-	
-	/**
-	 * The local build for this library.
-	 */
-	private String localBuild;
 	
 	/**
 	 * The plug-in name.
@@ -57,7 +51,7 @@ public abstract class StreamSAKSimplePlugin implements StreamSAKPlugin {
 	 * @return String - local build
 	 */
 	@Override
-	public String getLocalBuild() { return localBuild; }
+	public String getLocalBuild() { return StreamSAKPlugin.LIBRARY_BUILD; }
 
 	/**
 	 * Responsible for the action(s) the plug-in takes when selected.
