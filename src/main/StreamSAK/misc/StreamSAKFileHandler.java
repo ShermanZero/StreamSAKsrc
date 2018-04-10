@@ -327,13 +327,13 @@ public class StreamSAKFileHandler {
 		JFrame window = new JFrame();
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
-		String message = p.getName()+" is currently using the StreamSAKPlugin library build of "+pluginBuild+"."+
-				"  The library plug-in build of this StreamSAK client ("+currentVersion+") is "+currentBuild+
-				".\n\nIt is up to the developer to download the latest version of the StreamSAKPlugin library, and update their plug-in so that it"+
+		String message = p.getName()+" is currently using the StreamSAKPluginLibrary build of "+pluginBuild+"."+
+				"  The StreamSAKPluginLibrary build of this StreamSAK client ("+currentVersion+") is "+currentBuild+
+				".\n\nIt is up to the developer to download the latest version of the StreamSAKPluginLibrary, and update their plug-in so that it"+
 				" runs smoothly with the current StreamSAK client ("+currentVersion+").  If you are the developer, please"+
-				" download the newest plug-in library below and update your plug-in.";
+				" download the newest library below and update your plug-in.";
 		
-		JButton show = new CustomButton("Download StreamSAKPlugin Library ("+currentBuild+")", Adjuster.adjusterForegroundColor);
+		JButton show = new CustomButton("Download StreamSAKPluginLibrary ("+currentBuild+")", Adjuster.adjusterForegroundColor);
 		show.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { 
 				try {
@@ -344,7 +344,7 @@ public class StreamSAKFileHandler {
 			}
 		});
 		
-		JButton exit = new CustomButton("Skip Plugin", GUI.defaultRedColor);
+		JButton exit = new CustomButton("I Understand", GUI.defaultRedColor);
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
 		});
