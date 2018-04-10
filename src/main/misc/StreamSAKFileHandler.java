@@ -1,25 +1,37 @@
 package main.misc;
 
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.jar.JarFile;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import main.StreamSAK;
+import main.StreamSAKPluginLibrary;
+import main.GUI.GUI;
+import main.GUI.components.countersadjustersplugins.Adjuster;
 import main.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.GUI.components.countersadjustersplugins.Plugin;
+import main.GUI.components.misc.CustomButton;
 import main.plugin.StreamSAKPlugin;
 
-public class FileHandler {
+public class StreamSAKFileHandler {
 	
 	public static String jarPath, countersDirectoryPath, adjustersDirectoryPath, pluginsDirectoryPath, sourceDirectoryPath, propertiesFilePath;
 	
@@ -200,11 +212,38 @@ public class FileHandler {
 				break;
 			}
 	}
+
+	public static String readFromURL(String urlPath) {
+		String data = "", line;
+		
+		URL url = null;
+		try {
+			url = new URL(urlPath);
+		} catch (MalformedURLException e) { e.printStackTrace(); }
+		
+		Scanner s = null;
+		try {
+			s = new Scanner(url.openStream());
+			
+			while(s.hasNextLine()) {
+				line = s.nextLine();
+				data += line+"\n";
+			}
+			
+			s.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			s.close();
+		}
+		
+		return data.trim();
+	}
 	
 	public static ArrayList<File> getFiles() {
 		return files;
 	}
-
+	
 	private static void loadPlugins() {
 		//get all the files within the plug-ins folder
 		File pluginsFolder = new File(pluginsDirectoryPath);
@@ -249,27 +288,63 @@ public class FileHandler {
             		for (Class<?> anInterface : interfaces) {
             			System.out.println("      --["+anInterface+"]");
             			
-            			if(StreamSAKPlugin.class.isAssignableFrom(anInterface)) {
-                			System.out.println("   *loaded successfully*");
+            			if(anInterface == StreamSAKPlugin.class) {
             				StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
             				
-            				CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+            				String pluginBuild = plugin.getLocalBuild();
+            				String currentBuild = StreamSAKPluginLibrary.BUILD;
+            				
+            				System.out.println("         current build ["+currentBuild+"]\n"
+            								 + "           using build ["+pluginBuild+"]");
+            				
+            				if(!plugin.getLocalBuild().equals(currentBuild)) {
+            					failPlugin(plugin);
+            				} else {
+            					System.out.println("   *loaded successfully*");
+                				CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+            				}
             				break;
-            			} else {
-                			System.out.println("   *could not load*");
-            			}
+            			} else { System.out.println("   *could not load*"); }
             		}
             		
         			System.out.println();
             	} catch (Exception e) { e.printStackTrace(); }
             });
-            try {
-				pluginLoader.close();
-			} catch (Exception e) { e.printStackTrace(); }
+            
+            try { pluginLoader.close(); } catch (Exception e) { e.printStackTrace(); }
         }
         
     	System.out.println("...Done");
-
+	}
+	
+	private static void failPlugin(StreamSAKPlugin p) {
+		String pluginBuild = p.getLocalBuild();
+		String currentBuild = StreamSAKPluginLibrary.BUILD;
+		
+		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
+		String message = p.getName()+" is currently using the StreamSAKplugin library build of "+pluginBuild+"."+
+				"  The library plug-in build of this StreamSAK client is "+currentBuild+".  It is up to the"+
+				" developer to download the latest version of the StreamSAKplugin library, and update their plug-in so that it"+
+				" runs smoothly with the current StreamSAK client ("+StreamSAK.VERSION+").  If you are the developer, please"+
+				" download the newest plug-in library below and update your plug-in.";
+		
+		JButton show = new CustomButton("Download StreamSAKLibrary ("+currentBuild+")", Adjuster.adjusterForegroundColor);
+		show.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { 
+				try {
+					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKplugin.jar"));
+				} catch (IOException e) { JOptionPane.showMessageDialog(null, e.getMessage()); }
+				
+				GUI.getNotificationWindow().dispose();
+			}
+		});
+		
+		JButton exit = new CustomButton("Skip Plugin", GUI.defaultRedColor);
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { GUI.getNotificationWindow().dispose(); }
+		});
+		
+		GUI.generateNotificationWindow(header, message, new JButton[] {});
 	}
 	
 }

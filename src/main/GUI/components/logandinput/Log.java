@@ -28,7 +28,7 @@ import javax.swing.border.MatteBorder;
 
 import main.GUI.GUI;
 import main.GUI.components.misc.CustomButton;
-import main.misc.FileHandler;
+import main.misc.StreamSAKFileHandler;
 
 public class Log extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ public class Log extends JPanel {
 		
 		FileWriter fw;
 		try {
-			fw = new FileWriter(FileHandler.findFile("log"), true);
+			fw = new FileWriter(StreamSAKFileHandler.findFile("log"), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(entry+(entry.contains("\n") ? "" : "\n"));
 			bw.flush();
@@ -64,7 +64,7 @@ public class Log extends JPanel {
 	
 	public static void clear() {
 		model.clear();
-		FileHandler.writeToFile(FileHandler.findFile("log"), "");
+		StreamSAKFileHandler.writeToFile(StreamSAKFileHandler.findFile("log"), "");
 	}
 		
 	public static boolean automaticCallEnabled() {
@@ -125,7 +125,7 @@ public class Log extends JPanel {
 	private static void load() {
 		FileReader fr;
 		try {
-			fr = new FileReader(FileHandler.findFile("log"));
+			fr = new FileReader(StreamSAKFileHandler.findFile("log"));
 			BufferedReader br = new BufferedReader(fr);
 			
 			String line;

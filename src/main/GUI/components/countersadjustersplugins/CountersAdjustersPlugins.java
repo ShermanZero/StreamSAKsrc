@@ -18,9 +18,9 @@ import javax.swing.border.MatteBorder;
 import main.GUI.GUI;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
-import main.misc.FileHandler;
-import main.misc.FileHandler.Directory;
 import main.misc.Handler;
+import main.misc.StreamSAKFileHandler;
+import main.misc.StreamSAKFileHandler.Directory;
 import main.plugin.StreamSAKPlugin;
 
 public class CountersAdjustersPlugins extends JPanel {
@@ -148,7 +148,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.revalidate();
 		componentCount--;
 		
-		Handler.removeLink(FileHandler.findFile(counterName, Directory.COUNTERS));
+		Handler.removeLink(StreamSAKFileHandler.findFile(counterName, Directory.COUNTERS));
 		adjustWindowHeight();
 	}
 	
@@ -209,7 +209,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.setBackground(null);
 		counterPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
 		
-		for(File f : FileHandler.getFiles())
+		for(File f : StreamSAKFileHandler.getFiles())
 			if(f.getPath().contains(Directory.COUNTERS.getValue()))
 				createCounterButton(f);
 		
@@ -220,7 +220,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		adjusterPanel = new JPanel(new GridBagLayout());
 		adjusterPanel.setBackground(null);
 		
-		for(File f : FileHandler.getFiles())
+		for(File f : StreamSAKFileHandler.getFiles())
 			 if(f.getPath().contains(Directory.ADJUSTERS.getValue()))
 				 createAdjusterButton(f);
 		

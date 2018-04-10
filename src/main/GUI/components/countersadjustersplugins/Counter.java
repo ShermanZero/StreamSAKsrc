@@ -15,8 +15,8 @@ import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
-import main.misc.FileHandler;
-import main.misc.FileHandler.Directory;
+import main.misc.StreamSAKFileHandler;
+import main.misc.StreamSAKFileHandler.Directory;
 import main.misc.Handler;
 
 public class Counter {
@@ -30,7 +30,7 @@ public class Counter {
 	
 	public Counter(File f) {
 		counterFile = f;
-		value = Integer.parseInt(FileHandler.getFileData(counterFile));
+		value = Integer.parseInt(StreamSAKFileHandler.getFileData(counterFile));
 	}
 	
 	public int getValue() {
@@ -38,7 +38,7 @@ public class Counter {
 	}
 	
 	public String getName() {
-		return FileHandler.getFileFormattedName(counterFile).toUpperCase();
+		return StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase();
 	}
 
 	public JButton[] generate() {
@@ -48,7 +48,7 @@ public class Counter {
 	}
 	
 	public void resetCounter() {
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+" RESET";
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+" RESET";
 		Log.write(entry);
 		
 		value = 0;
@@ -96,9 +96,9 @@ public class Counter {
 		if(link != null) {
 			link = link.toUpperCase();
 			
-			if(FileHandler.findFile(link, Directory.ADJUSTERS) != null)
+			if(StreamSAKFileHandler.findFile(link, Directory.ADJUSTERS) != null)
 				startingColor = Adjuster.adjusterForegroundColor;
-			else if ((p =FileHandler.findPlugin(link)) != null) {
+			else if ((p =StreamSAKFileHandler.findPlugin(link)) != null) {
 				startingColor = Plugin.pluginForegroundColor;
 				link = p.getName();
 			}
@@ -121,11 +121,11 @@ public class Counter {
 								return;
 							
 							Plugin p;
-							if(Handler.setLink(counterFile, FileHandler.findFile(str, Directory.ADJUSTERS))) {
+							if(Handler.setLink(counterFile, StreamSAKFileHandler.findFile(str, Directory.ADJUSTERS))) {
 								linkButton.setText(str.toUpperCase());
 								((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 							} else
-							if((p = FileHandler.findPlugin(str)) != null && Handler.setLink(counterFile, str)) {
+							if((p = StreamSAKFileHandler.findPlugin(str)) != null && Handler.setLink(counterFile, str)) {
 								linkButton.setText(p.getName());
 								((CustomButton)linkButton).setDefaultForeground(Plugin.pluginForegroundColor);
 							}
@@ -144,7 +144,7 @@ public class Counter {
 	
 	private void incrementCounter() {
 		value++;
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
 		callLink();
@@ -152,7 +152,7 @@ public class Counter {
 	
 	private void decrementCounter() {
 		value--;
-		String entry = FileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
 		Log.write(entry);
 		write();
 		callLink();
@@ -179,7 +179,7 @@ public class Counter {
 	}
 	
 	private void write() {
-		FileHandler.writeToFile(counterFile, value);
+		StreamSAKFileHandler.writeToFile(counterFile, value);
 	}
 	
 }

@@ -14,7 +14,7 @@ import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
-import main.misc.FileHandler;
+import main.misc.StreamSAKFileHandler;
 import main.misc.Handler;
 
 public class Adjuster {
@@ -27,7 +27,7 @@ public class Adjuster {
 	
 	public Adjuster(File f) {
 		adjusterFile = f;
-		value = FileHandler.getFileData(adjusterFile);
+		value = StreamSAKFileHandler.getFileData(adjusterFile);
 	}
 	
 	public JButton[] generate() {
@@ -41,11 +41,11 @@ public class Adjuster {
 	}
 	
 	public String getName() {
-		return FileHandler.getFileFormattedName(adjusterFile).toUpperCase();
+		return StreamSAKFileHandler.getFileFormattedName(adjusterFile).toUpperCase();
 	}
 	
 	public void resetAdjuster() {
-		String entry = FileHandler.getFileFormattedName(adjusterFile).toUpperCase()+" RESET";
+		String entry = StreamSAKFileHandler.getFileFormattedName(adjusterFile).toUpperCase()+" RESET";
 		Log.write(entry);
 		
 		value = "";
@@ -53,7 +53,7 @@ public class Adjuster {
 	}
 	
 	public void changeAdjuster() {
-		Input.setInputText(FileHandler.getFileData(adjusterFile));
+		Input.setInputText(StreamSAKFileHandler.getFileData(adjusterFile));
 		
 		Handler.doOnInput(new Action() {
 			public void run() throws Exception {
@@ -98,7 +98,7 @@ public class Adjuster {
 	}
 	
 	private void write() {
-		FileHandler.writeToFile(adjusterFile, value);
+		StreamSAKFileHandler.writeToFile(adjusterFile, value);
 	}
 
 }

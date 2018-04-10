@@ -21,11 +21,11 @@ public class Handler {
 		InputStream in = null;
 		
 		try {
-			File propertiesFile = new File(FileHandler.propertiesFilePath);
+			File propertiesFile = new File(StreamSAKFileHandler.propertiesFilePath);
 			if(!propertiesFile.exists())
 				propertiesFile.createNewFile();
 			
-			in = new FileInputStream(FileHandler.propertiesFilePath);
+			in = new FileInputStream(StreamSAKFileHandler.propertiesFilePath);
 			
 			prop.load(in);
 		} catch (Exception e) { e.printStackTrace(); } finally {
@@ -33,14 +33,14 @@ public class Handler {
 				try { in.close(); } catch (Exception e) { e.printStackTrace(); }
 		}
 		
-		FileHandler.init();
+		StreamSAKFileHandler.init();
 	}
 	
 	public static boolean setLink(File counterFile, File linkFile) {
 		if(counterFile == null || linkFile == null)
 			return false;
 		
-		prop.setProperty(FileHandler.getFileFormattedName(counterFile), FileHandler.getFileFormattedName(linkFile));
+		prop.setProperty(StreamSAKFileHandler.getFileFormattedName(counterFile), StreamSAKFileHandler.getFileFormattedName(linkFile));
 		writeProperties();
 		
 		return true;
@@ -50,18 +50,18 @@ public class Handler {
 		if(counterFile == null || pluginName == null)
 			return false;
 		
-		prop.setProperty(FileHandler.getFileFormattedName(counterFile), pluginName);
+		prop.setProperty(StreamSAKFileHandler.getFileFormattedName(counterFile), pluginName);
 		writeProperties();
 		
 		return true;
 	}
 	
 	public static String getLink(File counterFile) {
-		return prop.getProperty(FileHandler.getFileFormattedName(counterFile));
+		return prop.getProperty(StreamSAKFileHandler.getFileFormattedName(counterFile));
 	}
 	
 	public static void removeLink(File counterFile) {
-		prop.remove(FileHandler.getFileFormattedName(counterFile));
+		prop.remove(StreamSAKFileHandler.getFileFormattedName(counterFile));
 		writeProperties();
 	}
 	
@@ -79,7 +79,7 @@ public class Handler {
 		OutputStream out = null;
 		
 		try {
-			out = new FileOutputStream(FileHandler.propertiesFilePath);
+			out = new FileOutputStream(StreamSAKFileHandler.propertiesFilePath);
 			prop.store(out, null);
 		} catch (Exception e) { e.printStackTrace(); } finally { 
 			if(out != null)

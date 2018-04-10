@@ -22,8 +22,8 @@ import main.GUI.components.logandinput.Input;
 import main.GUI.components.logandinput.Log;
 import main.GUI.components.misc.CustomButton;
 import main.actions.Action;
-import main.misc.FileHandler;
-import main.misc.FileHandler.Directory;
+import main.misc.StreamSAKFileHandler;
+import main.misc.StreamSAKFileHandler.Directory;
 import main.misc.Handler;
 
 public class Options extends JPanel {
@@ -87,13 +87,13 @@ public class Options extends JPanel {
 				if(newCounter.equals(""))
 					return;
 				
-				if(FileHandler.findFile(newCounter, Directory.MAIN) != null) {
+				if(StreamSAKFileHandler.findFile(newCounter, Directory.MAIN) != null) {
 					String entry = "CANNOT CREATE COUNTER WITH THAT NAME";
 					Log.write(entry);
 					return;
 				}
 				
-				File f = new File(FileHandler.countersDirectoryPath+File.separator+newCounter+(newCounter.contains(".txt") ? "" : ".txt"));
+				File f = new File(StreamSAKFileHandler.countersDirectoryPath+File.separator+newCounter+(newCounter.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
 				FileWriter fw = new FileWriter(f);
@@ -105,7 +105,7 @@ public class Options extends JPanel {
 				String entry = "CREATED NEW COUNTER: "+newCounter;
 				Log.write(entry);
 				
-				FileHandler.addFile(f);
+				StreamSAKFileHandler.addFile(f);
 				CountersAdjustersPlugins.createCounterButton(f);
 				
 				System.out.println("Succesfully created new counter: "+f.getPath());
@@ -120,13 +120,13 @@ public class Options extends JPanel {
 				if(counter.equals(""))
 					return;
 				
-				for(File f : FileHandler.getFiles())
-					if(FileHandler.getFileFormattedName(f).equalsIgnoreCase(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
+				for(File f : StreamSAKFileHandler.getFiles())
+					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
 						String fileName = f.getPath();
 						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
 						CountersAdjustersPlugins.deleteCounter(fileName);
-						FileHandler.removeFile(f);
+						StreamSAKFileHandler.removeFile(f);
 						f.delete();
 
 						String entry = "DELETED COUNTER: "+fileName;
@@ -150,19 +150,19 @@ public class Options extends JPanel {
 				if(newAdjuster.equals(""))
 					return;
 				
-				if(FileHandler.findFile(newAdjuster, Directory.MAIN) != null) {
+				if(StreamSAKFileHandler.findFile(newAdjuster, Directory.MAIN) != null) {
 					String entry = "CANNOT CREATE ADJUSTER WITH THAT NAME";
 					Log.write(entry);
 					return;
 				}
 				
-				File f = new File(FileHandler.adjustersDirectoryPath+File.separator+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
+				File f = new File(StreamSAKFileHandler.adjustersDirectoryPath+File.separator+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
 				String entry = "CREATED NEW ADJUSTER: "+newAdjuster;
 				Log.write(entry);
 				
-				FileHandler.addFile(f);
+				StreamSAKFileHandler.addFile(f);
 				CountersAdjustersPlugins.createAdjusterButton(f);
 				
 				System.out.println("Succesfully created new adjuster: "+f.getPath());
@@ -177,13 +177,13 @@ public class Options extends JPanel {
 				if(adjuster.equals(""))
 					return;
 				
-				for(File f : FileHandler.getFiles())
-					if(FileHandler.getFileFormattedName(f).equalsIgnoreCase(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
+				for(File f : StreamSAKFileHandler.getFiles())
+					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
 						String fileName = f.getPath();
 						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
 						
 						CountersAdjustersPlugins.deleteAdjuster(fileName);
-						FileHandler.removeFile(f);
+						StreamSAKFileHandler.removeFile(f);
 						f.delete();
 						
 						String entry = "DELETED ADJUSTER: "+fileName;
