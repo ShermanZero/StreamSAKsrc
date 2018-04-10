@@ -18,7 +18,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAKPluginLibrary;
 import main.StreamSAK.StreamSAK;
 import main.StreamSAK.GUI.components.Options;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
@@ -39,7 +38,7 @@ public class GUI {
 	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAKPluginLibrary.BUILD);
+				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAK.PLUGIN_LIBRARY_BUILD);
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));

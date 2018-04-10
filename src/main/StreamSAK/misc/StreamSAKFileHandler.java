@@ -22,7 +22,6 @@ import java.util.jar.JarFile;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import main.StreamSAKPluginLibrary;
 import main.StreamSAK.StreamSAK;
 import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
@@ -292,7 +291,7 @@ public class StreamSAKFileHandler {
             				StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
             				
             				String pluginBuild = plugin.getLocalBuild();
-            				String currentBuild = StreamSAKPluginLibrary.BUILD;
+            				String currentBuild = StreamSAK.PLUGIN_LIBRARY_BUILD;
             				
             				System.out.println("         current build ["+currentBuild+"]\n"
             								 + "           local build ["+pluginBuild+"]");
@@ -319,7 +318,7 @@ public class StreamSAKFileHandler {
 	
 	private static void failPlugin(StreamSAKPlugin p) {
 		String pluginBuild = p.getLocalBuild();
-		String currentBuild = StreamSAKPluginLibrary.BUILD;
+		String currentBuild = StreamSAK.PLUGIN_LIBRARY_BUILD;
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
 		String message = p.getName()+" is currently using the StreamSAKplugin library build of "+pluginBuild+"."+
