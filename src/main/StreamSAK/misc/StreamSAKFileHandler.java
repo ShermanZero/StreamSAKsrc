@@ -23,13 +23,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import main.StreamSAKPlugin;
 import main.StreamSAK.StreamSAK;
 import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAKPluginLibrary.StreamSAKPlugin;
 
 public class StreamSAKFileHandler {
 	
@@ -293,14 +293,17 @@ public class StreamSAKFileHandler {
 						if(anInterface == StreamSAKPlugin.class) {
 							StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
             				
-							String pluginBuild = (String)(anInterface.getField("StreamSAKPluginLibrary_BUILD").get(null));
-							String currentBuild = StreamSAKPlugin.StreamSAKPluginLibrary_BUILD;
+							StreamSAK client = new StreamSAK();
+							
+							String pluginBuild = plugin.getLocalBuild();
+							String currentBuild = client.getPluginLibraryBuild();
+							String currentVersion = client.getCurrentVersion();
             				
 							System.out.println("         current build ["+currentBuild+"]\n"
 											  + "         plug-in build ["+pluginBuild+"]");
             				
 							if(!pluginBuild.equals(currentBuild)) {
-								failPlugin(plugin, pluginBuild, currentBuild);
+								failPlugin(plugin, pluginBuild, currentBuild, currentVersion);
 							} else {
 								System.out.println("   *loaded successfully*");
 								CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
@@ -320,14 +323,14 @@ public class StreamSAKFileHandler {
 		System.out.println("...Done");
 	}
 	
-	private static void failPlugin(StreamSAKPlugin p, String pluginBuild, String currentBuild) {
-		JFrame window = GUI.createNotificationWindow();
+	private static void failPlugin(StreamSAKPlugin p, String pluginBuild, String currentBuild, String currentVersion) {
+		JFrame window = new JFrame();
 		
 		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
 		String message = p.getName()+" is currently using the StreamSAKPlugin library build of "+pluginBuild+"."+
-				"  The library plug-in build of this StreamSAK client is "+currentBuild+".\n\nIt is up to the"+
-				" developer to download the latest version of the StreamSAKPlugin library, and update their plug-in so that it"+
-				" runs smoothly with the current StreamSAK client ("+StreamSAK.STREAMSAK_VERSION+").  If you are the developer, please"+
+				"  The library plug-in build of this StreamSAK client ("+currentVersion+") is "+currentBuild+
+				".\n\nIt is up to the developer to download the latest version of the StreamSAKPlugin library, and update their plug-in so that it"+
+				" runs smoothly with the current StreamSAK client ("+currentVersion+").  If you are the developer, please"+
 				" download the newest plug-in library below and update your plug-in.";
 		
 		JButton show = new CustomButton("Download StreamSAKPlugin Library ("+currentBuild+")", Adjuster.adjusterForegroundColor);
@@ -346,7 +349,7 @@ public class StreamSAKFileHandler {
 			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
 		});
 		
-		GUI.generateNotificationWindow(window, header, message, new JButton[] {show, exit});
+		GUI.generateNotification(window, header, message, new JButton[] {show, exit});
 	}
 	
 }

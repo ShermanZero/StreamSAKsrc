@@ -15,7 +15,7 @@ public class Handler {
 	
 	private static ActionThread at;
 	private static Properties prop;
-
+	
 	public static void init() throws Exception {
 		prop = new Properties();
 		InputStream in = null;

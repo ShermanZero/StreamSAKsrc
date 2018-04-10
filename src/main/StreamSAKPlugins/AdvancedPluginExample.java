@@ -2,7 +2,7 @@ package main.StreamSAKPlugins;
 
 import javax.swing.JOptionPane;
 
-import main.StreamSAKPluginLibrary.types.StreamSAKAdvancedPlugin;
+import main.types.StreamSAKAdvancedPlugin;
 
 public class AdvancedPluginExample extends StreamSAKAdvancedPlugin {
 	
@@ -22,5 +22,5 @@ public class AdvancedPluginExample extends StreamSAKAdvancedPlugin {
 		JOptionPane.showMessageDialog(null, "Hello from AdvancedPlugin, you entered:\n"+userInput, "AdvancedPlugin", JOptionPane.INFORMATION_MESSAGE);
 		super.getLogEntry().setEntry("YOU WROTE: "+userInput);
 	}
-	
+
 }

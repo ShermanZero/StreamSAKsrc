@@ -19,12 +19,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAK.StreamSAK;
 import main.StreamSAK.GUI.components.Options;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.StreamSAK.GUI.components.logandinput.LogAndInput;
-import main.StreamSAKPluginLibrary.StreamSAKPlugin;
 
 public class GUI {
 	
@@ -36,10 +34,10 @@ public class GUI {
 
 	private static int WIDTH = 650, HEIGHT = 300;
 	
-	public static void generate() {
+	public static void generate(String currentVersion, String libraryBuild) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+StreamSAK.STREAMSAK_VERSION+" | "+StreamSAKPlugin.StreamSAKPluginLibrary_BUILD);
+				window = new JFrame("StreamSAK "+currentVersion+" | "+libraryBuild);
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));
@@ -84,11 +82,7 @@ public class GUI {
 		resetWindowSize();
 	}
 	
-	public static JFrame createNotificationWindow() {
-		return new JFrame();
-	}
-	
-	public static void generateNotificationWindow(JFrame window, String header, String message, JButton[] buttons) {
+	public static void generateNotification(JFrame window, String header, String message, JButton[] buttons) {
 		window.setPreferredSize(new Dimension(400, 200));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setAlwaysOnTop(true);

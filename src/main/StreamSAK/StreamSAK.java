@@ -18,23 +18,25 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
 	
-	public static final String STREAMSAK_VERSION = "v4.1.1";
+	private final String StreamSAK_CURRENT_VERSION = "v4.1.1";
+	private final String StreamSAK_PLUGIN_LIBRARY_BUILD = "0.1.1";
 	
-	public static void main(String [] args) {
+	public void start() {
 		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }
 		
-		if(!checkForNewVersion())
-			GUI.generate();
+		checkForNewVersion();
+		
+		GUI.generate(StreamSAK_CURRENT_VERSION, StreamSAK_PLUGIN_LIBRARY_BUILD);
 	}
 	
-	public static void restart() {
-		main(null);
-	}
+	public String getPluginLibraryBuild() { return StreamSAK_PLUGIN_LIBRARY_BUILD; }
 	
-	private static boolean checkForNewVersion() {
+	public String getCurrentVersion() { return StreamSAK_CURRENT_VERSION; }
+
+	private boolean checkForNewVersion() {
 		String version = StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/version.dat");
 		
-		if(!version.equals(STREAMSAK_VERSION)) {
+		if(!version.equals(StreamSAK_CURRENT_VERSION)) {
 			showUpdatePanel(version);
 			return true;
 		}
@@ -42,8 +44,8 @@ public class StreamSAK {
 		return false;
 	}
 	
-	private static void showUpdatePanel(String version) {
-		JFrame window = GUI.createNotificationWindow();
+	private void showUpdatePanel(String version) {
+		JFrame window = new JFrame();
 		
 		String header = "A newer version of StreamSAK is available!";
 		String updates = StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/data/misc/recent_release.dat");
@@ -61,11 +63,15 @@ public class StreamSAK {
 		
 		JButton exit = new CustomButton("Skip Update", GUI.defaultRedColor);
 		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { window.dispose(); GUI.generate(); }
+			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
 		});
 		
-		
-		GUI.generateNotificationWindow(window, header, updates, new JButton[] {show, exit});
+		GUI.generateNotification(window, header, updates, new JButton[] {show, exit});
+	}
+	
+	public static void main(String [] args) {
+		StreamSAK client = new StreamSAK();
+		client.start();
 	}
 	
 }

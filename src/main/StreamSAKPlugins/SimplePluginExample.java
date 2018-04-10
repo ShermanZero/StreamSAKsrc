@@ -2,7 +2,7 @@ package main.StreamSAKPlugins;
 
 import javax.swing.JOptionPane;
 
-import main.StreamSAKPluginLibrary.types.StreamSAKSimplePlugin;
+import main.types.StreamSAKSimplePlugin;
 
 public class SimplePluginExample extends StreamSAKSimplePlugin {
 

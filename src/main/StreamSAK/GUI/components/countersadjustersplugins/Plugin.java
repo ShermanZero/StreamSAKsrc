@@ -6,14 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import main.StreamSAKPlugin;
 import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
 import main.StreamSAK.misc.Handler;
 import main.StreamSAK.misc.actions.Action;
-import main.StreamSAKPluginLibrary.StreamSAKPlugin;
-import main.StreamSAKPluginLibrary.types.StreamSAKAdvancedPlugin;
-import main.StreamSAKPluginLibrary.types.StreamSAKSimplePlugin;
+import main.types.StreamSAKAdvancedPlugin;
+import main.types.StreamSAKSimplePlugin;
 
 public class Plugin {
 
