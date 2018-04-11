@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -17,7 +15,6 @@ import javax.swing.border.MatteBorder;
 
 import main.StreamSAKPlugin;
 import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
 import main.StreamSAK.misc.Handler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
@@ -63,14 +60,6 @@ public class CountersAdjustersPlugins extends JPanel {
 		
 		gbc.gridy++;
 		this.add(new JLabel(" "), gbc);
-		
-		JButton clear = new CustomButton("CLEAR LOG", GUI.defaultRedColor);
-		clear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { Log.clear(); }
-		});
-		
-		gbc.gridy++;
-		this.add(clear, gbc);
 		
 		adjustWindowHeight();
 	}

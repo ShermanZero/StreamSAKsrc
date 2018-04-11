@@ -157,7 +157,7 @@ public class StreamSAKFileHandler {
 
 	public static String getFileFormattedName(File f) {
 		String fileName = f.getName();
-		return fileName.substring((fileName.contains(File.separator) ? fileName.indexOf(File.separator)+1 : 0), fileName.lastIndexOf(".")).toLowerCase();
+		return fileName.substring((fileName.contains(File.separator) ? fileName.indexOf(File.separator)+1 : 0), fileName.lastIndexOf("."));
 	}
 	
 	public static String getFileData(File f) {
@@ -242,6 +242,12 @@ public class StreamSAKFileHandler {
 		return data.trim();
 	}
 	
+	public static void openURL(String urlPath) {
+		try {
+			Desktop.getDesktop().browse(URI.create(urlPath)); 
+		} catch (IOException e1) { e1.printStackTrace(); }
+	}
+	
 	public static ArrayList<File> getFiles() {
 		return files;
 	}
@@ -276,7 +282,7 @@ public class StreamSAKFileHandler {
 				} catch (Exception e) { e.printStackTrace(); }
 			});
 			
-			System.out.println("\nLoading...\n");
+			System.out.println("\nLoading plugins...\n");
 			
 			URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
 			classes.forEach(s -> {
@@ -305,7 +311,7 @@ public class StreamSAKFileHandler {
 								if(!pluginBuild.equals(currentBuild)) {
 									failPlugin(plugin, pluginBuild, currentBuild, currentVersion);
 								} else {
-									System.out.println("   *loaded successfully*");
+									System.out.println("   *loaded successfully*\n");
 									CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
 								}
 	            				
@@ -319,7 +325,7 @@ public class StreamSAKFileHandler {
 			try { pluginLoader.close(); } catch (Exception e) { e.printStackTrace(); }
         }
 		
-		System.out.println("...Done");
+		System.out.println("...done");
 	}
 	
 	private static void failPlugin(StreamSAKPlugin p, String pluginBuild, String currentBuild, String currentVersion) {
@@ -335,10 +341,7 @@ public class StreamSAKFileHandler {
 		JButton show = new CustomButton("Download StreamSAKPluginLibrary ("+currentBuild+")", Adjuster.adjusterForegroundColor);
 		show.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { 
-				try {
-					Desktop.getDesktop().browse(URI.create("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"));
-				} catch (IOException e) { JOptionPane.showMessageDialog(null, e.getMessage()); }
-				
+				StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar");
 				window.dispose();
 			}
 		});

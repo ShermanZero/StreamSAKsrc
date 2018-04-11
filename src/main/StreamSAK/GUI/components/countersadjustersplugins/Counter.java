@@ -38,7 +38,7 @@ public class Counter {
 	}
 	
 	public String getName() {
-		return StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase();
+		return StreamSAKFileHandler.getFileFormattedName(counterFile);
 	}
 
 	public JButton[] generate() {
@@ -48,7 +48,7 @@ public class Counter {
 	}
 	
 	public void resetCounter() {
-		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+" RESET";
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile)+" reset";
 		Log.write(entry);
 		
 		value = 0;
@@ -94,8 +94,6 @@ public class Counter {
 		Color startingColor = GUI.defaultColor;
 		Plugin p = null;
 		if(link != null) {
-			link = link.toUpperCase();
-			
 			if(StreamSAKFileHandler.findFile(link, Directory.ADJUSTERS) != null)
 				startingColor = Adjuster.adjusterForegroundColor;
 			else if ((p =StreamSAKFileHandler.findPlugin(link)) != null) {
@@ -121,8 +119,10 @@ public class Counter {
 								return;
 							
 							Plugin p;
-							if(Handler.setLink(counterFile, StreamSAKFileHandler.findFile(str, Directory.ADJUSTERS))) {
-								linkButton.setText(str.toUpperCase());
+							File f = StreamSAKFileHandler.findFile(str, Directory.ADJUSTERS);
+							
+							if(Handler.setLink(counterFile, f)) {
+								linkButton.setText(StreamSAKFileHandler.getFileFormattedName(f));
 								((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 							} else
 							if((p = StreamSAKFileHandler.findPlugin(str)) != null && Handler.setLink(counterFile, str)) {
@@ -130,7 +130,7 @@ public class Counter {
 								((CustomButton)linkButton).setDefaultForeground(Plugin.pluginForegroundColor);
 							}
 						}
-					}, "SET LINKED CALL");
+					}, "Set Linked Call");
 				}
 			}
 		});
@@ -144,7 +144,7 @@ public class Counter {
 	
 	private void incrementCounter() {
 		value++;
-		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile)+": "+value;
 		Log.write(entry);
 		write();
 		callLink();
@@ -152,16 +152,13 @@ public class Counter {
 	
 	private void decrementCounter() {
 		value--;
-		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile).toUpperCase()+": "+value;
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile)+": "+value;
 		Log.write(entry);
 		write();
 		callLink();
 	}
 	
 	private void callLink() {
-		if(!Log.automaticCallEnabled())
-			return;
-		
 		String link = Handler.getLink(counterFile);
 		if(link != null) {
 			for(Adjuster a : CountersAdjustersPlugins.getAdjusters())

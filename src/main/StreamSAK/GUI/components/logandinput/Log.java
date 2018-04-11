@@ -2,7 +2,6 @@ package main.StreamSAK.GUI.components.logandinput;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,7 +31,7 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 public class Log extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private static JButton enableAdjusterCall = new CustomButton("AC ENABLED");
+	private static JButton clearLog = new CustomButton("Clear Log", GUI.defaultRedColor);
 	private static JList<String> log = new JList<String>();
 	private static DefaultListModel<String> model = new DefaultListModel<String>();
 	
@@ -47,6 +45,8 @@ public class Log extends JPanel {
 	}
 	
 	public static void write(String entry) {
+		System.out.println(entry);
+		
 		entry = "["+(new SimpleDateFormat("HH:mm:ss").format(new Date()))+"]: "+entry;
 		
 		FileWriter fw;
@@ -67,19 +67,15 @@ public class Log extends JPanel {
 		StreamSAKFileHandler.writeToFile(StreamSAKFileHandler.findFile("log"), "");
 	}
 		
-	public static boolean automaticCallEnabled() {
-		return enableAdjusterCall.getText().toLowerCase().contains("enabled");
-	}
-	
 	private static JPanel generateLogPanel() {
 		JPanel main = new JPanel(new BorderLayout());
 		main.setBorder(null);
 		main.setBackground(null);
 		
 		log.setBackground(Color.LIGHT_GRAY);
-		log.setFont(new Font("Calibri", Font.BOLD, 12));
+		log.setFont(new Font("Tahoma", Font.BOLD, 11));
 		log.setFocusable(false);
-		log.setModel(model);	
+		log.setModel(model);
 		load();
 		
 		JScrollPane scroll = new JScrollPane(log);
@@ -97,27 +93,10 @@ public class Log extends JPanel {
 		main.setBackground(null);
 		main.setBorder(new MatteBorder(2, 2, 0, 2, Color.DARK_GRAY));
 		
-		enableAdjusterCall.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(enableAdjusterCall.getText().contains("ENABLED"))
-					enableAdjusterCall.setText("AC DISABLED");
-				else
-					enableAdjusterCall.setText("AC ENABLED");
-			}
+		clearLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { Log.clear(); }
 		});
-		main.add(enableAdjusterCall);
-		
-		JButton link = new CustomButton("SUPPORT THE DEV", new Color(138, 185, 219));
-		link.setFont(GUI.defaultFont.deriveFont(10f));
-		link.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Desktop.getDesktop().browse(URI.create("https://www.twitch.tv/shermanzero"));
-				} catch (IOException e1) { e1.printStackTrace(); }
-			}
-		});
-		main.add(link);
+		main.add(clearLog);
 		
 		return main;
 	}

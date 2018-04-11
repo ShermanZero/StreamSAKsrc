@@ -115,7 +115,7 @@ public class Input extends JPanel {
 		textInput.setEditable(false);
 		textInput.setBackground(Color.GRAY);
 		
-		textInfo.setText("INPUT DISABLED");
+		textInfo.setText("Input Disabled");
 		textInfo.setForeground(Color.GRAY);
 	}
 	

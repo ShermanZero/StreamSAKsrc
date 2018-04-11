@@ -6,10 +6,17 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -19,10 +26,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import main.StreamSAK.StreamSAK;
 import main.StreamSAK.GUI.components.Options;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.StreamSAK.GUI.components.logandinput.LogAndInput;
+import main.StreamSAK.GUI.components.misc.CustomButton;
+import main.StreamSAK.GUI.components.misc.CustomLabel;
+import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
 	
@@ -33,23 +44,37 @@ public class GUI {
 	private static JFrame window;
 
 	private static int WIDTH = 650, HEIGHT = 300;
+	private static String currentVersion, libraryBuild;
+	
 	
 	public static void generate(String currentVersion, String libraryBuild) {
+		GUI.currentVersion = currentVersion;
+		GUI.libraryBuild = libraryBuild;
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame("StreamSAK "+currentVersion+"   |   "+libraryBuild);
+				window = new JFrame();
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));
 				window.setPreferredSize(d);
 				window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				window.setUndecorated(true);
 				
 				JPanel main = new JPanel(new BorderLayout());
 				main.add(new Options(), BorderLayout.WEST);
 				main.add(new LogAndInput(), BorderLayout.CENTER);
 				main.add(new CountersAdjustersPlugins(), BorderLayout.EAST);
 				
+				window.setJMenuBar(generateMenuBar());
+				
+				FrameDragListener fdl = new FrameDragListener(window);
+				window.addMouseListener(fdl);
+				window.addMouseMotionListener(fdl);
+				
 				window.add(main);
+				window.setContentPane(main);
+				
 				window.pack();
 				window.setLocationRelativeTo(null);
 				window.setVisible(true);
@@ -134,10 +159,52 @@ public class GUI {
 		
 		main.add(buttonPanel, BorderLayout.SOUTH);
 		
+		FrameDragListener fdl = new FrameDragListener(window);
+		window.addMouseListener(fdl);
+		window.addMouseMotionListener(fdl);
+		
 		window.add(main);
+		window.setContentPane(main);
+		
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+	}
+	
+	private static JMenuBar generateMenuBar() {
+		JMenuBar mb = new JMenuBar();
+		mb.setBackground(Color.DARK_GRAY);
+		
+		JLabel label = new CustomLabel("StreamSAK");
+		
+		JButton version = new CustomButton(currentVersion);
+		version.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { StreamSAK.checkForNewVersion(true); }
+		});
+		
+		JButton build = new CustomButton(libraryBuild);
+		build.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"); }
+		});
+		
+		JButton dev = new CustomButton("Support the Developer", Adjuster.adjusterForegroundColor);
+		dev.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { StreamSAKFileHandler.openURL("https://www.twitch.tv/shermanzero"); }
+		});
+		
+		JButton exit = new CustomButton("Exit StreamSAK", GUI.defaultRedColor);
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { System.exit(0); }
+		});
+		
+		mb.add(label);
+		mb.add(version);
+		mb.add(build);
+		mb.add(Box.createHorizontalGlue());
+		mb.add(dev);
+		mb.add(exit);
+		
+		return mb;
 	}
 	
 	private static void resetWindowSize() {
@@ -148,4 +215,27 @@ public class GUI {
 		window.pack();
 	}
 
+	public static class FrameDragListener extends MouseAdapter {
+
+        private final JFrame frame;
+        private Point mouseDownCompCoords = null;
+
+        public FrameDragListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            mouseDownCompCoords = null;
+        }
+
+        public void mousePressed(MouseEvent e) {
+            mouseDownCompCoords = e.getPoint();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            Point currCoords = e.getLocationOnScreen();
+            frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+        }
+    }
+	
 }

@@ -38,32 +38,32 @@ public class Options extends JPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 1.0;
 		
-		JButton createCounter = new CustomButton("CREATE NEW COUNTER", Counter.counterForegroundColor);
+		JButton createCounter = new CustomButton("Create New Counter", Counter.counterForegroundColor);
 		createCounter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { try { createNewCounter(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 		
-		JButton resetCounters = new CustomButton("RESET ALL COUNTERS", Counter.counterForegroundColor);
+		JButton resetCounters = new CustomButton("Reset All Counters", Counter.counterForegroundColor);
 		resetCounters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllCounters(); }
 		});
 
-		JButton deleteCounter = new CustomButton("DELETE COUNTER", GUI.defaultRedColor);
+		JButton deleteCounter = new CustomButton("Delete Counter", GUI.defaultRedColor);
 		deleteCounter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { try { deleteCounter(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 
-		JButton createAdjuster = new CustomButton("CREATE NEW ADJUSTER", Adjuster.adjusterForegroundColor);
+		JButton createAdjuster = new CustomButton("Create New Adjuster", Adjuster.adjusterForegroundColor);
 		createAdjuster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { try { createNewAdjuster(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 		
-		JButton resetAdjusters = new CustomButton("RESET ALL ADJUSTERS", Adjuster.adjusterForegroundColor);
+		JButton resetAdjusters = new CustomButton("Reset All Adjusters", Adjuster.adjusterForegroundColor);
 		resetAdjusters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllAdjusters(); }
 		});
 		
-		JButton deleteAdjuster = new CustomButton("DELETE ADJUSTER", GUI.defaultRedColor);
+		JButton deleteAdjuster = new CustomButton("Delete Adjuster", GUI.defaultRedColor);
 		deleteAdjuster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { try { deleteAdjuster(); } catch (Exception e) { e.printStackTrace(); } }
 		});
@@ -88,7 +88,7 @@ public class Options extends JPanel {
 					return;
 				
 				if(StreamSAKFileHandler.findFile(newCounter, Directory.MAIN) != null) {
-					String entry = "CANNOT CREATE COUNTER WITH THAT NAME";
+					String entry = "Cannot create counter with that name";
 					Log.write(entry);
 					return;
 				}
@@ -102,15 +102,13 @@ public class Options extends JPanel {
 				bw.flush();
 				bw.close();
 				
-				String entry = "CREATED NEW COUNTER: "+newCounter;
+				String entry = "Created new counter: "+newCounter;
 				Log.write(entry);
 				
 				StreamSAKFileHandler.addFile(f);
 				CountersAdjustersPlugins.createCounterButton(f);
-				
-				System.out.println("Succesfully created new counter: "+f.getPath());
 			}
-		}, "CREATE A NEW COUNTER");
+		}, "Create a New Counter");
 	}
 	
 	private static void deleteCounter() {
@@ -123,24 +121,21 @@ public class Options extends JPanel {
 				for(File f : StreamSAKFileHandler.getFiles())
 					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
 						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
+						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf("."));
 						
 						CountersAdjustersPlugins.deleteCounter(fileName);
 						StreamSAKFileHandler.removeFile(f);
 						f.delete();
 
-						String entry = "DELETED COUNTER: "+fileName;
+						String entry = "Deleted counter: "+fileName;
 						Log.write(entry);
-						System.out.println("Succesfully deleted counter: "+f.getPath());
 						return;
 					}
 				
-				String entry = "COULD NOT DELETE COUNTER: "+counter;
+				String entry = "Could not delete counter: "+counter;
 				Log.write(entry);
-				
-				System.out.println("Could not delete counter: "+counter);
 			}
-		}, "DELETE A COUNTER");
+		}, "Delete a Counter");
 	}
 	
 	private static void createNewAdjuster() {
@@ -151,7 +146,7 @@ public class Options extends JPanel {
 					return;
 				
 				if(StreamSAKFileHandler.findFile(newAdjuster, Directory.MAIN) != null) {
-					String entry = "CANNOT CREATE ADJUSTER WITH THAT NAME";
+					String entry = "Cannot create adjuster with that name";
 					Log.write(entry);
 					return;
 				}
@@ -159,15 +154,13 @@ public class Options extends JPanel {
 				File f = new File(StreamSAKFileHandler.adjustersDirectoryPath+File.separator+newAdjuster+(newAdjuster.contains(".txt") ? "" : ".txt"));
 				f.createNewFile();
 				
-				String entry = "CREATED NEW ADJUSTER: "+newAdjuster;
+				String entry = "Created new adjuster: "+newAdjuster;
 				Log.write(entry);
 				
 				StreamSAKFileHandler.addFile(f);
 				CountersAdjustersPlugins.createAdjusterButton(f);
-				
-				System.out.println("Succesfully created new adjuster: "+f.getPath());
 			}
-		}, "CREATE A NEW ADJUSTER");
+		}, "Create a New Adjuster");
 	}
 	
 	private static void deleteAdjuster() {
@@ -180,25 +173,22 @@ public class Options extends JPanel {
 				for(File f : StreamSAKFileHandler.getFiles())
 					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
 						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf(".")).toUpperCase();
+						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf("."));
 						
 						CountersAdjustersPlugins.deleteAdjuster(fileName);
 						StreamSAKFileHandler.removeFile(f);
 						f.delete();
 						
-						String entry = "DELETED ADJUSTER: "+fileName;
+						String entry = "Deleted adjuster: "+fileName;
 						Log.write(entry);
-						System.out.println("Succesfully deleted counter: "+fileName);
 						return;
 					}
 				
 				
-				String entry = "COULD NOT DELETE ADJUSTER: "+adjuster;
+				String entry = "Could not delete adjuster: "+adjuster;
 				Log.write(entry);
-					
-				System.out.println("Could not delete adjuster: "+adjuster);
 			}
-		}, "DELETE AN ADJUSTER");
+		}, "Delete an Adjuster");
 	}
 
 }

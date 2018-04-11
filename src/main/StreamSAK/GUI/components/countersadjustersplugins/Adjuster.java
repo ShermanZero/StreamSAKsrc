@@ -41,11 +41,11 @@ public class Adjuster {
 	}
 	
 	public String getName() {
-		return StreamSAKFileHandler.getFileFormattedName(adjusterFile).toUpperCase();
+		return StreamSAKFileHandler.getFileFormattedName(adjusterFile);
 	}
 	
 	public void resetAdjuster() {
-		String entry = StreamSAKFileHandler.getFileFormattedName(adjusterFile).toUpperCase()+" RESET";
+		String entry = StreamSAKFileHandler.getFileFormattedName(adjusterFile)+" reset";
 		Log.write(entry);
 		
 		value = "";
@@ -67,7 +67,7 @@ public class Adjuster {
 				
 				write();
 			}
-		}, "ADJUST "+getName());
+		}, "Adjust "+getName());
 	}
 	
 	public void displayAdjuster() {
