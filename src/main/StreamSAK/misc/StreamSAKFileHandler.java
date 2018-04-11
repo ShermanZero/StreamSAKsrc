@@ -30,6 +30,8 @@ import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.StreamSAK.GUI.components.misc.CustomButton;
+import main.types.StreamSAKAdvancedPlugin;
+import main.types.StreamSAKSimplePlugin;
 
 public class StreamSAKFileHandler {
 	
@@ -279,41 +281,38 @@ public class StreamSAKFileHandler {
 			URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
 			classes.forEach(s -> {
 				try {
-					System.out.println(s);
-            		
 					Class<?> subClass = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
 					Class<?> superClass = subClass.getSuperclass();
-					Class<?>[] interfaces = superClass.getInterfaces();
-            		
-					System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
-            		
-					for (Class<?> anInterface : interfaces) {
-						System.out.println("      --["+anInterface+"]");
-            			
-						if(anInterface == StreamSAKPlugin.class) {
-							StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
-            				
-							StreamSAK client = new StreamSAK();
-							
-							String pluginBuild = plugin.getLocalBuild();
-							String currentBuild = client.getPluginLibraryBuild();
-							String currentVersion = client.getCurrentVersion();
-            				
-							System.out.println("         current build ["+currentBuild+"]\n"
-											  + "         plug-in build ["+pluginBuild+"]");
-            				
-							if(!pluginBuild.equals(currentBuild)) {
-								failPlugin(plugin, pluginBuild, currentBuild, currentVersion);
-							} else {
-								System.out.println("   *loaded successfully*");
-								CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+					if(superClass != null) {
+						Class<?>[] interfaces = superClass.getInterfaces();
+	            		
+						for (Class<?> anInterface : interfaces) {
+							if( anInterface == StreamSAKPlugin.class && subClass != StreamSAKAdvancedPlugin.class && subClass != StreamSAKSimplePlugin.class ) {
+								System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
+								System.out.println("      --["+anInterface+"]");
+	
+								StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
+	            				
+								StreamSAK client = new StreamSAK();
+								
+								String pluginBuild = plugin.getLocalBuild();
+								String currentBuild = client.getPluginLibraryBuild();
+								String currentVersion = client.getCurrentVersion();
+	            				
+								System.out.println("         current build ["+currentBuild+"]\n"
+												  + "         plug-in build ["+pluginBuild+"]");
+	            				
+								if(!pluginBuild.equals(currentBuild)) {
+									failPlugin(plugin, pluginBuild, currentBuild, currentVersion);
+								} else {
+									System.out.println("   *loaded successfully*");
+									CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+								}
+	            				
+								break;
 							}
-            				
-							break;
-						} else { System.out.println("   *could not load*"); }
+						}
 					}
-            		
-					System.out.println();
 				} catch (Exception e) { e.printStackTrace(); }
 			});
             
