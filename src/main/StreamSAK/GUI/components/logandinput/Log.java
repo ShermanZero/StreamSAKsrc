@@ -69,7 +69,6 @@ public class Log extends JPanel {
 		
 	private static JPanel generateLogPanel() {
 		JPanel main = new JPanel(new BorderLayout());
-		main.setBorder(null);
 		main.setBackground(null);
 		
 		log.setBackground(Color.LIGHT_GRAY);

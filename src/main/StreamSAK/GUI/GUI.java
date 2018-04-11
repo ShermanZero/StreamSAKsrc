@@ -173,6 +173,7 @@ public class GUI {
 	
 	private static JMenuBar generateMenuBar() {
 		JMenuBar mb = new JMenuBar();
+		mb.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
 		mb.setBackground(Color.DARK_GRAY);
 		
 		JLabel label = new CustomLabel("StreamSAK");
