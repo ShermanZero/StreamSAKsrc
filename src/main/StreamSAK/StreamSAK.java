@@ -3,10 +3,8 @@ package main.StreamSAK;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.jar.JarFile;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,24 +49,11 @@ public class StreamSAK {
 	
 	private static void loadLibraryBuild() {
 		try {
-			JarFile jarFile = new JarFile("StreamSAKPluginLibrary.jar");
-			
-			jarFile.stream().forEach(jarEntry -> {
-				if(jarEntry.getName().endsWith(".dat")) {
-					try {
-						InputStream is = jarFile.getInputStream(jarEntry);
-						BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			InputStream in = StreamSAK.class.getResourceAsStream("/build.dat");
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			StreamSAK_PLUGIN_LIBRARY_BUILD = br.readLine();
 						
-						StreamSAK_PLUGIN_LIBRARY_BUILD = br.readLine();
-						
-						System.out.println("StreamSAK running plug-in library build ["+StreamSAK_PLUGIN_LIBRARY_BUILD+"]");
-						
-						br.close();
-					} catch (IOException e) { e.printStackTrace(); }
-				}
-			});
-			
-			jarFile.close();
+			System.out.println("StreamSAK running plug-in library build ["+StreamSAK_PLUGIN_LIBRARY_BUILD+"]");
 		} catch (Exception e1) { e1.printStackTrace(); }
 	}
 	
