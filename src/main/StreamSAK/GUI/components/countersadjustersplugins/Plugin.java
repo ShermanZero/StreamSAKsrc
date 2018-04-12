@@ -12,7 +12,7 @@ import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.StreamSAK.misc.actions.Action;
@@ -54,7 +54,7 @@ public class Plugin {
 			StreamSAKAdvancedPlugin ap = (StreamSAKAdvancedPlugin)plugin;
 			
 			if(ap.linkAllowed()) {
-				String fileName = Handler.getLink(ap.getName());
+				String fileName = StreamSAKHandler.getLink(ap.getName());
 				if(fileName != null) {
 					File f = StreamSAKFileHandler.findFile(fileName, Directory.ADJUSTERS);
 					Input.setInputText(StreamSAKFileHandler.getFileData(f));
@@ -76,7 +76,7 @@ public class Plugin {
 				} else {
 					ap.getInputter().setData(Input.getLastInput());
 					
-					Handler.doOnInput(new Action() { public void run() throws Exception { 
+					StreamSAKHandler.doOnInput(new Action() { public void run() throws Exception { 
 						plugin.doOnPress();
 						
 						if(ap.getLogEntrier().getRequired())
@@ -98,7 +98,7 @@ public class Plugin {
 	private JButton generateLink() {
 		StreamSAKAdvancedPlugin p = (StreamSAKAdvancedPlugin)plugin;
 		
-		String link = Handler.getLink(p.getName());
+		String link = StreamSAKHandler.getLink(p.getName());
 		Color startingColor = GUI.defaultColor;
 		
 		if(link != null) {
@@ -111,11 +111,11 @@ public class Plugin {
 			public void actionPerformed(ActionEvent arg0) { 
 				linkButton.setText("--");
 				
-				if(Handler.getLink(p.getName()) != null) {
-					Handler.removeLink(p.getName());
+				if(StreamSAKHandler.getLink(p.getName()) != null) {
+					StreamSAKHandler.removeLink(p.getName());
 					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
-					Handler.doOnInput(new Action() {
+					StreamSAKHandler.doOnInput(new Action() {
 						@Override
 						public void run() throws Exception {
 							String str = Input.getLastInput();
@@ -127,7 +127,7 @@ public class Plugin {
 							if(f != null) {
 								String fileName = StreamSAKFileHandler.getFileFormattedName(f);
 								
-								if(Handler.setLink(p.getName(), fileName)) {
+								if(StreamSAKHandler.setLink(p.getName(), fileName)) {
 									linkButton.setText(fileName);
 									((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 								}

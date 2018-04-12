@@ -16,7 +16,7 @@ import javax.swing.border.MatteBorder;
 import main.StreamSAKPlugin;
 import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
 
@@ -140,7 +140,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		componentCount--;
 		
 		File f = StreamSAKFileHandler.findFile(counterName, Directory.COUNTERS);
-		Handler.removeLink(StreamSAKFileHandler.getFileFormattedName(f));
+		StreamSAKHandler.removeLink(StreamSAKFileHandler.getFileFormattedName(f));
 		adjustWindowHeight();
 	}
 	

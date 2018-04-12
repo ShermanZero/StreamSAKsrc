@@ -14,7 +14,7 @@ import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.StreamSAK.misc.actions.Action;
@@ -90,7 +90,7 @@ public class Counter {
 	}
 	
 	private JButton generateLink() {
-		String link = Handler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
+		String link = StreamSAKHandler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
 		Color startingColor = GUI.defaultColor;
 		Plugin p = null;
 		if(link != null) {
@@ -109,11 +109,11 @@ public class Counter {
 				
 				String fileName = StreamSAKFileHandler.getFileFormattedName(counterFile);
 				
-				if(Handler.getLink(fileName) != null) {
-					Handler.removeLink(fileName);
+				if(StreamSAKHandler.getLink(fileName) != null) {
+					StreamSAKHandler.removeLink(fileName);
 					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
-					Handler.doOnInput(new Action() {
+					StreamSAKHandler.doOnInput(new Action() {
 						@Override
 						public void run() throws Exception {
 							String str = Input.getLastInput();
@@ -123,11 +123,11 @@ public class Counter {
 							Plugin p;
 							File f = StreamSAKFileHandler.findFile(str, Directory.ADJUSTERS);
 							
-							if(Handler.setLink(fileName, StreamSAKFileHandler.getFileFormattedName(f))) {
+							if(StreamSAKHandler.setLink(fileName, StreamSAKFileHandler.getFileFormattedName(f))) {
 								linkButton.setText(StreamSAKFileHandler.getFileFormattedName(f));
 								((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 							} else
-							if((p = StreamSAKFileHandler.findPlugin(str)) != null && Handler.setLink(fileName, str)) {
+							if((p = StreamSAKFileHandler.findPlugin(str)) != null && StreamSAKHandler.setLink(fileName, str)) {
 								linkButton.setText(p.getName());
 								((CustomButton)linkButton).setDefaultForeground(Plugin.pluginForegroundColor);
 							}
@@ -161,7 +161,7 @@ public class Counter {
 	}
 	
 	private void callLink() {
-		String link = Handler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
+		String link = StreamSAKHandler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
 		if(link != null) {
 			for(Adjuster a : CountersAdjustersPlugins.getAdjusters())
 				if(a.getName().equalsIgnoreCase(link)) {

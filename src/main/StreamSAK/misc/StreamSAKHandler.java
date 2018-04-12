@@ -1,6 +1,5 @@
 package main.StreamSAK.misc;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -11,36 +10,20 @@ import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.misc.actions.Action;
 import main.StreamSAK.misc.actions.ActionThread;
 
-public class Handler {
+public class StreamSAKHandler {
 	
 	private static ActionThread at;
-	private static Properties prop;
+	private static Properties prop = new Properties();
 	
 	public static void init() throws Exception {
-		StreamSAKFileHandler.init();
-		
-		prop = new Properties();
-		InputStream in = null;
-		
-		try {
-			File propertiesFile = new File(StreamSAKFileHandler.propertiesFilePath);
-			if(!propertiesFile.exists())
-				propertiesFile.createNewFile();
-			
-			in = new FileInputStream(StreamSAKFileHandler.propertiesFilePath);
-			
-			prop.load(in);
-		} catch (Exception e) { e.printStackTrace(); } finally {
-			if(in != null)
-				try { in.close(); } catch (Exception e) { e.printStackTrace(); }
-		}
+		loadProperties();
 	}
 	
-	public static boolean setLink(String object, String link) {
-		if(object == null || link == null)
+	public static boolean setLink(String key, String link) {
+		if(key == null || link == null)
 			return false;
 		
-		prop.setProperty(object, link);
+		prop.setProperty(key, link);
 		writeProperties();
 		
 		return true;
@@ -74,6 +57,18 @@ public class Handler {
 		} catch (Exception e) { e.printStackTrace(); } finally { 
 			if(out != null)
 				try { out.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+	}
+	
+	private static void loadProperties() {
+		InputStream in = null;
+		
+		try {
+			in = new FileInputStream(StreamSAKFileHandler.propertiesFilePath);
+			prop.load(in);
+		} catch (Exception e) { e.printStackTrace(); } finally {
+			if(in != null)
+				try { in.close(); } catch (Exception e) { e.printStackTrace(); }
 		}
 	}
 	

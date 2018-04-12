@@ -55,13 +55,14 @@ public class StreamSAKFileHandler {
 			return value;
 		}
 	}
-	
-	static {
+
+	public static void init() throws Exception {
 		String path = null;
 		try {
 			path = new File(StreamSAK.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
 		} catch (URISyntaxException e) { e.printStackTrace(); }
 		String jarPath = path.substring(0, path.lastIndexOf(File.separator));
+		
 		dataPath = jarPath+File.separator+"data";
 
 		miscDirectoryPath = dataPath+File.separator+Directory.MISC.getValue();
@@ -71,9 +72,8 @@ public class StreamSAKFileHandler {
 		sourceDirectoryPath = dataPath+File.separator+Directory.SOURCE.getValue();
 		
 		propertiesFilePath = miscDirectoryPath+File.separator+"links.properties";
-	}
-	
-	public static void init() throws Exception {
+		
+		
 		File dir = null, sr = null, wins, losses, draws, logFile, propertiesFile;
 
 		//check to see if the misc directory exists
@@ -81,7 +81,7 @@ public class StreamSAKFileHandler {
 		if(!dir.exists()) {
 			dir.mkdirs();
 			
-			logFile = new File(dataPath+File.separator+"log.txt");
+			logFile = new File(miscDirectoryPath+File.separator+"log.txt");
 			if(!logFile.exists())
 				logFile.createNewFile();
 			
@@ -106,13 +106,13 @@ public class StreamSAKFileHandler {
 			
 			wins = new File(countersDirectoryPath+File.separator+"wins.txt");
 			wins.createNewFile();
-			Handler.setLink(StreamSAKFileHandler.getFileFormattedName(wins), StreamSAKFileHandler.getFileFormattedName(sr));
 			writeToFile(wins, "0");
+			StreamSAKHandler.setLink(getFileFormattedName(wins), getFileFormattedName(sr));
 			
 			losses = new File(countersDirectoryPath+File.separator+"losses.txt");
 			losses.createNewFile();
-			Handler.setLink(StreamSAKFileHandler.getFileFormattedName(losses), StreamSAKFileHandler.getFileFormattedName(sr));
 			writeToFile(losses, "0");
+			StreamSAKHandler.setLink(getFileFormattedName(losses), getFileFormattedName(sr));
 			
 			draws = new File(countersDirectoryPath+File.separator+"draws.txt");
 			draws.createNewFile();

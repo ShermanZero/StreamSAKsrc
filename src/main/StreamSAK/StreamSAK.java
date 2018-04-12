@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import main.StreamSAK.GUI.GUI;
 import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
@@ -23,7 +23,10 @@ public class StreamSAK {
 	public void start() {
 		loadLibraryBuild();
 		
-		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }
+		try {
+			StreamSAKFileHandler.init();
+			StreamSAKHandler.init(); 
+		} catch (Exception e) { e.printStackTrace(); }
 		
 		checkForNewVersion(false);
 		

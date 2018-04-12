@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.actions.Action;
 
@@ -55,7 +55,7 @@ public class Adjuster {
 	public void changeAdjuster() {
 		Input.setInputText(StreamSAKFileHandler.getFileData(adjusterFile));
 		
-		Handler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new Action() {
 			public void run() throws Exception {
 				String newValue = Input.getLastInput();
 				if(newValue.equals(""))

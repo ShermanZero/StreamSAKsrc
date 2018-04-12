@@ -21,7 +21,7 @@ import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersP
 import main.StreamSAK.GUI.components.logandinput.Input;
 import main.StreamSAK.GUI.components.logandinput.Log;
 import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.Handler;
+import main.StreamSAK.misc.StreamSAKHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler;
 import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.StreamSAK.misc.actions.Action;
@@ -81,7 +81,7 @@ public class Options extends JPanel {
 	}
 	
 	private static void createNewCounter() {
-		Handler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new Action() {
 			public void run() throws Exception {
 				String newCounter = Input.getLastInput();
 				if(newCounter.equals(""))
@@ -112,7 +112,7 @@ public class Options extends JPanel {
 	}
 	
 	private static void deleteCounter() {
-		Handler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new Action() {
 			public void run() throws Exception {
 				String counter = Input.getLastInput();
 				if(counter.equals(""))
@@ -139,7 +139,7 @@ public class Options extends JPanel {
 	}
 	
 	private static void createNewAdjuster() {
-		Handler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new Action() {
 			public void run() throws Exception {
 				String newAdjuster = Input.getLastInput();
 				if(newAdjuster.equals(""))
@@ -164,7 +164,7 @@ public class Options extends JPanel {
 	}
 	
 	private static void deleteAdjuster() {
-		Handler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new Action() {
 			public void run() throws Exception {
 				String adjuster = Input.getLastInput();
 				if(adjuster.equals(""))
