@@ -26,8 +26,10 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     
+    // Using Twitch4j
     compile 'com.github.twitch4j:twitch4j:+'
     
+    // Using StreamSAKPluginLibrary
     compile files('libs/StreamSAKPluginLibrary.jar')
 }
 
