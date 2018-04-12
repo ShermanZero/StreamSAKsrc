@@ -12,7 +12,7 @@ public class LogAndInput extends JPanel {
 	public LogAndInput() {
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.DARK_GRAY);
-		this.setBorder(new EmptyBorder(-2, 5, 5, 5));
+		this.setBorder(new EmptyBorder(-2, 5, 15, 5));
 		
 		this.add(new Log(), BorderLayout.CENTER);
 		this.add(new Input(), BorderLayout.SOUTH);

@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
@@ -44,13 +45,8 @@ public class GUI {
 	private static JFrame window;
 
 	private static int WIDTH = 650, HEIGHT = 300;
-	private static String currentVersion, libraryBuild;
 	
-	
-	public static void generate(String currentVersion, String libraryBuild) {
-		GUI.currentVersion = currentVersion;
-		GUI.libraryBuild = libraryBuild;
-		
+	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				window = new JFrame();
@@ -65,6 +61,7 @@ public class GUI {
 				main.add(new Options(), BorderLayout.WEST);
 				main.add(new LogAndInput(), BorderLayout.CENTER);
 				main.add(new CountersAdjustersPlugins(), BorderLayout.EAST);
+				main.setBorder(new MatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
 				
 				window.setJMenuBar(generateMenuBar());
 				
@@ -173,17 +170,17 @@ public class GUI {
 	
 	private static JMenuBar generateMenuBar() {
 		JMenuBar mb = new JMenuBar();
-		mb.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+		mb.setBorder(new CompoundBorder(new MatteBorder(1, 1, 0, 1, Color.LIGHT_GRAY), new MatteBorder(0, 0, 1, 0, Color.GRAY)));
 		mb.setBackground(Color.DARK_GRAY);
 		
 		JLabel label = new CustomLabel("StreamSAK");
 		
-		JButton version = new CustomButton(currentVersion);
+		JButton version = new CustomButton(StreamSAK.getCurrentVersion());
 		version.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { StreamSAK.checkForNewVersion(true); }
 		});
 		
-		JButton build = new CustomButton(libraryBuild);
+		JButton build = new CustomButton(StreamSAK.getPluginLibraryBuild());
 		build.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"); }
 		});

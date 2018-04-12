@@ -102,6 +102,8 @@ public class CountersAdjustersPlugins extends JPanel {
 		Plugin p = new Plugin(plugin);
 		
 		JButton[] buttons = p.generate();
+		pluginGBC.gridwidth = (buttons.length-1);
+		
 		for(int i = 0; i < buttons.length; i++) {
 			pluginGBC.gridx = (i+1);
 			pluginPanel.add(buttons[i], pluginGBC);
@@ -137,7 +139,8 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.revalidate();
 		componentCount--;
 		
-		Handler.removeLink(StreamSAKFileHandler.findFile(counterName, Directory.COUNTERS));
+		File f = StreamSAKFileHandler.findFile(counterName, Directory.COUNTERS);
+		Handler.removeLink(StreamSAKFileHandler.getFileFormattedName(f));
 		adjustWindowHeight();
 	}
 	

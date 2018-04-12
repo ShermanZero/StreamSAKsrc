@@ -2,6 +2,11 @@ package main.StreamSAK;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.jar.JarFile;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,20 +19,22 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
 	
-	private static final String StreamSAK_CURRENT_VERSION = "v4.3.0";
-	private static final String StreamSAK_PLUGIN_LIBRARY_BUILD = "0.1.1";
+	private static String StreamSAK_CURRENT_VERSION = "v4.3.1";
+	private static String StreamSAK_PLUGIN_LIBRARY_BUILD;
 	
 	public void start() {
+		loadLibraryBuild();
+		
 		try { Handler.init(); } catch (Exception e) { e.printStackTrace(); }
 		
 		checkForNewVersion(false);
 		
-		GUI.generate(StreamSAK_CURRENT_VERSION, StreamSAK_PLUGIN_LIBRARY_BUILD);
+		GUI.generate();
 	}
 	
-	public String getPluginLibraryBuild() { return StreamSAK_PLUGIN_LIBRARY_BUILD; }
+	public static String getPluginLibraryBuild() { return StreamSAK_PLUGIN_LIBRARY_BUILD; }
 	
-	public String getCurrentVersion() { return StreamSAK_CURRENT_VERSION; }
+	public static String getCurrentVersion() { return StreamSAK_CURRENT_VERSION; }
 
 	public static boolean checkForNewVersion(boolean userPrompted) {
 		String version = StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/version.dat");
@@ -40,6 +47,29 @@ public class StreamSAK {
 		}
 		
 		return false;
+	}
+	
+	private static void loadLibraryBuild() {
+		try {
+			JarFile jarFile = new JarFile("StreamSAKPluginLibrary.jar");
+			
+			jarFile.stream().forEach(jarEntry -> {
+				if(jarEntry.getName().endsWith(".dat")) {
+					try {
+						InputStream is = jarFile.getInputStream(jarEntry);
+						BufferedReader br = new BufferedReader(new InputStreamReader(is));
+						
+						StreamSAK_PLUGIN_LIBRARY_BUILD = br.readLine();
+						
+						System.out.println("StreamSAK running plug-in library build ["+StreamSAK_PLUGIN_LIBRARY_BUILD+"]");
+						
+						br.close();
+					} catch (IOException e) { e.printStackTrace(); }
+				}
+			});
+			
+			jarFile.close();
+		} catch (Exception e1) { e1.printStackTrace(); }
 	}
 	
 	private static void showUpdatePanel(String version) {

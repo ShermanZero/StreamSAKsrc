@@ -36,32 +36,22 @@ public class Handler {
 		StreamSAKFileHandler.init();
 	}
 	
-	public static boolean setLink(File counterFile, File linkFile) {
-		if(counterFile == null || linkFile == null)
+	public static boolean setLink(String object, String link) {
+		if(object == null || link == null)
 			return false;
 		
-		prop.setProperty(StreamSAKFileHandler.getFileFormattedName(counterFile), StreamSAKFileHandler.getFileFormattedName(linkFile));
+		prop.setProperty(object, link);
 		writeProperties();
 		
 		return true;
 	}
 	
-	public static boolean setLink(File counterFile, String pluginName) {
-		if(counterFile == null || pluginName == null)
-			return false;
-		
-		prop.setProperty(StreamSAKFileHandler.getFileFormattedName(counterFile), pluginName);
-		writeProperties();
-		
-		return true;
+	public static String getLink(String key) {
+		return prop.getProperty(key);
 	}
 	
-	public static String getLink(File counterFile) {
-		return prop.getProperty(StreamSAKFileHandler.getFileFormattedName(counterFile));
-	}
-	
-	public static void removeLink(File counterFile) {
-		prop.remove(StreamSAKFileHandler.getFileFormattedName(counterFile));
+	public static void removeLink(String key) {
+		prop.remove(key);
 		writeProperties();
 	}
 	

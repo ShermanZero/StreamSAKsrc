@@ -90,7 +90,7 @@ public class Counter {
 	}
 	
 	private JButton generateLink() {
-		String link = Handler.getLink(counterFile);
+		String link = Handler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
 		Color startingColor = GUI.defaultColor;
 		Plugin p = null;
 		if(link != null) {
@@ -107,8 +107,10 @@ public class Counter {
 			public void actionPerformed(ActionEvent arg0) { 
 				linkButton.setText("--");
 				
-				if(Handler.getLink(counterFile) != null) {
-					Handler.removeLink(counterFile);
+				String fileName = StreamSAKFileHandler.getFileFormattedName(counterFile);
+				
+				if(Handler.getLink(fileName) != null) {
+					Handler.removeLink(fileName);
 					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
 					Handler.doOnInput(new Action() {
@@ -121,11 +123,11 @@ public class Counter {
 							Plugin p;
 							File f = StreamSAKFileHandler.findFile(str, Directory.ADJUSTERS);
 							
-							if(Handler.setLink(counterFile, f)) {
+							if(Handler.setLink(fileName, StreamSAKFileHandler.getFileFormattedName(f))) {
 								linkButton.setText(StreamSAKFileHandler.getFileFormattedName(f));
 								((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 							} else
-							if((p = StreamSAKFileHandler.findPlugin(str)) != null && Handler.setLink(counterFile, str)) {
+							if((p = StreamSAKFileHandler.findPlugin(str)) != null && Handler.setLink(fileName, str)) {
 								linkButton.setText(p.getName());
 								((CustomButton)linkButton).setDefaultForeground(Plugin.pluginForegroundColor);
 							}
@@ -159,7 +161,7 @@ public class Counter {
 	}
 	
 	private void callLink() {
-		String link = Handler.getLink(counterFile);
+		String link = Handler.getLink(StreamSAKFileHandler.getFileFormattedName(counterFile));
 		if(link != null) {
 			for(Adjuster a : CountersAdjustersPlugins.getAdjusters())
 				if(a.getName().equalsIgnoreCase(link)) {

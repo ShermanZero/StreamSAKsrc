@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,6 +39,7 @@ public class StreamSAKFileHandler {
 	
 	public static String jarPath, countersDirectoryPath, adjustersDirectoryPath, pluginsDirectoryPath, sourceDirectoryPath, propertiesFilePath;
 	
+	private static boolean loadPlugin;
 	private static ArrayList<File> files = new ArrayList<File>();
 	
 	public enum Directory {
@@ -91,12 +94,12 @@ public class StreamSAKFileHandler {
 			
 			wins = new File(countersDirectoryPath+File.separator+"wins.txt");
 			wins.createNewFile();
-			Handler.setLink(wins, sr);
+			Handler.setLink(StreamSAKFileHandler.getFileFormattedName(wins), StreamSAKFileHandler.getFileFormattedName(sr));
 			writeToFile(wins, "0");
 			
 			losses = new File(countersDirectoryPath+File.separator+"losses.txt");
 			losses.createNewFile();
-			Handler.setLink(losses, sr);
+			Handler.setLink(StreamSAKFileHandler.getFileFormattedName(losses), StreamSAKFileHandler.getFileFormattedName(sr));
 			writeToFile(losses, "0");
 			
 			draws = new File(countersDirectoryPath+File.separator+"draws.txt");
@@ -252,6 +255,7 @@ public class StreamSAKFileHandler {
 		return files;
 	}
 	
+	
 	private static void loadPlugins() {
 		//get all the files within the plug-ins folder
 		File pluginsFolder = new File(pluginsDirectoryPath);
@@ -266,18 +270,42 @@ public class StreamSAKFileHandler {
 		ArrayList<String> classes = new ArrayList<>();
         
 		if(pluginsList != null) {
+			loadPlugin = true;
+			
 			Arrays.stream(pluginsList).forEach(file -> {
 				try {
         			JarFile jarFile = new JarFile(file);
     				urls.add(new URL("jar:file:"+pluginsDirectoryPath+File.separator+file.getName()+"!/"));
-                    
+    				
     				jarFile.stream().forEach(jarEntry -> {
-    					if(jarEntry.getName().endsWith(".class")) {
-    						classes.add(jarEntry.getName());
-    						System.out.println("adding ["+jarEntry.getName()+"]");
+    					if(jarEntry.getName().endsWith(".dat")) {
+    						String pluginBuild = "";
+    						try {
+								InputStream is = jarFile.getInputStream(jarEntry);
+								BufferedReader br = new BufferedReader(new InputStreamReader(is));
+								
+								pluginBuild = br.readLine();
+								br.close();
+							} catch (IOException e) { e.printStackTrace(); }
+    						String jarFileName = jarFile.getName();
+
+    						loadPlugin = pluginBuild.equals(StreamSAK.getPluginLibraryBuild());
+    						if(!loadPlugin)
+    							failPlugin(jarFileName.substring(jarFileName.lastIndexOf(File.separator)+1), pluginBuild);
+    						
+    						System.out.println(jarFileName+" running library build ["+pluginBuild+"]");
     					}
     				});
-                    
+    				
+    				if(loadPlugin) {
+    					jarFile.stream().forEach(jarEntry -> {	
+        					if(jarEntry.getName().endsWith(".class")) {
+        						System.out.println("adding ["+jarEntry.getName()+"]");
+        						classes.add(jarEntry.getName());
+        					}
+        				});
+    				}
+    				
     				jarFile.close();
 				} catch (Exception e) { e.printStackTrace(); }
 			});
@@ -298,23 +326,9 @@ public class StreamSAKFileHandler {
 								System.out.println("      --["+anInterface+"]");
 	
 								StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
-	            				
-								StreamSAK client = new StreamSAK();
-								
-								String pluginBuild = plugin.getLocalBuild();
-								String currentBuild = client.getPluginLibraryBuild();
-								String currentVersion = client.getCurrentVersion();
-	            				
-								System.out.println("         current build ["+currentBuild+"]\n"
-												  + "         plug-in build ["+pluginBuild+"]");
-	            				
-								if(!pluginBuild.equals(currentBuild)) {
-									failPlugin(plugin, pluginBuild, currentBuild, currentVersion);
-								} else {
-									System.out.println("   *loaded successfully*\n");
-									CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
-								}
-	            				
+							
+								CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
+								System.out.println("   *loaded successfully*\n");
 								break;
 							}
 						}
@@ -328,11 +342,14 @@ public class StreamSAKFileHandler {
 		System.out.println("...done");
 	}
 	
-	private static void failPlugin(StreamSAKPlugin p, String pluginBuild, String currentBuild, String currentVersion) {
+	private static void failPlugin(String pluginName, String pluginBuild) {
 		JFrame window = new JFrame();
 		
-		String header = p.getName()+" ("+p.getVersion()+") could not be loaded.";
-		String message = p.getName()+" is currently using the StreamSAKPluginLibrary build of "+pluginBuild+"."+
+		String currentVersion = StreamSAK.getCurrentVersion();
+		String currentBuild = StreamSAK.getPluginLibraryBuild();
+		
+		String header = pluginName+" could not be loaded.";
+		String message = pluginName+" is currently using the StreamSAKPluginLibrary build of "+pluginBuild+"."+
 				"  The StreamSAKPluginLibrary build of this StreamSAK client ("+currentVersion+") is "+currentBuild+
 				".\n\nIt is up to the developer to download the latest version of the StreamSAKPluginLibrary, and update their plug-in so that it"+
 				" runs smoothly with the current StreamSAK client ("+currentVersion+").  If you are the developer, please"+
