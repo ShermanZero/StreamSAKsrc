@@ -37,13 +37,14 @@ import main.types.StreamSAKSimplePlugin;
 
 public class StreamSAKFileHandler {
 	
-	public static String jarPath, countersDirectoryPath, adjustersDirectoryPath, pluginsDirectoryPath, sourceDirectoryPath, propertiesFilePath;
+	public static String dataPath, countersDirectoryPath, adjustersDirectoryPath,
+	pluginsDirectoryPath, sourceDirectoryPath, miscDirectoryPath, propertiesFilePath;
 	
 	private static boolean loadPlugin;
 	private static ArrayList<File> files = new ArrayList<File>();
 	
 	public enum Directory {
-		COUNTERS("counters"), ADJUSTERS("adjusters"), PLUGINS("plugins"), SOURCE("src"), MAIN("");
+		COUNTERS("counters"), ADJUSTERS("adjusters"), PLUGINS("plugins"), SOURCE("src"), MISC("misc"), MAIN("");
 		
 		private String value;
 		private Directory(String str) {
@@ -60,23 +61,34 @@ public class StreamSAKFileHandler {
 		try {
 			path = new File(StreamSAK.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
 		} catch (URISyntaxException e) { e.printStackTrace(); }
-		jarPath = path.substring(0, path.lastIndexOf(File.separator));
+		String jarPath = path.substring(0, path.lastIndexOf(File.separator));
+		dataPath = jarPath+File.separator+"data";
+
+		miscDirectoryPath = dataPath+File.separator+Directory.MISC.getValue();
+		countersDirectoryPath = dataPath+File.separator+Directory.COUNTERS.getValue();
+		adjustersDirectoryPath = dataPath+File.separator+Directory.ADJUSTERS.getValue();
+		pluginsDirectoryPath = dataPath+File.separator+Directory.PLUGINS.getValue();
+		sourceDirectoryPath = dataPath+File.separator+Directory.SOURCE.getValue();
 		
-		propertiesFilePath = jarPath+File.separator+"links.properties";
-		countersDirectoryPath = jarPath+File.separator+Directory.COUNTERS.getValue();
-		adjustersDirectoryPath = jarPath+File.separator+Directory.ADJUSTERS.getValue();
-		pluginsDirectoryPath = jarPath+File.separator+Directory.PLUGINS.getValue();
-		sourceDirectoryPath = jarPath+File.separator+Directory.SOURCE.getValue();
+		propertiesFilePath = miscDirectoryPath+File.separator+"links.properties";
 	}
 	
 	public static void init() throws Exception {
-		//create the log file
-		File logFile = new File(jarPath+File.separator+"log.txt");
-		if(!logFile.exists())
-			logFile.createNewFile();
-		files.add(logFile);
+		File dir = null, sr = null, wins, losses, draws, logFile, propertiesFile;
 
-		File dir = null, sr = null, wins, losses, draws;
+		//check to see if the misc directory exists
+		dir = new File(miscDirectoryPath);
+		if(!dir.exists()) {
+			dir.mkdirs();
+			
+			logFile = new File(dataPath+File.separator+"log.txt");
+			if(!logFile.exists())
+				logFile.createNewFile();
+			
+			propertiesFile = new File(propertiesFilePath);
+			if(!propertiesFile.exists())
+				propertiesFile.createNewFile();
+		}
 		
 		//check to see if the adjuster directory exists
 		dir = new File(adjustersDirectoryPath);
@@ -112,6 +124,13 @@ public class StreamSAKFileHandler {
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
+		
+		//get all the files within the misc folder
+		File miscFolder = new File(miscDirectoryPath);
+		File[] miscList = miscFolder.listFiles();
+			for(File f : miscList)
+				if(f.isFile())
+					addFile(f);
 		
 		//get all the files within the counter folder
 		File counterFolder = new File(countersDirectoryPath);

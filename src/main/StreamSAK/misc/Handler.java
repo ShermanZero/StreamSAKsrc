@@ -17,6 +17,8 @@ public class Handler {
 	private static Properties prop;
 	
 	public static void init() throws Exception {
+		StreamSAKFileHandler.init();
+		
 		prop = new Properties();
 		InputStream in = null;
 		
@@ -32,8 +34,6 @@ public class Handler {
 			if(in != null)
 				try { in.close(); } catch (Exception e) { e.printStackTrace(); }
 		}
-		
-		StreamSAKFileHandler.init();
 	}
 	
 	public static boolean setLink(String object, String link) {
