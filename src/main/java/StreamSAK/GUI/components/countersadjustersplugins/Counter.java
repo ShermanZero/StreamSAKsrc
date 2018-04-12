@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI.components.countersadjustersplugins;
+package StreamSAK.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -10,14 +10,14 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.logandinput.Input;
-import main.StreamSAK.GUI.components.logandinput.Log;
-import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.StreamSAKHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
-import main.StreamSAK.misc.actions.Action;
+import StreamSAK.GUI.GUI;
+import StreamSAK.GUI.components.logandinput.Input;
+import StreamSAK.GUI.components.logandinput.Log;
+import StreamSAK.GUI.components.misc.CustomButton;
+import StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.misc.StreamSAKHandler;
+import StreamSAK.misc.StreamSAKFileHandler.Directory;
+import StreamSAK.misc.actions.Action;
 
 public class Counter {
 	

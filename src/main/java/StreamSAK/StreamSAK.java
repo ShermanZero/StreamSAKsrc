@@ -1,4 +1,4 @@
-package main.StreamSAK;
+package StreamSAK;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,11 +9,11 @@ import java.io.InputStreamReader;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.StreamSAKHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.GUI.GUI;
+import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import StreamSAK.GUI.components.misc.CustomButton;
+import StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.misc.StreamSAKHandler;
 
 public class StreamSAK {
 	

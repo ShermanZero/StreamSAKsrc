@@ -1,6 +1,6 @@
-package main.StreamSAK.misc.actions;
+package StreamSAK.misc.actions;
 
-import main.StreamSAK.GUI.components.logandinput.Input;
+import StreamSAK.GUI.components.logandinput.Input;
 
 public class ActionThread extends Thread {
 

@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI;
+package StreamSAK.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,14 +27,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAK.StreamSAK;
-import main.StreamSAK.GUI.components.Options;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.StreamSAK.GUI.components.logandinput.LogAndInput;
-import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.GUI.components.misc.CustomLabel;
-import main.StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.StreamSAK;
+import StreamSAK.GUI.components.Options;
+import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import StreamSAK.GUI.components.logandinput.LogAndInput;
+import StreamSAK.GUI.components.misc.CustomButton;
+import StreamSAK.GUI.components.misc.CustomLabel;
+import StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
 	

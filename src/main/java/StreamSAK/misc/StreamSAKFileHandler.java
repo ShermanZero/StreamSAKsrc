@@ -1,4 +1,4 @@
-package main.StreamSAK.misc;
+package StreamSAK.misc;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -25,13 +25,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import StreamSAK.StreamSAK;
+import StreamSAK.GUI.GUI;
+import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import StreamSAK.GUI.components.countersadjustersplugins.Plugin;
+import StreamSAK.GUI.components.misc.CustomButton;
 import main.StreamSAKPlugin;
-import main.StreamSAK.StreamSAK;
-import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
-import main.StreamSAK.GUI.components.misc.CustomButton;
 import main.types.StreamSAKAdvancedPlugin;
 import main.types.StreamSAKSimplePlugin;
 

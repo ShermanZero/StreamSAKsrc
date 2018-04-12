@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI.components.misc;
+package StreamSAK.GUI.components.misc;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import main.StreamSAK.GUI.GUI;
+import StreamSAK.GUI.GUI;
 
 public class CustomButton extends JButton {
 	private static final long serialVersionUID = 1L;

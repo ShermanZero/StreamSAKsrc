@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI.components;
+package StreamSAK.GUI.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -14,17 +14,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import main.StreamSAK.GUI.components.countersadjustersplugins.Counter;
-import main.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import main.StreamSAK.GUI.components.logandinput.Input;
-import main.StreamSAK.GUI.components.logandinput.Log;
-import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.StreamSAKHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
-import main.StreamSAK.misc.actions.Action;
+import StreamSAK.GUI.GUI;
+import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import StreamSAK.GUI.components.countersadjustersplugins.Counter;
+import StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import StreamSAK.GUI.components.logandinput.Input;
+import StreamSAK.GUI.components.logandinput.Log;
+import StreamSAK.GUI.components.misc.CustomButton;
+import StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.misc.StreamSAKHandler;
+import StreamSAK.misc.StreamSAKFileHandler.Directory;
+import StreamSAK.misc.actions.Action;
 
 public class Options extends JPanel {
 	private static final long serialVersionUID = 1L;

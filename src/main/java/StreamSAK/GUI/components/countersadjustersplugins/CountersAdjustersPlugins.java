@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI.components.countersadjustersplugins;
+package StreamSAK.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,12 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import StreamSAK.GUI.GUI;
+import StreamSAK.GUI.components.misc.CustomButton;
+import StreamSAK.misc.StreamSAKFileHandler;
+import StreamSAK.misc.StreamSAKHandler;
+import StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.StreamSAKPlugin;
-import main.StreamSAK.GUI.GUI;
-import main.StreamSAK.GUI.components.misc.CustomButton;
-import main.StreamSAK.misc.StreamSAKHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler;
-import main.StreamSAK.misc.StreamSAKFileHandler.Directory;
 
 public class CountersAdjustersPlugins extends JPanel {
 	private static final long serialVersionUID = 1L;

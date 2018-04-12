@@ -1,4 +1,4 @@
-package main.StreamSAK.GUI.components.logandinput;
+package StreamSAK.GUI.components.logandinput;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -13,7 +13,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import main.StreamSAK.GUI.GUI;
+import StreamSAK.GUI.GUI;
 
 public class Input extends JPanel {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package main.StreamSAK.misc;
+package StreamSAK.misc;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,9 +6,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import main.StreamSAK.GUI.components.logandinput.Input;
-import main.StreamSAK.misc.actions.Action;
-import main.StreamSAK.misc.actions.ActionThread;
+import StreamSAK.GUI.components.logandinput.Input;
+import StreamSAK.misc.actions.Action;
+import StreamSAK.misc.actions.ActionThread;
 
 public class StreamSAKHandler {
 	

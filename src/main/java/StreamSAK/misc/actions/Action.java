@@ -1,4 +1,4 @@
-package main.StreamSAK.misc.actions;
+package StreamSAK.misc.actions;
 
 public abstract class Action {
 	
