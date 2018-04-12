@@ -18,8 +18,6 @@ public class ActionThread extends Thread {
 		
 		if(!stopThread)
 			try { a.run(); } catch (Exception e) { e.printStackTrace(); }
-		
-		Input.setNoInput();
 	}
 	
 	public void end() {

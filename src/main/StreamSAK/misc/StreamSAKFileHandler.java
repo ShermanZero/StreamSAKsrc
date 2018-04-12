@@ -270,7 +270,7 @@ public class StreamSAKFileHandler {
 		ArrayList<String> classes = new ArrayList<>();
         
 		if(pluginsList != null) {
-			loadPlugin = true;
+			loadPlugin = false;
 			
 			Arrays.stream(pluginsList).forEach(file -> {
 				try {

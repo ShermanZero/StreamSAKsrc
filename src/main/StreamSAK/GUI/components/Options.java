@@ -9,8 +9,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -35,7 +35,7 @@ public class Options extends JPanel {
 		this.setBorder(new EmptyBorder(10, 8, 10, 8));
 		
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
 		
 		JButton createCounter = new CustomButton("Create New Counter", Counter.counterForegroundColor);
@@ -75,7 +75,7 @@ public class Options extends JPanel {
 			
 			if(b.equals(deleteCounter)) {
 				gbc.gridy++;
-				this.add(new JLabel(" "), gbc);
+				this.add(Box.createVerticalStrut(30), gbc);
 			}
 		}
 	}

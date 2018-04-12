@@ -19,7 +19,7 @@ import main.StreamSAK.misc.StreamSAKFileHandler;
 
 public class StreamSAK {
 	
-	private static String StreamSAK_CURRENT_VERSION = "v4.3.1";
+	private static String StreamSAK_CURRENT_VERSION = "v4.3.2";
 	private static String StreamSAK_PLUGIN_LIBRARY_BUILD;
 	
 	public void start() {
@@ -98,15 +98,16 @@ public class StreamSAK {
 		JFrame window = new JFrame();
 		
 		String header = "You have the current version of StreamSAK ("+StreamSAK_CURRENT_VERSION+")";
-		String updates = "Thanks for supporting me, you're awesome!  Don't worry, I'll continue to push out "+
+		String thanks = "Thanks for supporting me, you're awesome!  Don't worry, I'll continue to push out "+
 						"new and awesome updates for as long as they're needed.";
+		String updates = StreamSAK_CURRENT_VERSION+": \n"+StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/data/misc/recent_release.dat");
 		
 		JButton show = new CustomButton("Close", Adjuster.adjusterForegroundColor);
 		show.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
 		});
 		
-		GUI.generateNotification(window, header, updates, new JButton[] {show});
+		GUI.generateNotification(window, header, thanks+"\n\n"+updates, new JButton[] {show});
 	}
 
 	public static void main(String [] args) {

@@ -61,29 +61,38 @@ public class Plugin {
 				}
 			}
 			
-			if(ap.getInput().getRequired())
-				if(ap.getInput().getAutoEnter())
-					onInput(ap);
-				else
-					Handler.doOnInput(new Action() { public void run() throws Exception { onInput(ap); } }, ap.getInput().getMessage());
-			else {
+			//if the plug-in requires input
+			if(ap.getInputter().getRequired()) {
+				//if the plug-in auto-enters
+				if(ap.getInputter().getAutoEnter()) {
+					Input.enterInput();
+					ap.getInputter().setData(Input.getLastInput());
+					
+					plugin.doOnPress();
+					
+					if(ap.getLogEntrier().getRequired())
+						Log.write(ap.getLogEntrier().getEntry());
+				//if the plug-in requires manual input
+				} else {
+					ap.getInputter().setData(Input.getLastInput());
+					
+					Handler.doOnInput(new Action() { public void run() throws Exception { 
+						plugin.doOnPress();
+						
+						if(ap.getLogEntrier().getRequired())
+							Log.write(ap.getLogEntrier().getEntry());
+					} }, ap.getInputter().getMessage());
+				}
+			//if the plug-in does not require input
+			} else {
 				plugin.doOnPress();
 
-				if(ap.getLogEntry().getRequired())
-					Log.write(ap.getLogEntry().getEntry());
+				if(ap.getLogEntrier().getRequired())
+					Log.write(ap.getLogEntrier().getEntry());
 			}
 		} else if (plugin instanceof StreamSAKSimplePlugin) {
 			plugin.doOnPress();
 		}
-	}
-	
-	private void onInput(StreamSAKAdvancedPlugin ap) {
-		ap.getInput().setData(Input.getLastInput());
-		
-		plugin.doOnPress();
-		
-		if(ap.getLogEntry().getRequired())
-			Log.write(ap.getLogEntry().getEntry());
 	}
 	
 	private JButton generateLink() {

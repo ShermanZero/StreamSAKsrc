@@ -37,26 +37,16 @@ public class Input extends JPanel {
 		textInfo.setHorizontalAlignment(JTextField.CENTER);
 		this.add(textInfo);
 		
-		textInput.setBackground(Color.GRAY);
-		textInput.setForeground(Color.DARK_GRAY);
 		textInput.setCaretColor(Color.DARK_GRAY);
 		textInput.setFont(GUI.defaultFont);
 		textInput.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.LIGHT_GRAY), new EmptyBorder(5, 10, 5, 10)));
 		textInput.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				lastInput = textInput.getText().trim();
-				noInput = false;
-				
-				disableInput();
-			}
+			public void actionPerformed(ActionEvent arg0) { enterInput(); }
 		});
 		
 		textInput.addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
-					disableInput();
-			}
+			public void keyPressed(KeyEvent arg0) { if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE) disableInput();}
 			@Override
 			public void keyReleased(KeyEvent arg0) {}
 			@Override
@@ -64,6 +54,14 @@ public class Input extends JPanel {
 			
 		});
 		this.add(textInput);
+		
+		disableInput();
+	}
+	
+	//enters the input
+	public static void enterInput() {
+		lastInput = textInput.getText().trim();
+		noInput = false;
 		
 		disableInput();
 	}
@@ -78,12 +76,9 @@ public class Input extends JPanel {
 		return lastInput;
 	}
 	
+	//returns whether there is no input
 	public static boolean hasNoInput() {
 		return noInput;
-	}
-	
-	public static void setNoInput() {
-		noInput = true;
 	}
 	
 	//set the text inside textInput
@@ -106,6 +101,8 @@ public class Input extends JPanel {
 		
 		textInfo.setText(info);
 		textInfo.setForeground(Color.LIGHT_GRAY);
+		
+		noInput = true;
 	}
 	
 	//prevents input
@@ -119,5 +116,4 @@ public class Input extends JPanel {
 		textInfo.setForeground(Color.GRAY);
 	}
 	
-
 }
