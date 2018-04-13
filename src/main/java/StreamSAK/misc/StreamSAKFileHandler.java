@@ -73,7 +73,6 @@ public class StreamSAKFileHandler {
 		
 		propertiesFilePath = miscDirectoryPath+File.separator+"links.properties";
 		
-		
 		File dir = null, sr = null, wins, losses, draws, logFile, propertiesFile;
 
 		//check to see if the misc directory exists
@@ -329,8 +328,6 @@ public class StreamSAKFileHandler {
 				} catch (Exception e) { e.printStackTrace(); }
 			});
 			
-			System.out.println("\nLoading plugins...\n");
-			
 			URLClassLoader pluginLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
 			classes.forEach(s -> {
 				try {
@@ -357,8 +354,6 @@ public class StreamSAKFileHandler {
             
 			try { pluginLoader.close(); } catch (Exception e) { e.printStackTrace(); }
         }
-		
-		System.out.println("...done");
 	}
 	
 	private static void failPlugin(String pluginName, String pluginBuild) {

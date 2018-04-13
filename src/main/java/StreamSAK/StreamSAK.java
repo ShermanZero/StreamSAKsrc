@@ -55,8 +55,7 @@ public class StreamSAK {
 			InputStream in = StreamSAK.class.getResourceAsStream("/build.dat");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			StreamSAK_PLUGIN_LIBRARY_BUILD = br.readLine();
-						
-			System.out.println("StreamSAK running plug-in library build ["+StreamSAK_PLUGIN_LIBRARY_BUILD+"]");
+			br.close();
 		} catch (Exception e1) { e1.printStackTrace(); }
 	}
 	
