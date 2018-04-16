@@ -1,4 +1,4 @@
-package StreamSAK.GUI.components.countersadjustersplugins;
+package main.java.StreamSAK.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,12 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import StreamSAK.GUI.GUI;
-import StreamSAK.GUI.components.misc.CustomButton;
-import StreamSAK.misc.StreamSAKFileHandler;
-import StreamSAK.misc.StreamSAKHandler;
-import StreamSAK.misc.StreamSAKFileHandler.Directory;
-import main.StreamSAKPlugin;
+import com.shermanzero.StreamSAKPlugin;
+
+import main.java.StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.StreamSAKFileHandler;
+import main.java.StreamSAK.misc.StreamSAKFileHandler.Directory;
+import main.java.StreamSAK.misc.StreamSAKHandler;
 
 public class CountersAdjustersPlugins extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -42,7 +43,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		this.setLayout(new GridBagLayout());
 		this.setBorder(new EmptyBorder(10, 8, 10, 8));
 		
-		for(GridBagConstraints gbc : new GridBagConstraints[] {counterGBC, adjusterGBC, pluginGBC}) {
+		for(GridBagConstraints gbc : new GridBagConstraints[] { counterGBC, adjusterGBC, pluginGBC }) {
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.weightx = 1.0;
 			gbc.gridx = 1;
@@ -52,7 +53,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		
-		Component [] components = {generateCounterPanel(), generateAdjusterPanel(), generatePluginPanel()};
+		Component [] components = { generateCounterPanel(), generateAdjusterPanel(), generatePluginPanel() };
 		for(Component c : components) {
 			gbc.gridy++;
 			this.add(c, gbc);
@@ -71,6 +72,10 @@ public class CountersAdjustersPlugins extends JPanel {
 		JButton[] buttons = c.generate();
 		for(int i = 0; i < buttons.length; i++) {
 			counterGBC.gridx = (i+1);
+			counterGBC.weightx = 1;
+
+			if(i == buttons.length-1)
+				counterGBC.weightx = 0;
 			counterPanel.add(buttons[i], counterGBC);
 		}
 		
@@ -88,6 +93,10 @@ public class CountersAdjustersPlugins extends JPanel {
 		JButton[] buttons = a.generate();
 		for(int i = 0; i < buttons.length; i++) {
 			adjusterGBC.gridx = (i+1);
+			adjusterGBC.weightx = 1;
+			
+			if(i == buttons.length-1)
+				adjusterGBC.weightx = 0;
 			adjusterPanel.add(buttons[i], adjusterGBC);
 		}
 		
@@ -114,6 +123,11 @@ public class CountersAdjustersPlugins extends JPanel {
 		componentCount++;
 		
 		adjustWindowHeight();
+	}
+	
+	public static void closePlugins() {
+		for(Plugin p : plugins)
+			p.getPlugin().doOnApplicationExit();
 	}
 	
 	public static void deleteCounter(String counterName) {

@@ -1,13 +1,14 @@
-package StreamSAK.GUI.components.misc;
+package main.java.StreamSAK.GUI.components.misc;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.GUI;
 
 public class CustomButton extends JButton {
 	private static final long serialVersionUID = 1L;
@@ -24,19 +25,28 @@ public class CustomButton extends JButton {
 		super(text);
 		setDefaultForeground(GUI.defaultColor);
 		setDefaultBackground(Color.DARK_GRAY);
-		init(true);
+		init(true, false);
 	}
 	
 	public CustomButton(String text, Color foreground) {
 		super(text);
 		setDefaultForeground(foreground);
 		setDefaultBackground(Color.DARK_GRAY);
-		init(true);
+		init(true, false);
 	}
 	
-	public CustomButton(String text, boolean highlightEnabled) {
+	public CustomButton(String text, Color foreground, boolean highlightEnabled) {
 		super(text);
-		init(highlightEnabled);
+		setDefaultForeground(foreground);
+		setDefaultBackground(Color.DARK_GRAY);
+		init(highlightEnabled, false);
+	}
+	
+	public CustomButton(String text, Color foreground, boolean highlightEnabled, boolean rightClickEnabled) {
+		super(text);
+		setDefaultForeground(foreground);
+		setDefaultBackground(Color.DARK_GRAY);
+		init(highlightEnabled, rightClickEnabled);
 	}
 	
 	public static int getComponentHeight() {
@@ -53,7 +63,7 @@ public class CustomButton extends JButton {
 		setBackground(originalBackground);
 	}
 	
-	private void init(boolean highlightEnabled) {
+	private void init(boolean highlightEnabled, boolean rightClickEnabled) {
 		setFont(GUI.defaultFont);
 		setOpaque(true);
 		setFocusable(false);
@@ -61,15 +71,26 @@ public class CustomButton extends JButton {
 		setBorder(new EmptyBorder(topBottomMargin, leftRightMargin, topBottomMargin, leftRightMargin));
 		
 		if(highlightEnabled) {
+			Color highlightColor = Color.WHITE;
+			
 			addMouseListener(new MouseAdapter() {
 				public void mouseEntered(MouseEvent evt) {
 					setForeground(Color.DARK_GRAY);
-					setBackground(Color.WHITE);
+					setBackground(highlightColor);
 				}
 	
 				public void mouseExited(MouseEvent evt) {
 					setForeground(originalForeground);
 					setBackground(originalBackground);
+				}
+				
+				public void mousePressed(MouseEvent evt) {
+					if(rightClickEnabled && SwingUtilities.isRightMouseButton(evt))
+						setBackground(GUI.defaultRedColor);
+				}
+				
+				public void mouseReleased(MouseEvent evt) {
+					setBackground(highlightColor);
 				}
 			});
 		}

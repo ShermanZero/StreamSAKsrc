@@ -1,4 +1,4 @@
-package StreamSAK.GUI.components.logandinput;
+package main.java.StreamSAK.GUI.components.logandinput;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

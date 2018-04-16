@@ -1,4 +1,4 @@
-package StreamSAK.GUI;
+package main.java.StreamSAK.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -27,14 +29,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import StreamSAK.StreamSAK;
-import StreamSAK.GUI.components.Options;
-import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import StreamSAK.GUI.components.logandinput.LogAndInput;
-import StreamSAK.GUI.components.misc.CustomButton;
-import StreamSAK.GUI.components.misc.CustomLabel;
-import StreamSAK.misc.StreamSAKFileHandler;
+import main.java.StreamSAK.StreamSAK;
+import main.java.StreamSAK.GUI.components.Options;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.java.StreamSAK.GUI.components.logandinput.LogAndInput;
+import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.GUI.components.misc.CustomLabel;
+import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
 	
@@ -76,6 +78,11 @@ public class GUI {
 				window.setLocationRelativeTo(null);
 				window.setVisible(true);
 				window.requestFocus();
+				
+				window.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) { CountersAdjustersPlugins.closePlugins(); }
+				});
 			}
 		});
 	}

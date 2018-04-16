@@ -1,4 +1,4 @@
-package StreamSAK.GUI.components.countersadjustersplugins;
+package main.java.StreamSAK.GUI.components.countersadjustersplugins;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,17 +7,18 @@ import java.io.File;
 
 import javax.swing.JButton;
 
-import StreamSAK.GUI.GUI;
-import StreamSAK.GUI.components.logandinput.Input;
-import StreamSAK.GUI.components.logandinput.Log;
-import StreamSAK.GUI.components.misc.CustomButton;
-import StreamSAK.misc.StreamSAKFileHandler;
-import StreamSAK.misc.StreamSAKHandler;
-import StreamSAK.misc.StreamSAKFileHandler.Directory;
-import StreamSAK.misc.actions.Action;
-import main.StreamSAKPlugin;
-import main.types.StreamSAKAdvancedPlugin;
-import main.types.StreamSAKSimplePlugin;
+import com.shermanzero.StreamSAKPlugin;
+import com.shermanzero.types.StreamSAKAdvancedPlugin;
+import com.shermanzero.types.StreamSAKSimplePlugin;
+
+import main.java.StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.components.logandinput.Input;
+import main.java.StreamSAK.GUI.components.logandinput.Log;
+import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.StreamSAKFileHandler;
+import main.java.StreamSAK.misc.StreamSAKFileHandler.Directory;
+import main.java.StreamSAK.misc.StreamSAKHandler;
+import main.java.StreamSAK.misc.actions.StreamSAKAction;
 
 public class Plugin {
 
@@ -27,6 +28,7 @@ public class Plugin {
 	
 	public Plugin(StreamSAKPlugin plugin) {
 		this.plugin = plugin;
+		plugin.doOnApplicationLoad();
 	}
 	
 	public JButton[] generate() {
@@ -68,7 +70,7 @@ public class Plugin {
 					Input.enterInput();
 					ap.getInputter().setData(Input.getLastInput());
 					
-					plugin.doOnPress();
+					plugin.doOnSelect();
 					
 					if(ap.getLogEntrier().getRequired())
 						Log.write(ap.getLogEntrier().getEntry());
@@ -76,8 +78,8 @@ public class Plugin {
 				} else {
 					ap.getInputter().setData(Input.getLastInput());
 					
-					StreamSAKHandler.doOnInput(new Action() { public void run() throws Exception { 
-						plugin.doOnPress();
+					StreamSAKHandler.doOnInput(new StreamSAKAction() { public void run() throws Exception { 
+						plugin.doOnSelect();
 						
 						if(ap.getLogEntrier().getRequired())
 							Log.write(ap.getLogEntrier().getEntry());
@@ -85,13 +87,13 @@ public class Plugin {
 				}
 			//if the plug-in does not require input
 			} else {
-				plugin.doOnPress();
+				plugin.doOnSelect();
 
 				if(ap.getLogEntrier().getRequired())
 					Log.write(ap.getLogEntrier().getEntry());
 			}
 		} else if (plugin instanceof StreamSAKSimplePlugin) {
-			plugin.doOnPress();
+			plugin.doOnSelect();
 		}
 	}
 	
@@ -115,7 +117,7 @@ public class Plugin {
 					StreamSAKHandler.removeLink(p.getName());
 					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
-					StreamSAKHandler.doOnInput(new Action() {
+					StreamSAKHandler.doOnInput(new StreamSAKAction() {
 						@Override
 						public void run() throws Exception {
 							String str = Input.getLastInput();

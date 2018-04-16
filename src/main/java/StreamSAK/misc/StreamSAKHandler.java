@@ -1,4 +1,4 @@
-package StreamSAK.misc;
+package main.java.StreamSAK.misc;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,13 +6,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import StreamSAK.GUI.components.logandinput.Input;
-import StreamSAK.misc.actions.Action;
-import StreamSAK.misc.actions.ActionThread;
+import main.java.StreamSAK.GUI.components.logandinput.Input;
+import main.java.StreamSAK.misc.actions.StreamSAKAction;
+import main.java.StreamSAK.misc.actions.StreamSAKActionThread;
 
 public class StreamSAKHandler {
 	
-	private static ActionThread at;
+	private static StreamSAKActionThread at;
 	private static Properties prop = new Properties();
 	
 	public static void init() throws Exception {
@@ -38,13 +38,13 @@ public class StreamSAKHandler {
 		writeProperties();
 	}
 	
-	public static void doOnInput(Action a, String info) {
+	public static void doOnInput(StreamSAKAction a, String info) {
 		Input.allowInput(info);
 		
 		if(at != null)
 			at.end();
 		
-		at = new ActionThread(a);
+		at = new StreamSAKActionThread(a);
 		at.start();
 	}
 	

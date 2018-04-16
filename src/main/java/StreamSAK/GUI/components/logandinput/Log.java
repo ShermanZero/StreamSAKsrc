@@ -1,4 +1,4 @@
-package StreamSAK.GUI.components.logandinput;
+package main.java.StreamSAK.GUI.components.logandinput;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,9 +24,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import StreamSAK.GUI.GUI;
-import StreamSAK.GUI.components.misc.CustomButton;
-import StreamSAK.misc.StreamSAKFileHandler;
+import main.java.StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class Log extends JPanel {
 	private static final long serialVersionUID = 1L;

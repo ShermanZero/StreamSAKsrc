@@ -1,13 +1,13 @@
-package StreamSAK.misc.actions;
+package main.java.StreamSAK.misc.actions;
 
-import StreamSAK.GUI.components.logandinput.Input;
+import main.java.StreamSAK.GUI.components.logandinput.Input;
 
-public class ActionThread extends Thread {
+public class StreamSAKActionThread extends Thread {
 
 	private boolean stopThread = false;
-	private Action a;
+	private StreamSAKAction a;
 	
-	public ActionThread(Action a) {
+	public StreamSAKActionThread(StreamSAKAction a) {
 		this.a = a;
 	}
 	

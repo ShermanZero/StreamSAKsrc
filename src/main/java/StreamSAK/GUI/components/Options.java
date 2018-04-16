@@ -1,4 +1,4 @@
-package StreamSAK.GUI.components;
+package main.java.StreamSAK.GUI.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -14,17 +14,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import StreamSAK.GUI.GUI;
-import StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
-import StreamSAK.GUI.components.countersadjustersplugins.Counter;
-import StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
-import StreamSAK.GUI.components.logandinput.Input;
-import StreamSAK.GUI.components.logandinput.Log;
-import StreamSAK.GUI.components.misc.CustomButton;
-import StreamSAK.misc.StreamSAKFileHandler;
-import StreamSAK.misc.StreamSAKHandler;
-import StreamSAK.misc.StreamSAKFileHandler.Directory;
-import StreamSAK.misc.actions.Action;
+import main.java.StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.Counter;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.java.StreamSAK.GUI.components.logandinput.Input;
+import main.java.StreamSAK.GUI.components.logandinput.Log;
+import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.StreamSAKFileHandler;
+import main.java.StreamSAK.misc.StreamSAKFileHandler.Directory;
+import main.java.StreamSAK.misc.StreamSAKHandler;
+import main.java.StreamSAK.misc.actions.StreamSAKAction;
 
 public class Options extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -43,14 +43,9 @@ public class Options extends JPanel {
 			public void actionPerformed(ActionEvent arg0) { try { createNewCounter(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 		
-		JButton resetCounters = new CustomButton("Reset All Counters", Counter.counterForegroundColor);
+		JButton resetCounters = new CustomButton("Reset All Counters", GUI.defaultRedColor);
 		resetCounters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllCounters(); }
-		});
-
-		JButton deleteCounter = new CustomButton("Delete Counter", GUI.defaultRedColor);
-		deleteCounter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { try { deleteCounter(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 
 		JButton createAdjuster = new CustomButton("Create New Adjuster", Adjuster.adjusterForegroundColor);
@@ -58,22 +53,17 @@ public class Options extends JPanel {
 			public void actionPerformed(ActionEvent arg0) { try { createNewAdjuster(); } catch (Exception e) { e.printStackTrace(); } }
 		});
 		
-		JButton resetAdjusters = new CustomButton("Reset All Adjusters", Adjuster.adjusterForegroundColor);
+		JButton resetAdjusters = new CustomButton("Reset All Adjusters", GUI.defaultRedColor);
 		resetAdjusters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { CountersAdjustersPlugins.resetAllAdjusters(); }
 		});
 		
-		JButton deleteAdjuster = new CustomButton("Delete Adjuster", GUI.defaultRedColor);
-		deleteAdjuster.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { try { deleteAdjuster(); } catch (Exception e) { e.printStackTrace(); } }
-		});
-		
-		JButton[] buttons = {createCounter, resetCounters, deleteCounter, createAdjuster, resetAdjusters, deleteAdjuster};
+		JButton[] buttons = {createCounter, resetCounters, createAdjuster, resetAdjusters};
 		for(JButton b : buttons) {
 			gbc.gridy++;
 			this.add(b, gbc);
 			
-			if(b.equals(deleteCounter)) {
+			if(b.equals(resetCounters)) {
 				gbc.gridy++;
 				this.add(Box.createVerticalStrut(30), gbc);
 			}
@@ -81,7 +71,7 @@ public class Options extends JPanel {
 	}
 	
 	private static void createNewCounter() {
-		StreamSAKHandler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new StreamSAKAction() {
 			public void run() throws Exception {
 				String newCounter = Input.getLastInput();
 				if(newCounter.equals(""))
@@ -111,35 +101,8 @@ public class Options extends JPanel {
 		}, "Create a New Counter");
 	}
 	
-	private static void deleteCounter() {
-		StreamSAKHandler.doOnInput(new Action() {
-			public void run() throws Exception {
-				String counter = Input.getLastInput();
-				if(counter.equals(""))
-					return;
-				
-				for(File f : StreamSAKFileHandler.getFiles())
-					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(counter) && f.getPath().toLowerCase().contains(Directory.COUNTERS.getValue())) {
-						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf("."));
-						
-						CountersAdjustersPlugins.deleteCounter(fileName);
-						StreamSAKFileHandler.removeFile(f);
-						f.delete();
-
-						String entry = "Deleted counter: "+fileName;
-						Log.write(entry);
-						return;
-					}
-				
-				String entry = "Could not delete counter: "+counter;
-				Log.write(entry);
-			}
-		}, "Delete a Counter");
-	}
-	
 	private static void createNewAdjuster() {
-		StreamSAKHandler.doOnInput(new Action() {
+		StreamSAKHandler.doOnInput(new StreamSAKAction() {
 			public void run() throws Exception {
 				String newAdjuster = Input.getLastInput();
 				if(newAdjuster.equals(""))
@@ -161,34 +124,6 @@ public class Options extends JPanel {
 				CountersAdjustersPlugins.createAdjusterButton(f);
 			}
 		}, "Create a New Adjuster");
-	}
-	
-	private static void deleteAdjuster() {
-		StreamSAKHandler.doOnInput(new Action() {
-			public void run() throws Exception {
-				String adjuster = Input.getLastInput();
-				if(adjuster.equals(""))
-					return;
-				
-				for(File f : StreamSAKFileHandler.getFiles())
-					if(StreamSAKFileHandler.getFileFormattedName(f).equalsIgnoreCase(adjuster) && f.getPath().toLowerCase().contains(Directory.ADJUSTERS.getValue())) {
-						String fileName = f.getPath();
-						fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1, fileName.lastIndexOf("."));
-						
-						CountersAdjustersPlugins.deleteAdjuster(fileName);
-						StreamSAKFileHandler.removeFile(f);
-						f.delete();
-						
-						String entry = "Deleted adjuster: "+fileName;
-						Log.write(entry);
-						return;
-					}
-				
-				
-				String entry = "Could not delete adjuster: "+adjuster;
-				Log.write(entry);
-			}
-		}, "Delete an Adjuster");
 	}
 
 }

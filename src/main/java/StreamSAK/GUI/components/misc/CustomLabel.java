@@ -1,11 +1,11 @@
-package StreamSAK.GUI.components.misc;
+package main.java.StreamSAK.GUI.components.misc;
 
 import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import StreamSAK.GUI.GUI;
+import main.java.StreamSAK.GUI.GUI;
 
 public class CustomLabel extends JLabel {
 
