@@ -11,7 +11,7 @@ public class CustomLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static int topBottomMargin = 7;
+	private static int topBottomMargin = 6;
 	private static int leftRightMargin = 10;
 	
 	public CustomLabel(String text) {
