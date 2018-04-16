@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
+import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import main.java.StreamSAK.GUI.GUI;
 
-public class CustomButton extends JButton {
+public class CustomMenu extends JMenu {
 	private static final long serialVersionUID = 1L;
 	
 	private static int topBottomMargin = 6;
@@ -21,28 +21,28 @@ public class CustomButton extends JButton {
 	private Color originalForeground;
 	private Color originalBackground;
 	
-	public CustomButton(String text) {
+	public CustomMenu(String text) {
 		super(text);
 		setDefaultForeground(GUI.defaultColor);
 		setDefaultBackground(Color.DARK_GRAY);
 		init(true, false);
 	}
 	
-	public CustomButton(String text, Color foreground) {
+	public CustomMenu(String text, Color foreground) {
 		super(text);
 		setDefaultForeground(foreground);
 		setDefaultBackground(Color.DARK_GRAY);
 		init(true, false);
 	}
 	
-	public CustomButton(String text, Color foreground, boolean highlightEnabled) {
+	public CustomMenu(String text, Color foreground, boolean highlightEnabled) {
 		super(text);
 		setDefaultForeground(foreground);
 		setDefaultBackground(Color.DARK_GRAY);
 		init(highlightEnabled, false);
 	}
 	
-	public CustomButton(String text, Color foreground, boolean highlightEnabled, boolean rightClickEnabled) {
+	public CustomMenu(String text, Color foreground, boolean highlightEnabled, boolean rightClickEnabled) {
 		super(text);
 		setDefaultForeground(foreground);
 		setDefaultBackground(Color.DARK_GRAY);
@@ -74,20 +74,14 @@ public class CustomButton extends JButton {
 			Color highlightColor = Color.WHITE;
 			
 			addMouseListener(new MouseAdapter() {
-				boolean mouseIn = false;
-				
 				public void mouseEntered(MouseEvent evt) {
 					setForeground(Color.DARK_GRAY);
 					setBackground(highlightColor);
-					
-					mouseIn = true;
 				}
 	
 				public void mouseExited(MouseEvent evt) {
 					setForeground(originalForeground);
 					setBackground(originalBackground);
-					
-					mouseIn = false;
 				}
 				
 				public void mousePressed(MouseEvent evt) {
@@ -96,10 +90,7 @@ public class CustomButton extends JButton {
 				}
 				
 				public void mouseReleased(MouseEvent evt) {
-					if(mouseIn)
-						setBackground(highlightColor);
-					else
-						setBackground(originalBackground);
+					setBackground(highlightColor);
 				}
 			});
 		}

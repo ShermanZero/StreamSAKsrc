@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,9 +32,11 @@ import main.java.StreamSAK.StreamSAK;
 import main.java.StreamSAK.GUI.components.Options;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.java.StreamSAK.GUI.components.logandinput.LogAndInput;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
 import main.java.StreamSAK.GUI.components.misc.CustomLabel;
+import main.java.StreamSAK.GUI.components.misc.CustomMenu;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
@@ -168,6 +171,8 @@ public class GUI {
 	}
 	
 	private static JMenuBar generateMenuBar() {
+		boolean hasPlugins = CountersAdjustersPlugins.getPlugins().size() > 0;
+		
 		JMenuBar mb = new JMenuBar();
 		mb.setBorder(new CompoundBorder(new MatteBorder(1, 1, 0, 1, Color.LIGHT_GRAY), new MatteBorder(0, 0, 1, 0, Color.GRAY)));
 		mb.setBackground(Color.DARK_GRAY);
@@ -184,6 +189,21 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) { StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"); }
 		});
 		
+		JMenu plugins = null;
+		if(hasPlugins) {
+			plugins = new CustomMenu("Plugins", Plugin.pluginForegroundColor);
+			
+			for(Plugin p : CountersAdjustersPlugins.getPlugins()) {
+				JButton pluginButton = new CustomButton(p.getName()+" "+p.getPlugin().getVersion(), Plugin.pluginForegroundColor);
+				
+				pluginButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) { p.getPlugin().doOnSettingsSelect(); }
+				});
+				
+				plugins.add(pluginButton);
+			}
+		}
+		
 		JButton dev = new CustomButton("Support the Developer", Adjuster.adjusterForegroundColor);
 		dev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { StreamSAKFileHandler.openURL("https://www.twitch.tv/shermanzero"); }
@@ -198,6 +218,8 @@ public class GUI {
 		mb.add(version);
 		mb.add(build);
 		mb.add(Box.createHorizontalGlue());
+		if(hasPlugins)
+			mb.add(plugins);
 		mb.add(dev);
 		mb.add(exit);
 		

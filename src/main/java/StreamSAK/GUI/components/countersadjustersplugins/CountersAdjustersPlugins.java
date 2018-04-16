@@ -62,10 +62,10 @@ public class CountersAdjustersPlugins extends JPanel {
 		gbc.gridy++;
 		this.add(new JLabel(" "), gbc);
 		
-		adjustWindowHeight();
+		adjustWindow();
 	}
 	
-	public static void createCounterButton(File counterFile) {
+	public static Counter createCounterButton(File counterFile) {
 		Counter c = new Counter(counterFile);
 		counters.add(c);
 		
@@ -83,10 +83,12 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.revalidate();
 		componentCount++;
 		
-		adjustWindowHeight();
+		adjustWindow();
+		
+		return c;
 	}
 	
-	public static void createAdjusterButton(File adjusterFile) {
+	public static Adjuster createAdjusterButton(File adjusterFile) {
 		Adjuster a = new Adjuster(adjusterFile);
 		adjusters.add(a); 
 		
@@ -104,10 +106,12 @@ public class CountersAdjustersPlugins extends JPanel {
 		counterPanel.revalidate();
 		componentCount++;
 		
-		adjustWindowHeight();
+		adjustWindow();
+		
+		return a;
 	}
 	
-	public static void createPluginButton(StreamSAKPlugin plugin) {
+	public static Plugin createPluginButton(StreamSAKPlugin plugin) {
 		Plugin p = new Plugin(plugin);
 		
 		JButton[] buttons = p.generate();
@@ -122,7 +126,9 @@ public class CountersAdjustersPlugins extends JPanel {
 		pluginPanel.revalidate();
 		componentCount++;
 		
-		adjustWindowHeight();
+		adjustWindow();
+		
+		return p;
 	}
 	
 	public static void closePlugins() {
@@ -155,7 +161,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		
 		File f = StreamSAKFileHandler.findFile(counterName, Directory.COUNTERS);
 		StreamSAKHandler.removeLink(StreamSAKFileHandler.getFileFormattedName(f));
-		adjustWindowHeight();
+		adjustWindow();
 	}
 	
 	public static void deleteAdjuster(String adjusterName) {
@@ -181,7 +187,7 @@ public class CountersAdjustersPlugins extends JPanel {
 		adjusterPanel.revalidate();
 		componentCount--;
 		
-		adjustWindowHeight();
+		adjustWindow();
 	}
 	
 	public static void resetAllCounters() {
@@ -213,7 +219,6 @@ public class CountersAdjustersPlugins extends JPanel {
 	private static JPanel generateCounterPanel() {
 		counterPanel = new JPanel(new GridBagLayout());
 		counterPanel.setBackground(null);
-		counterPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
 		
 		for(File f : StreamSAKFileHandler.getFiles())
 			if(f.getPath().contains(Directory.COUNTERS.getValue()))
@@ -237,9 +242,6 @@ public class CountersAdjustersPlugins extends JPanel {
 		pluginPanel = new JPanel(new GridBagLayout());
 		pluginPanel.setBackground(null);
 		
-		if(plugins.size() > 0)
-			pluginPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
-		
 		for(Plugin p : plugins) {
 			StreamSAKPlugin sp = p.getPlugin();
 			createPluginButton(sp);
@@ -248,7 +250,21 @@ public class CountersAdjustersPlugins extends JPanel {
 		return pluginPanel;
 	}
 	
-	private static void adjustWindowHeight() {
+	private static void adjustWindow() {
+		if(adjusterPanel != null) {
+			System.out.println("test");
+			
+			adjusterPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
+			if(counters.size() > 0 && adjusters.size() > 0 && plugins.size() > 0)
+				adjusterPanel.setBorder(new MatteBorder(1, 0, 1, 0, Color.GRAY));
+			else if(counters.size() > 0 && adjusters.size() == 0 && plugins.size() == 0)
+				adjusterPanel.setBorder(null);
+			else if(counters.size() == 0 && adjusters.size() > 0 && plugins.size() == 0)
+				adjusterPanel.setBorder(null);
+			else if(counters.size() == 0 && adjusters.size() == 0 && plugins.size() > 0)
+				adjusterPanel.setBorder(null);
+		}
+		
 		int newHeight = 100+(componentCount+2)*CustomButton.getComponentHeight();
 		GUI.setHeight(newHeight);
 	}

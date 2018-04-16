@@ -48,7 +48,7 @@ public class Counter {
 	}
 	
 	public void resetCounter() {
-		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile)+" reset";
+		String entry = StreamSAKFileHandler.getFileFormattedName(counterFile)+": 0";
 		Log.write(entry);
 		
 		value = 0;

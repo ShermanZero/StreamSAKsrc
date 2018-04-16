@@ -121,7 +121,9 @@ public class Options extends JPanel {
 				Log.write(entry);
 				
 				StreamSAKFileHandler.addFile(f);
-				CountersAdjustersPlugins.createAdjusterButton(f);
+				Adjuster a = CountersAdjustersPlugins.createAdjusterButton(f);
+				
+				a.changeAdjuster();
 			}
 		}, "Create a New Adjuster");
 	}

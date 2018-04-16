@@ -46,7 +46,7 @@ public class Adjuster {
 	}
 	
 	public void resetAdjuster() {
-		String entry = StreamSAKFileHandler.getFileFormattedName(adjusterFile)+" reset";
+		String entry = StreamSAKFileHandler.getFileFormattedName(adjusterFile)+":";
 		Log.write(entry);
 		
 		value = "";
@@ -77,7 +77,7 @@ public class Adjuster {
 	}
 	
 	private JButton generateButton() {
-		JButton b = new CustomButton(getName(), adjusterForegroundColor);
+		JButton b = new CustomButton(getName(), adjusterForegroundColor, true, true);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { displayAdjuster(); }
 		});
@@ -109,7 +109,7 @@ public class Adjuster {
 				StreamSAKFileHandler.removeFile(adjusterFile);
 				adjusterFile.delete();
 				
-				String entry = "Deleted counter: "+fileName;
+				String entry = "Deleted adjuster: "+fileName;
 				Log.write(entry);
 				return;
 			}
