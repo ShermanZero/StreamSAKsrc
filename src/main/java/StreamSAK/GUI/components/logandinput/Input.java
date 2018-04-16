@@ -60,7 +60,7 @@ public class Input extends JPanel {
 	
 	//enters the input
 	public static void enterInput() {
-		lastInput = textInput.getText().trim();
+		lastInput = textInput.getText();
 		noInput = false;
 		
 		disableInput();

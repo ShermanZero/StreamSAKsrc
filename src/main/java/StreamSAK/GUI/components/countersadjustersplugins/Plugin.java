@@ -77,9 +77,9 @@ public class Plugin {
 						Log.write(ap.getLogEntrier().getEntry());
 				//if the plug-in requires manual input
 				} else {
-					ap.getInputter().setData(Input.getLastInput());
-					
 					StreamSAKHandler.doOnInput(new StreamSAKAction() { public void run() throws Exception { 
+						ap.getInputter().setData(Input.getLastInput());
+
 						plugin.doOnSelect();
 						
 						if(ap.getLogEntrier().getRequired())

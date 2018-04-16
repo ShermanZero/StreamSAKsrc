@@ -318,10 +318,8 @@ public class StreamSAKFileHandler {
     				
     				if(loadPlugin) {
     					jarFile.stream().forEach(jarEntry -> {	
-        					if(jarEntry.getName().endsWith(".class")) {
-        						System.out.println("adding ["+jarEntry.getName()+"]");
+        					if(jarEntry.getName().endsWith(".class"))
         						classes.add(jarEntry.getName());
-        					}
         				});
     				}
     				
@@ -338,16 +336,15 @@ public class StreamSAKFileHandler {
 						Class<?>[] interfaces = superClass.getInterfaces();
 	            		
 						for (Class<?> anInterface : interfaces) {
-							System.out.println(anInterface.getName()+"  |  "+subClass.getName()+"  |  "+superClass.getName());
-							
 							if( anInterface == StreamSAKPlugin.class && subClass != StreamSAKAdvancedPlugin.class && subClass != StreamSAKSimplePlugin.class ) {
 								System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
 								System.out.println("      --["+anInterface+"]");
-	
+
 								StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
-							
-								CountersAdjustersPlugins.addPlugin(new Plugin(plugin));
 								System.out.println("   *loaded successfully*\n");
+
+								Plugin p = new Plugin(plugin);
+								CountersAdjustersPlugins.addPlugin(p);
 								break;
 							}
 						}

@@ -13,8 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import com.shermanzero.StreamSAKPlugin;
-
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
@@ -111,10 +109,8 @@ public class CountersAdjustersPlugins extends JPanel {
 		return a;
 	}
 	
-	public static Plugin createPluginButton(StreamSAKPlugin plugin) {
-		Plugin p = new Plugin(plugin);
-		
-		JButton[] buttons = p.generate();
+	public static void createPluginButton(Plugin plugin) {
+		JButton[] buttons = plugin.generate();
 		pluginGBC.gridwidth = (buttons.length-1);
 		
 		for(int i = 0; i < buttons.length; i++) {
@@ -127,8 +123,6 @@ public class CountersAdjustersPlugins extends JPanel {
 		componentCount++;
 		
 		adjustWindow();
-		
-		return p;
 	}
 	
 	public static void closePlugins() {
@@ -242,18 +236,14 @@ public class CountersAdjustersPlugins extends JPanel {
 		pluginPanel = new JPanel(new GridBagLayout());
 		pluginPanel.setBackground(null);
 		
-		for(Plugin p : plugins) {
-			StreamSAKPlugin sp = p.getPlugin();
-			createPluginButton(sp);
-		}
-
+		for(Plugin p : plugins)
+			createPluginButton(p);
+	
 		return pluginPanel;
 	}
 	
 	private static void adjustWindow() {
 		if(adjusterPanel != null) {
-			System.out.println("test");
-			
 			adjusterPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
 			if(counters.size() > 0 && adjusters.size() > 0 && plugins.size() > 0)
 				adjusterPanel.setBorder(new MatteBorder(1, 0, 1, 0, Color.GRAY));
@@ -268,5 +258,4 @@ public class CountersAdjustersPlugins extends JPanel {
 		int newHeight = 100+(componentCount+2)*CustomButton.getComponentHeight();
 		GUI.setHeight(newHeight);
 	}
-	
 }
