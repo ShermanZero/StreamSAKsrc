@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -56,7 +54,6 @@ public class GUI {
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));
 				window.setPreferredSize(d);
-				window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				window.setUndecorated(true);
 				
 				JPanel main = new JPanel(new BorderLayout());
@@ -78,11 +75,6 @@ public class GUI {
 				window.setLocationRelativeTo(null);
 				window.setVisible(true);
 				window.requestFocus();
-				
-				window.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(WindowEvent e) { CountersAdjustersPlugins.closePlugins(); }
-				});
 			}
 		});
 	}
@@ -199,7 +191,7 @@ public class GUI {
 		
 		JButton exit = new CustomButton("Exit StreamSAK", GUI.defaultRedColor);
 		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { System.exit(0); }
+			public void actionPerformed(ActionEvent e) { window.dispose(); CountersAdjustersPlugins.closePlugins(); System.exit(0); }
 		});
 		
 		mb.add(label);

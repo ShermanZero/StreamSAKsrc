@@ -338,6 +338,8 @@ public class StreamSAKFileHandler {
 						Class<?>[] interfaces = superClass.getInterfaces();
 	            		
 						for (Class<?> anInterface : interfaces) {
+							System.out.println(anInterface.getName()+"  |  "+subClass.getName()+"  |  "+superClass.getName());
+							
 							if( anInterface == StreamSAKPlugin.class && subClass != StreamSAKAdvancedPlugin.class && subClass != StreamSAKSimplePlugin.class ) {
 								System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
 								System.out.println("      --["+anInterface+"]");

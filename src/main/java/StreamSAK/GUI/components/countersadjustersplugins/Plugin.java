@@ -28,6 +28,7 @@ public class Plugin {
 	
 	public Plugin(StreamSAKPlugin plugin) {
 		this.plugin = plugin;
+		
 		plugin.doOnApplicationLoad();
 	}
 	
