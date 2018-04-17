@@ -38,7 +38,7 @@ import main.java.StreamSAK.GUI.components.misc.CustomButton;
 import main.java.StreamSAK.GUI.components.misc.CustomLabel;
 import main.java.StreamSAK.GUI.components.misc.CustomMenu;
 import main.java.StreamSAK.GUI.components.misc.CustomMenuBar;
-import main.java.StreamSAK.GUI.components.misc.CustomScrollBarUI;
+import main.java.StreamSAK.GUI.components.misc.CustomVerticalScrollBarUI;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
@@ -140,7 +140,7 @@ public class GUI {
 		scrollPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		scrollPane.setBackground(Color.DARK_GRAY);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		scrollPane.getVerticalScrollBar().setUI(new CustomVerticalScrollBarUI(Color.DARK_GRAY, Color.WHITE, Color.LIGHT_GRAY));
 		
 		main.add(scrollPane, BorderLayout.CENTER);
 		

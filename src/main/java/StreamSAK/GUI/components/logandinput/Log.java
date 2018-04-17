@@ -26,6 +26,8 @@ import javax.swing.border.MatteBorder;
 
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.GUI.components.misc.CustomHorizontalScrollBarUI;
+import main.java.StreamSAK.GUI.components.misc.CustomVerticalScrollBarUI;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class Log extends JPanel {
@@ -73,6 +75,7 @@ public class Log extends JPanel {
 		
 		log.setBackground(Color.LIGHT_GRAY);
 		log.setFont(new Font("Tahoma", Font.BOLD, 11));
+		log.setBorder(new EmptyBorder(2, 2, 2, 2));
 		log.setFocusable(false);
 		log.setModel(model);
 		load();
@@ -80,8 +83,10 @@ public class Log extends JPanel {
 		JScrollPane scroll = new JScrollPane(log);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
-		scroll.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY), new EmptyBorder(5, 5, 5, 5)));
+		scroll.setBorder(new CompoundBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY), new EmptyBorder(2, 2, 2, 2)));
 		scroll.setBackground(Color.LIGHT_GRAY);
+		scroll.getVerticalScrollBar().setUI(new CustomVerticalScrollBarUI(Color.LIGHT_GRAY, Color.GRAY, Color.DARK_GRAY));
+		scroll.getHorizontalScrollBar().setUI(new CustomHorizontalScrollBarUI(Color.LIGHT_GRAY, Color.GRAY, Color.DARK_GRAY));
 		
 		main.add(scroll, BorderLayout.CENTER);
 		return main;
