@@ -37,6 +37,7 @@ import main.java.StreamSAK.GUI.components.logandinput.LogAndInput;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
 import main.java.StreamSAK.GUI.components.misc.CustomLabel;
 import main.java.StreamSAK.GUI.components.misc.CustomMenu;
+import main.java.StreamSAK.GUI.components.misc.CustomMenuBar;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 
 public class GUI {
@@ -173,9 +174,8 @@ public class GUI {
 	private static JMenuBar generateMenuBar() {
 		boolean hasPlugins = CountersAdjustersPlugins.getPlugins().size() > 0;
 		
-		JMenuBar mb = new JMenuBar();
+		JMenuBar mb = new CustomMenuBar(Color.DARK_GRAY);
 		mb.setBorder(new CompoundBorder(new MatteBorder(1, 1, 0, 1, Color.LIGHT_GRAY), new MatteBorder(0, 0, 1, 0, Color.GRAY)));
-		mb.setBackground(Color.DARK_GRAY);
 		
 		JLabel label = new CustomLabel("StreamSAK");
 		
@@ -218,8 +218,10 @@ public class GUI {
 		mb.add(version);
 		mb.add(build);
 		mb.add(Box.createHorizontalGlue());
+		
 		if(hasPlugins)
 			mb.add(plugins);
+		
 		mb.add(dev);
 		mb.add(exit);
 		
