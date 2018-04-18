@@ -189,7 +189,7 @@ public class GUI {
 		
 		JButton build = new CustomButton(StreamSAK.getPluginLibraryBuild());
 		build.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar"); }
+			public void actionPerformed(ActionEvent e) { StreamSAK.downloadLibraryBuild(); }
 		});
 		
 		JMenu plugins = null;

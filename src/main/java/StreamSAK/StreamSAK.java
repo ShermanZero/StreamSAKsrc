@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
+import main.java.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 import main.java.StreamSAK.misc.StreamSAKHandler;
@@ -37,6 +38,10 @@ public class StreamSAK {
 	
 	public static String getCurrentVersion() { return StreamSAK_CURRENT_VERSION; }
 
+	public static void downloadLibraryBuild() {
+		showLibraryBuildDownloadPanel(StreamSAK_PLUGIN_LIBRARY_BUILD);
+	}
+	
 	public static boolean checkForNewVersion(boolean userPrompted) {
 		String version = StreamSAKFileHandler.readFromURL("https://raw.githubusercontent.com/ShermanZero/StreamSAK/master/version.dat");
 		
@@ -57,6 +62,29 @@ public class StreamSAK {
 			StreamSAK_PLUGIN_LIBRARY_BUILD = br.readLine();
 			br.close();
 		} catch (Exception e1) { e1.printStackTrace(); }
+	}
+	
+	private static void showLibraryBuildDownloadPanel(String build) {
+		JFrame window = new JFrame();
+		
+		String header = "Download the current StreamSAKPluginLibrary build? ("+build+")";
+		String updates = "You only need to do this if you're a plug-in developer and you need to update your plug-in.  "+
+				"StreamSAK always has the latest version of the plug-in library installed.";
+		
+		JButton show = new CustomButton("Download Build ("+build+")", Plugin.pluginForegroundColor);
+		show.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { 
+				StreamSAKFileHandler.openURL("https://github.com/ShermanZero/StreamSAK/raw/master/data/plugins/src/StreamSAKPluginLibrary.jar");
+				window.dispose();
+			}
+		});
+		
+		JButton exit = new CustomButton("Close", GUI.defaultRedColor);
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { window.dispose(); }
+		});
+		
+		GUI.generateNotification(window, header, updates, new JButton[] {show, exit});
 	}
 	
 	private static void showUpdatePanel(String version) {
