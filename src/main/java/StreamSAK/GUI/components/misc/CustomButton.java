@@ -77,6 +77,9 @@ public class CustomButton extends JButton {
 				boolean mouseIn = false;
 				
 				public void mouseEntered(MouseEvent evt) {
+					if(!isEnabled())
+						return;
+					
 					setForeground(Color.DARK_GRAY);
 					setBackground(highlightColor);
 					
@@ -84,6 +87,9 @@ public class CustomButton extends JButton {
 				}
 	
 				public void mouseExited(MouseEvent evt) {
+					if(!isEnabled())
+						return;
+					
 					setForeground(originalForeground);
 					setBackground(originalBackground);
 					
@@ -91,11 +97,17 @@ public class CustomButton extends JButton {
 				}
 				
 				public void mousePressed(MouseEvent evt) {
+					if(!isEnabled())
+						return;
+					
 					if(rightClickEnabled && SwingUtilities.isRightMouseButton(evt))
 						setBackground(GUI.defaultRedColor);
 				}
 				
 				public void mouseReleased(MouseEvent evt) {
+					if(!isEnabled())
+						return;
+					
 					if(mouseIn)
 						setBackground(highlightColor);
 					else

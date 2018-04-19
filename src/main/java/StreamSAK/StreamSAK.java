@@ -18,7 +18,7 @@ import main.java.StreamSAK.misc.StreamSAKHandler;
 
 public class StreamSAK {
 	
-	private static String StreamSAK_CURRENT_VERSION = "v4.4.1";
+	private static String StreamSAK_CURRENT_VERSION = "v4.5.0";
 	private static String StreamSAK_PLUGIN_LIBRARY_BUILD;
 	
 	public void start() {

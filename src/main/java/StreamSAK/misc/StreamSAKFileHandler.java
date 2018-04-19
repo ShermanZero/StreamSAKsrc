@@ -25,16 +25,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.shermanzero.StreamSAKPlugin;
-import com.shermanzero.types.StreamSAKAdvancedPlugin;
-import com.shermanzero.types.StreamSAKSimplePlugin;
-
 import main.java.StreamSAK.StreamSAK;
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjustersPlugins;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.src.StreamSAKPlugin;
 
 public class StreamSAKFileHandler {
 	
@@ -332,22 +329,14 @@ public class StreamSAKFileHandler {
 				try {
 					Class<?> subClass = pluginLoader.loadClass(s.replaceAll("/", ".").replace(".class", ""));
 					Class<?> superClass = subClass.getSuperclass();
-					if(superClass != null) {
-						Class<?>[] interfaces = superClass.getInterfaces();
-	            		
-						for (Class<?> anInterface : interfaces) {
-							if( anInterface == StreamSAKPlugin.class && subClass != StreamSAKAdvancedPlugin.class && subClass != StreamSAKSimplePlugin.class ) {
-								System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"], contains: ["+interfaces.length+"] interface(s)");
-								System.out.println("      --["+anInterface+"]");
+					if(superClass != null && superClass == StreamSAKPlugin.class) {
+						System.out.println("  found ->\n    ["+subClass+"], super: ["+superClass+"]");
 
-								StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
-								System.out.println("   *loaded successfully*\n");
-
-								Plugin p = new Plugin(plugin);
-								CountersAdjustersPlugins.addPlugin(p);
-								break;
-							}
-						}
+						StreamSAKPlugin plugin = (StreamSAKPlugin)(subClass.newInstance());
+						System.out.println("   *loaded successfully*\n");
+						
+						Plugin p = new Plugin(plugin);
+						CountersAdjustersPlugins.addPlugin(p);
 					}
 				} catch (Exception e) { e.printStackTrace(); }
 			});

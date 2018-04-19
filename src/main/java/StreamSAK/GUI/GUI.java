@@ -197,7 +197,7 @@ public class GUI {
 			plugins = new CustomMenu("Plugins", Plugin.pluginForegroundColor);
 			
 			for(Plugin p : CountersAdjustersPlugins.getPlugins()) {
-				JButton pluginButton = new CustomButton(p.getName()+" "+p.getPlugin().getVersion(), Plugin.pluginForegroundColor);
+				JButton pluginButton = new CustomButton(p.getName()+" "+(String)p.getPlugin().getValue("plugin-data", "version"), Plugin.pluginForegroundColor);
 				
 				pluginButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) { p.getPlugin().doOnSettingsSelect(); }

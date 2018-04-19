@@ -7,10 +7,6 @@ import java.io.File;
 
 import javax.swing.JButton;
 
-import com.shermanzero.StreamSAKPlugin;
-import com.shermanzero.types.StreamSAKAdvancedPlugin;
-import com.shermanzero.types.StreamSAKSimplePlugin;
-
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.logandinput.Input;
 import main.java.StreamSAK.GUI.components.logandinput.Log;
@@ -19,6 +15,7 @@ import main.java.StreamSAK.misc.StreamSAKFileHandler;
 import main.java.StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.java.StreamSAK.misc.StreamSAKHandler;
 import main.java.StreamSAK.misc.actions.StreamSAKAction;
+import main.java.src.StreamSAKPlugin;
 
 public class Plugin {
 
@@ -28,80 +25,67 @@ public class Plugin {
 	
 	public Plugin(StreamSAKPlugin plugin) {
 		this.plugin = plugin;
-		
 		plugin.doOnApplicationLoad();
 	}
 	
 	public JButton[] generate() {
 		JButton[] components;
 		
-		if(plugin instanceof StreamSAKAdvancedPlugin && ((StreamSAKAdvancedPlugin)plugin).linkAllowed()) {
+		if(plugin.hasValue("plugin-properties", "link-allowed"))
 			components = new JButton[] { generateLink(), generateButton() };
-		} else {
+		else
 			components = new JButton[] { generateButton() };
-		}
 		
 		return components;
 	}
 	
-	public String getName() {
-		return plugin.getName();
-	}
+	public String getName() { return (String)plugin.getValue("plugin-data", "name"); }
 	
-	public StreamSAKPlugin getPlugin() {
-		return plugin;
-	}
+	public StreamSAKPlugin getPlugin() { return plugin; }
 	
 	public void callPlugin() {
-		if(plugin instanceof StreamSAKAdvancedPlugin) {
-			StreamSAKAdvancedPlugin ap = (StreamSAKAdvancedPlugin)plugin;
-			
-			if(ap.linkAllowed()) {
-				String fileName = StreamSAKHandler.getLink(ap.getName());
-				if(fileName != null) {
-					File f = StreamSAKFileHandler.findFile(fileName, Directory.ADJUSTERS);
-					Input.setInputText(StreamSAKFileHandler.getFileData(f));
-				}
+		//if the plug-in uses a link
+		if(plugin.hasValue("plugin-properties", "link-allowed")) {
+			String fileName = StreamSAKHandler.getLink( getName() );
+			if(fileName != null) {
+				File f = StreamSAKFileHandler.findFile(fileName, Directory.ADJUSTERS);
+				Input.setInputText(StreamSAKFileHandler.getFileData(f));
 			}
-			
-			//if the plug-in requires input
-			if(ap.getInputter().getRequired()) {
-				//if the plug-in auto-enters
-				if(ap.getInputter().getAutoEnter()) {
-					Input.enterInput();
-					ap.getInputter().setData(Input.getLastInput());
-					
-					plugin.doOnSelect();
-					
-					if(ap.getLogEntrier().getRequired())
-						Log.write(ap.getLogEntrier().getEntry());
-				//if the plug-in requires manual input
-				} else {
-					StreamSAKHandler.doOnInput(new StreamSAKAction() { public void run() throws Exception { 
-						ap.getInputter().setData(Input.getLastInput());
-
-						plugin.doOnSelect();
-						
-						if(ap.getLogEntrier().getRequired())
-							Log.write(ap.getLogEntrier().getEntry());
-					} }, ap.getInputter().getMessage());
-				}
-			//if the plug-in does not require input
+		}
+		
+		//if the plug-in requires input
+		if(plugin.hasMap("input")) {
+			//if the plug-in auto-enters
+			if(plugin.hasValue("input", "auto")) {
+				Input.enterInput();
+				setPluginInput();
+				doOnSelect();
+			//if the plug-in requires manual input
 			} else {
-				plugin.doOnSelect();
-
-				if(ap.getLogEntrier().getRequired())
-					Log.write(ap.getLogEntrier().getEntry());
+				StreamSAKHandler.doOnInput(new StreamSAKAction() { public void run() throws Exception { 
+					setPluginInput();
+					doOnSelect();
+				} }, (String)plugin.getValue("input", "title"));
 			}
-		} else if (plugin instanceof StreamSAKSimplePlugin) {
-			plugin.doOnSelect();
+		//if the plug-in does not require input
+		} else {
+			doOnSelect();
 		}
 	}
 	
-	private JButton generateLink() {
-		StreamSAKAdvancedPlugin p = (StreamSAKAdvancedPlugin)plugin;
+	private void setPluginInput() {
+		plugin.setValue("input", "data", Input.getLastInput());
+	}
+	
+	private void doOnSelect() {
+		plugin.doOnSelect();
 		
-		String link = StreamSAKHandler.getLink(p.getName());
+		if(plugin.hasValue("plugin-properties", "log-entry"))
+			Log.write((String)plugin.getValue("plugin-properties", "log-entry"));
+	}
+	
+	private JButton generateLink() {
+		String link = StreamSAKHandler.getLink( getName() );
 		Color startingColor = GUI.defaultColor;
 		
 		if(link != null) {
@@ -114,8 +98,8 @@ public class Plugin {
 			public void actionPerformed(ActionEvent arg0) { 
 				linkButton.setText("--");
 				
-				if(StreamSAKHandler.getLink(p.getName()) != null) {
-					StreamSAKHandler.removeLink(p.getName());
+				if(StreamSAKHandler.getLink( getName() ) != null) {
+					StreamSAKHandler.removeLink( getName() );
 					((CustomButton)linkButton).setDefaultForeground(GUI.defaultColor);
 				} else {
 					StreamSAKHandler.doOnInput(new StreamSAKAction() {
@@ -130,7 +114,7 @@ public class Plugin {
 							if(f != null) {
 								String fileName = StreamSAKFileHandler.getFileFormattedName(f);
 								
-								if(StreamSAKHandler.setLink(p.getName(), fileName)) {
+								if(StreamSAKHandler.setLink(getName(), fileName)) {
 									linkButton.setText(fileName);
 									((CustomButton)linkButton).setDefaultForeground(Adjuster.adjusterForegroundColor);
 								}
@@ -145,10 +129,13 @@ public class Plugin {
 	}
 	
 	private JButton generateButton() {
-		JButton b = new CustomButton(plugin.getName(), pluginForegroundColor);
+		JButton b = new CustomButton(getName(), pluginForegroundColor);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { callPlugin(); }
 		});
+		
+		if(plugin.hasValue("plugin-properties", "unselectable"))
+			b.setEnabled(false);
 		
 		return b;
 	}
