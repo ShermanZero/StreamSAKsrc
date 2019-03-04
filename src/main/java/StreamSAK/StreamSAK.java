@@ -9,16 +9,20 @@ import java.io.InputStreamReader;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+
 import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Adjuster;
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.KeyBinds;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 import main.java.StreamSAK.misc.StreamSAKHandler;
 
 public class StreamSAK {
 	
-	private static String StreamSAK_CURRENT_VERSION = "v4.5.0";
+	private static String StreamSAK_CURRENT_VERSION = "v4.6.0";
 	private static String StreamSAK_PLUGIN_LIBRARY_BUILD;
 	
 	public void start() {
@@ -30,6 +34,17 @@ public class StreamSAK {
 		} catch (Exception e) { e.printStackTrace(); }
 		
 		checkForNewVersion(false);
+		
+		try {
+			GlobalScreen.registerNativeHook();
+		} catch (NativeHookException e) {
+			System.err.println("There was a problem registering the native hook.");
+			System.err.println(e.getMessage());
+			
+			System.exit(1);
+		}
+		
+		GlobalScreen.addNativeKeyListener(new KeyBinds());
 		
 		GUI.generate();
 	}

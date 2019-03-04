@@ -74,6 +74,7 @@ public class CountersAdjustersPlugins extends JPanel {
 
 			if(i == buttons.length-1)
 				counterGBC.weightx = 0;
+			
 			counterPanel.add(buttons[i], counterGBC);
 		}
 		
@@ -245,6 +246,7 @@ public class CountersAdjustersPlugins extends JPanel {
 	private static void adjustWindow() {
 		if(adjusterPanel != null) {
 			adjusterPanel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
+			
 			if(counters.size() > 0 && adjusters.size() > 0 && plugins.size() > 0)
 				adjusterPanel.setBorder(new MatteBorder(1, 0, 1, 0, Color.GRAY));
 			else if(counters.size() > 0 && adjusters.size() == 0 && plugins.size() == 0)

@@ -14,6 +14,7 @@ import main.java.StreamSAK.GUI.GUI;
 import main.java.StreamSAK.GUI.components.logandinput.Input;
 import main.java.StreamSAK.GUI.components.logandinput.Log;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
+import main.java.StreamSAK.misc.KeyBinds;
 import main.java.StreamSAK.misc.StreamSAKFileHandler;
 import main.java.StreamSAK.misc.StreamSAKFileHandler.Directory;
 import main.java.StreamSAK.misc.StreamSAKHandler;
@@ -42,7 +43,7 @@ public class Counter {
 	}
 
 	public JButton[] generate() {
-		JButton[] components = { generateCounter(), generateUp(), generateDown(), generateLink(), generateDelete() };
+		JButton[] components = { generateCounter(), generateUp(), generateUpKeybind(), generateDown(), generateDownKeybind(), generateLink(), generateDelete() };
 		componentCount = components.length;
 		return components;
 	}
@@ -80,6 +81,15 @@ public class Counter {
 		return up;
 	}
 	
+	private JButton generateUpKeybind() {
+		JButton up = new CustomButton("--");
+		up.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { KeyBinds.bindKey(up, (e) -> incrementCounter()); }
+		});
+		
+		return up;
+	}
+	
 	private JButton generateDown() {
 		JButton down = new CustomButton("<html>&#9660</html>");
 		down.addActionListener(new ActionListener() {
@@ -87,6 +97,15 @@ public class Counter {
 		});
 		
 		return down;
+	}
+	
+	private JButton generateDownKeybind() {
+		JButton up = new CustomButton("--");
+		up.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { KeyBinds.bindKey(up, (e) -> decrementCounter()); }
+		});
+		
+		return up;
 	}
 	
 	private JButton generateLink() {

@@ -49,7 +49,7 @@ public class GUI {
 	
 	private static JFrame window;
 
-	private static int WIDTH = 650, HEIGHT = 300;
+	private static int WIDTH = 700, HEIGHT = 300;
 	
 	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
