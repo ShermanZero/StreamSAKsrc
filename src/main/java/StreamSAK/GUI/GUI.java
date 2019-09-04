@@ -35,7 +35,6 @@ import main.java.StreamSAK.GUI.components.countersadjustersplugins.CountersAdjus
 import main.java.StreamSAK.GUI.components.countersadjustersplugins.Plugin;
 import main.java.StreamSAK.GUI.components.logandinput.LogAndInput;
 import main.java.StreamSAK.GUI.components.misc.CustomButton;
-import main.java.StreamSAK.GUI.components.misc.CustomLabel;
 import main.java.StreamSAK.GUI.components.misc.CustomMenu;
 import main.java.StreamSAK.GUI.components.misc.CustomMenuBar;
 import main.java.StreamSAK.GUI.components.misc.CustomVerticalScrollBarUI;
@@ -54,12 +53,13 @@ public class GUI {
 	public static void generate() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				window = new JFrame();
+				window = new JFrame("StreamSAK");
 				
 				Dimension d = new Dimension(WIDTH, HEIGHT);
 				window.setMinimumSize(new Dimension(WIDTH, 275));
+				window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				window.setPreferredSize(d);
-				window.setUndecorated(true);
+				window.setResizable(true);
 				
 				JPanel main = new JPanel(new BorderLayout());
 				main.add(new Options(), BorderLayout.WEST);
@@ -68,10 +68,6 @@ public class GUI {
 				main.setBorder(new MatteBorder(0, 1, 1, 1, Color.LIGHT_GRAY));
 				
 				window.setJMenuBar(generateMenuBar());
-				
-				FrameDragListener fdl = new FrameDragListener(window);
-				window.addMouseListener(fdl);
-				window.addMouseMotionListener(fdl);
 				
 				window.add(main);
 				window.setContentPane(main);
@@ -162,10 +158,6 @@ public class GUI {
 		
 		main.add(buttonPanel, BorderLayout.SOUTH);
 		
-		FrameDragListener fdl = new FrameDragListener(window);
-		window.addMouseListener(fdl);
-		window.addMouseMotionListener(fdl);
-		
 		window.add(main);
 		window.setContentPane(main);
 		
@@ -179,8 +171,6 @@ public class GUI {
 		
 		JMenuBar mb = new CustomMenuBar(Color.DARK_GRAY);
 		mb.setBorder(new CompoundBorder(new MatteBorder(1, 1, 0, 1, Color.LIGHT_GRAY), new MatteBorder(0, 0, 1, 0, Color.GRAY)));
-		
-		JLabel label = new CustomLabel("StreamSAK");
 		
 		JButton version = new CustomButton(StreamSAK.getCurrentVersion());
 		version.addActionListener(new ActionListener() {
@@ -209,24 +199,17 @@ public class GUI {
 		
 		JButton dev = new CustomButton("Support the Developer", Adjuster.adjusterForegroundColor);
 		dev.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { StreamSAKFileHandler.openURL("https://www.twitch.tv/shermanzero"); }
+			public void actionPerformed(ActionEvent e) { StreamSAKFileHandler.openURL("https://www.twitch.tv/shermanzero"); }
 		});
 		
-		JButton exit = new CustomButton("Exit StreamSAK", GUI.defaultRedColor);
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { window.dispose(); CountersAdjustersPlugins.closePlugins(); System.exit(0); }
-		});
-		
-		mb.add(label);
 		mb.add(version);
 		mb.add(build);
 		mb.add(Box.createHorizontalGlue());
 		
 		if(hasPlugins)
 			mb.add(plugins);
-		
+
 		mb.add(dev);
-		mb.add(exit);
 		
 		return mb;
 	}
