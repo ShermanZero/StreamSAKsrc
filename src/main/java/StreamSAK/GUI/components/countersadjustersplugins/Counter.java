@@ -84,7 +84,9 @@ public class Counter {
 	private JButton generateUpKeybind() {
 		JButton up = new CustomButton("--");
 		up.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { KeyBinds.bindKey(up, (e) -> incrementCounter()); }
+			public void actionPerformed(ActionEvent arg0) {
+				KeyBinds.bindKey(up, (e) -> incrementCounter()); 
+			}
 		});
 		
 		return up;
@@ -100,12 +102,14 @@ public class Counter {
 	}
 	
 	private JButton generateDownKeybind() {
-		JButton up = new CustomButton("--");
-		up.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { KeyBinds.bindKey(up, (e) -> decrementCounter()); }
+		JButton down = new CustomButton("--");
+		down.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) { 
+				KeyBinds.bindKey(down, (e) -> decrementCounter()); 
+			}
 		});
 		
-		return up;
+		return down;
 	}
 	
 	private JButton generateLink() {

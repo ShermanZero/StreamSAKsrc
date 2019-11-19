@@ -36,7 +36,8 @@ import main.java.src.StreamSAKPlugin;
 public class StreamSAKFileHandler {
 	
 	public static String dataPath, countersDirectoryPath, adjustersDirectoryPath,
-	pluginsDirectoryPath, sourceDirectoryPath, miscDirectoryPath, propertiesFilePath;
+	pluginsDirectoryPath, sourceDirectoryPath, miscDirectoryPath, propertiesFilePath,
+	keybindsFilePath;
 	
 	private static boolean loadPlugin;
 	private static ArrayList<File> files = new ArrayList<File>();
@@ -70,8 +71,9 @@ public class StreamSAKFileHandler {
 		sourceDirectoryPath = dataPath+File.separator+Directory.SOURCE.getValue();
 		
 		propertiesFilePath = miscDirectoryPath+File.separator+"links.properties";
+		keybindsFilePath = miscDirectoryPath+File.pathSeparator+"keybinds.properties";
 		
-		File dir = null, sr = null, wins, losses, draws, logFile, propertiesFile;
+		File dir = null, sr = null, wins, losses, draws, logFile, propertiesFile, keybindsFile;
 
 		//check to see if the misc directory exists
 		dir = new File(miscDirectoryPath);
@@ -85,6 +87,10 @@ public class StreamSAKFileHandler {
 			propertiesFile = new File(propertiesFilePath);
 			if(!propertiesFile.exists())
 				propertiesFile.createNewFile();
+			
+			keybindsFile = new File(keybindsFilePath);
+			if(!keybindsFile.exists())
+				keybindsFile.createNewFile();
 		}
 		
 		//check to see if the adjuster directory exists

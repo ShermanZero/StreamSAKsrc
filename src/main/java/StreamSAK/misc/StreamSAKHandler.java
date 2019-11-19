@@ -13,7 +13,8 @@ import main.java.StreamSAK.misc.actions.StreamSAKActionThread;
 public class StreamSAKHandler {
 	
 	private static StreamSAKActionThread at;
-	private static Properties prop = new Properties();
+	private static Properties linkProperties = new Properties();
+	private static Properties keybindsProperties = new Properties();
 	
 	public static void init() throws Exception {
 		loadProperties();
@@ -23,18 +24,37 @@ public class StreamSAKHandler {
 		if(key == null || link == null)
 			return false;
 		
-		prop.setProperty(key, link);
+		linkProperties.setProperty(key, link);
 		writeProperties();
 		
 		return true;
 	}
 	
 	public static String getLink(String key) {
-		return prop.getProperty(key);
+		return linkProperties.getProperty(key);
 	}
 	
 	public static void removeLink(String key) {
-		prop.remove(key);
+		linkProperties.remove(key);
+		writeProperties();
+	}
+	
+	public static boolean setKeybind(String counter, String keybind) {
+		if(counter == null || keybind == null)
+			return false;
+		
+		keybindsProperties.setProperty(counter, keybind);
+		writeProperties();
+		
+		return true;
+	}
+	
+	public static String getKeybind(String counter) {
+		return keybindsProperties.getProperty(counter);
+	}
+	
+	public static void removeKeybind(String counter) {
+		keybindsProperties.remove(counter);
 		writeProperties();
 	}
 	
@@ -53,7 +73,10 @@ public class StreamSAKHandler {
 		
 		try {
 			out = new FileOutputStream(StreamSAKFileHandler.propertiesFilePath);
-			prop.store(out, null);
+			linkProperties.store(out, null);
+			
+			out = new FileOutputStream(StreamSAKFileHandler.keybindsFilePath);
+			keybindsProperties.store(out, null);
 		} catch (Exception e) { e.printStackTrace(); } finally { 
 			if(out != null)
 				try { out.close(); } catch (Exception e) { e.printStackTrace(); }
@@ -65,11 +88,13 @@ public class StreamSAKHandler {
 		
 		try {
 			in = new FileInputStream(StreamSAKFileHandler.propertiesFilePath);
-			prop.load(in);
+			linkProperties.load(in);
+			
+			in = new FileInputStream(StreamSAKFileHandler.keybindsFilePath);
+			keybindsProperties.load(in);
 		} catch (Exception e) { e.printStackTrace(); } finally {
 			if(in != null)
 				try { in.close(); } catch (Exception e) { e.printStackTrace(); }
 		}
 	}
-	
 }
